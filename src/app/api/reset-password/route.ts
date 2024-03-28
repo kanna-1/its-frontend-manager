@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
     };
 
     const hashed_password = await hash(password, 12);
-
     const resetToken = await prisma.passwordResetToken.findUnique({
         where : { token : token}
     })
@@ -28,9 +27,11 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         user: {
-          email: resetToken.email,
+          email: resetToken.email
         },
       });
+    } else {
+      throw new Error("Null password reset token");
     }
   } catch (error: any) {
     return new NextResponse(
