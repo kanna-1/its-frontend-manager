@@ -48,7 +48,7 @@ export default async function CourseView({
           <TabsContent value="home">Announcements</TabsContent>
           <TabsContent value="questions" className="grid grid-cols-4 gap-4">
           {courseQuestions.map((question, index) => (
-              <Link key={index} href={user.role === Role.TEACHER ? `/courses/${params.courseId}/${question.id}/gradingdashboard` : 
+              <Link key={index} href={user.role === Role.TEACHER ? `/courses/${params.courseId}/${question.id}/grading` : 
               `/courses/${params.courseId}/${question.id}`}>
                   <QuestionCard
                       question_title={question.title}

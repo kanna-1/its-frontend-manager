@@ -56,10 +56,10 @@ export default function QuestionViewContainer({
       });
 
       if (!newSubmission) {
-        throw new Error("Unable to create new submission")
+        throw new Error("Unable to create new submission");
       }
 
-      router.push(`/courses/${question.course.code}`);
+      router.push(`/courses/${question.course.code}/${question.id}/${newSubmission.id}`);
     } catch (error) {
       console.error(error);
     }
