@@ -15,7 +15,10 @@ const customJestConfig = {
     transform: {
         "^.+\\.(ts|js)x?$": "babel-jest",
     },
-    moduleFileExtensions: ["js","jsx", "ts", "tsx"]
+    moduleFileExtensions: ["js","jsx", "ts", "tsx"],
+    collectCoverage: true,
+    coverageReporters: ["html", "text"],
+    coverageDirectory: "coverage"
 }
 
 module.exports = createJestConfig(customJestConfig)
