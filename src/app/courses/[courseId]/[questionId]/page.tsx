@@ -8,7 +8,9 @@ export default async function QuestionView({
 }: {
   params: { questionId: string; courseId: string };
 }) {
-  const user = await getUserProps();
+  const user = await getUserProps({includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false});
 
   const question = await getQuestionInfo({
     questionId: params.questionId,

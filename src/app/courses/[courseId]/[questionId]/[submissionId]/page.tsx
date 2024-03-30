@@ -11,7 +11,9 @@ export default async function SubmissionView({
   params: { questionId: string; courseId: string; submissionId: string };
 }) {
   
-  const user = await getUserProps();
+  const user = await getUserProps({includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false});
 
   if (!user) {
     redirect("/");

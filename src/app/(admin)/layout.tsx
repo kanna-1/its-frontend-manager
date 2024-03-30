@@ -1,23 +1,19 @@
+import { getUserProps } from "@/actions/getUserProps";
 import NavigationBar from "@/components/navigation-bar";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  const user = session?.user;
-  if (!user) {
-    redirect("/");
-  }
+  const user = await getUserProps({
+    includeSchool: true,
+    includeCourses: false,
+    includeSubmissions: false,
+  });
   return (
     <main>
-      <NavigationBar
-        type="admin"
-        user={user}
-      ></NavigationBar>
+      <NavigationBar user={user}></NavigationBar>
       {children}
     </main>
   );

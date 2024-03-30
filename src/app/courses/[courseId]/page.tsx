@@ -13,7 +13,9 @@ export default async function CourseView({
 }: {
   params: { courseId: string };
 }) {
-  const user = await getUserProps();
+  const user = await getUserProps({includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false});
 
   const course = await getCourseInfo({
     courseId: `${user.school_id}_${params.courseId}`,
