@@ -8,11 +8,7 @@ export default async function QuestionView({
 }: {
   params: { questionId: string; courseId: string };
 }) {
-  const userProps = await getUserProps();
-  const user = userProps.props.user;
-  if (!user) {
-    redirect("/");
-  }
+  const user = await getUserProps();
 
   const question = await getQuestionInfo({
     questionId: params.questionId,

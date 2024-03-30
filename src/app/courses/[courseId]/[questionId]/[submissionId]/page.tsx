@@ -11,9 +11,7 @@ export default async function SubmissionView({
   params: { questionId: string; courseId: string; submissionId: string };
 }) {
   
-  const userProps = await getUserProps();
-  console.log("submissionid:", params.submissionId);
-  const user = userProps.props.user; 
+  const user = await getUserProps();
 
   if (!user) {
     redirect("/");

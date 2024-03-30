@@ -2,7 +2,6 @@
 
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { getUserProps } from "./getUserProps";
 
 export async function getQuestionInfo({
   questionId,

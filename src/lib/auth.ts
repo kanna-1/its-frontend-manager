@@ -40,7 +40,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("in auth function");
         if (!credentials?.email || !credentials.password) {
           return null;
         }
@@ -57,9 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         ) {
           return null;
         }
-
-        console.log(user);
-        console.log("user found");
+        
         return {
           id: user.id,
           email: user.email,

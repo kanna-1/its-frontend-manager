@@ -3,26 +3,14 @@ import NewCourseDialog from "@/components/dialogs/newCourse";
 import { getUserProps } from "@/actions/getUserProps";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CourseCard from "@/components/course-card";
+import CourseCard from "@/components/cards/course-card";
 import { getCourses } from "@/actions/getCourses";
 
-
-interface Course {
-  id: string,
-  code: string,
-  name: string,
-}
-
 export default async function MyCourseView() {
-  const userProps = await getUserProps();
-  if (!userProps.props.user) {
-    redirect("/");
-  }
+  const user = await getUserProps();
 
   // Check if user role is 'TEACHER'
-  const isTeacher = userProps.props.user.role === 'TEACHER';
-
-  const user = userProps.props.user;
+  const isTeacher = user.role === 'TEACHER';
   
   //fetch courses
   

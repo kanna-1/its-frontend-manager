@@ -1,5 +1,5 @@
 import Link from "next/link";
-import QuestionCard from "@/components/question-card";
+import QuestionCard from "@/components/cards/question-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getUserProps } from "@/actions/getUserProps";
 import { redirect } from "next/navigation";
@@ -13,11 +13,7 @@ export default async function CourseView({
 }: {
   params: { courseId: string };
 }) {
-  const userProps = await getUserProps();
-  const user = userProps.props.user;
-  if (!user) {
-    redirect("/");
-  }
+  const user = await getUserProps();
 
   const course = await getCourseInfo({
     courseId: `${user.school_id}_${params.courseId}`,
