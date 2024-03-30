@@ -62,7 +62,7 @@ export default function AddMemberDialog({ user, course }: { user: User, course: 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button variant="secondary">New Member</Button>
+        <Button>Invite Member</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

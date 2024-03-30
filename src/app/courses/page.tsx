@@ -14,7 +14,7 @@ export default async function MyCourseView() {
 
   return (
     <>
-      <div className="flex space-x-4 items-center">
+      <div className="flex justify-between items-center">
         <h1 className="text-xl font-semibold">My Courses</h1>
         {isTeacher && <NewCourseDialog user={user}></NewCourseDialog>}
       </div>
