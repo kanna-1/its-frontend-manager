@@ -56,52 +56,59 @@ export default function QuestionViewContainer({
       });
 
       if (!newSubmission) {
-        throw new Error("Unable to create new submission")
+        throw new Error("Unable to create new submission");
       }
 
-      router.push(`/courses/${question.course.code}`);
+      router.push(
+        `/courses/${question.course.code}/${question.id}/${newSubmission.id}`
+      );
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <ResizablePanelGroup direction="horizontal" className="min-h-screen">
-      <ResizablePanel defaultSize={50}>
-        <div className="flex flex-col p-6">
-          <h2 className="text-lg font-semibold mb-4">{question.title}</h2>
-          <p>{question.description}</p>
-          <div style={{ marginTop: 14 }}>
-            <Link href={`/courses/${question.courseId.substring(8)}`}>
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="min-h-[calc(100vh-100px)]"
+    >
+      <ResizablePanel defaultSize={30}>
+        <div className="pr-4 h-full">
+          <div className="h-5/6 flex flex-col space-y-2">
+            <h1 className="text-2xl font-semibold">{question.title}</h1>
+            <p>{question.description}</p>
+          </div>
+          <div className="h-1/6 flex items-end pb-4">
+            <Link href={`/courses/${question.course.code}`}>
               <Button variant="secondary">Return to course</Button>
             </Link>
           </div>
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={50}>
-        <div className="flex flex-col h-full">
-          <QuestionViewEditor
-            language={question.language}
-            handleEditorChange={handleEditorChange}
-          />
-          <div className="flex flex-col">
+      <ResizablePanel defaultSize={70}>
+        <div className="h-full">
+          <div className="h-4/6">
+            <QuestionViewEditor
+              language={question.language}
+              handleEditorChange={handleEditorChange}
+            />
+          </div>
+          <div className="h-1/6">
             <QuestionViewFeedback feedbacks={feedbacks} />
-            <div className="items-center justify-center p-6">
-              <div className="flex mt-4">
-                <Button
-                  className="mr-2"
-                  onClick={async () =>
-                    await getCodeFeedback({
-                      question: question,
-                      student_solution: editorContent,
-                    }).then((feedbacks) => setFeedbacks(feedbacks))
-                  }
-                >
-                  Run Check
-                </Button>
-                <Button onClick={() => handleSubmission()}>Submit Code</Button>
-              </div>
-            </div>
+          </div>
+          <div className="h-1/6 flex items-end justify-end pb-4">
+            <Button
+              className="mr-2"
+              onClick={async () =>
+                await getCodeFeedback({
+                  question: question,
+                  student_solution: editorContent,
+                }).then((feedbacks) => setFeedbacks(feedbacks))
+              }
+            >
+              Run Check
+            </Button>
+            <Button onClick={() => handleSubmission()}>Submit Code</Button>
           </div>
         </div>
       </ResizablePanel>

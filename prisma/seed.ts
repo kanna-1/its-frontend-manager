@@ -8,6 +8,12 @@ const ADMIN_PASSWORD = "password123";
 const DEFAULT_PASSWORD = "password1";
 
 async function main() {
+  // const delete_submissions = prisma.submission.deleteMany({});
+  // const delete_questions = prisma.question.deleteMany({});
+  // const delete_courses = prisma.course.deleteMany({});
+
+  // prisma.$transaction([delete_submissions, delete_questions, delete_courses])
+
   const all_schools = prisma.school.createMany({
     data: [
       { id: "inst001", name: "National University of Singapore" },
@@ -75,39 +81,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  const teacher1 = await prisma.user.findUnique({
-    where: {
-        email: "teacher1@test.com",
-    }
-  })
-
-  const teacher2 = await prisma.user.findUnique({
-    where: {
-        email: "teacher2@test.com",
-    }
-  })
-
   prisma.$transaction([all_schools, admin_user, teacher_users, student_users]);
-  
-  // const all_courses = await prisma.course.createMany({
-  //   data: [
-  //     {
-  //       id: "inst001_CS3213",
-  //       code: "CS3213",
-  //       name: "Foundations of Software Engineering",
-  //       creator_id: teacher1.id,
-  //       school_id: teacher1.school_id,
-  //     },
-  //     {
-  //       id: "inst001_IS1103",
-  //       code: "IS1103",
-  //       name: "Ethics in Computing",
-  //       creator_id: teacher2.id,
-  //       school_id: teacher2.school_id,
-  //     }
-  //   ],
-  //   skipDuplicates: true,
-  // })
 }
 
 main()

@@ -65,7 +65,7 @@ export const columns: ColumnDef<Users>[] = [
       const currentPath = window.location.pathname;
       const [, courses, courseId, qnId] = currentPath.split('/');
       if (courseId && qnId) {
-        const submissionUrl = `/courses/${courseId}/${qnId}/${submissionid}/submission`;
+        const submissionUrl = `/courses/${courseId}/${qnId}/${submissionid}`;
         window.location.href = submissionUrl;
       } else {
         console.error('Unable to retrieve courseId or qnId from the current URL');

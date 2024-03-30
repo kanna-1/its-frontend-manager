@@ -25,7 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { MailOutlined, LockOutlined, BankOutlined } from '@ant-design/icons';
+import { Lock } from "lucide-react";
 
 const formSchema = z.object({
   password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
@@ -123,7 +123,7 @@ export function ResetPasswordForm() {
               <FormLabel>New password</FormLabel>
               <FormControl>
               <div style={{display: 'flex', alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
-                <LockOutlined style={{marginRight: 8}}/>
+                <Lock style={{marginRight: 8}}/>
                 <Input type="password" placeholder="e.g. iloveits123" {...register('password')}/>
               </div>
               </FormControl>

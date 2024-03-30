@@ -29,13 +29,13 @@ model Question {
 model Submission {
   id                String   @id @unique @default(cuid())
   submit_time       DateTime @default(now())
+  submitted_program String // URL of submitted program
+  feedback          String   @default("")
+  grade             Int      @default(-1)
   question          Question @relation(fields: [question_id], references: [id])
   question_id       String
   user              User     @relation(fields: [user_id], references: [id])
   user_id           String
-  submitted_program String
-  feedback          String?
-  grade             Int?
 
   @@map("submissions")
 }
@@ -71,15 +71,15 @@ model School {
 }
 
 model Course {
-  id         String     @id
-  code       String
-  name       String
-  creator    User       @relation("course_creator", fields: [creator_id], references: [id])
-  creator_id String
-  school     School     @relation(fields: [school_id], references: [id])
-  school_id  String
-  members    User[]     @relation("course_members")
-  questions  Question[]
+  id           String     @id // concat of school.id and course.code
+  code         String
+  name         String
+  creator      User       @relation("course_creator", fields: [creator_id], references: [id])
+  creator_id   String
+  school       School     @relation(fields: [school_id], references: [id])
+  school_id    String
+  members      User[]     @relation("course_members")
+  questions    Question[]
 
   @@map("courses")
 }
@@ -104,9 +104,9 @@ model Account {
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])

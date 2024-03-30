@@ -2,19 +2,18 @@ import { getSchools } from "@/actions/getSchools";
 import { getUserProps } from "@/actions/getUserProps";
 import { getUsers } from "@/actions/getUsers";
 import DataTableContainer from "@/components/user-management/DataTableContainer";
-import { redirect } from "next/navigation";
 
 export default async function UserManagementView() {
-  const userProps = await getUserProps();
-  const user = userProps.props.user;
-  if (!user) {
-    redirect("/");
-  }
-  const users = await getUsers(user).then(users => users ? users : []);
-  const schools = await getSchools().then(schools => schools ? schools : []);
-  const { name } = schools.filter(
-    ({ id }) => id == user.school_id
-  )[0];
+  const user = await getUserProps({
+    includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false,
+  });
+  const users = await getUsers(user).then((users) => (users ? users : []));
+  const schools = await getSchools().then((schools) =>
+    schools ? schools : []
+  );
+  const { name } = schools.filter(({ id }) => id == user.school_id)[0];
   return (
     <div>
       <main className="flex min-h-screen flex-col">

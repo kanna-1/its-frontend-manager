@@ -1,21 +1,19 @@
 import { redirect } from "next/navigation";
-import QuestionViewContainer from "@/components/question-view/QuestionViewContainer";
 import { getQuestionInfo } from "@/actions/getQuestionInfo";
 import { getUserProps } from "@/actions/getUserProps";
-import { Role } from "@prisma/client";
 import SubmissionViewContainer from "@/components/submission-view/SubmissionViewContainer";
 import { getSubmission } from "@/actions/getSubmission";
 
 
-export default async function StudentSubmissionView({
+export default async function SubmissionView({
   params,
 }: {
   params: { questionId: string; courseId: string; submissionId: string };
 }) {
   
-  const userProps = await getUserProps();
-  console.log("submissionid:", params.submissionId);
-  const user = userProps.props.user; 
+  const user = await getUserProps({includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false});
 
   if (!user) {
     redirect("/");
@@ -33,8 +31,6 @@ export default async function StudentSubmissionView({
     schoolId: user.school_id,
   });
   
-  
-  
   if (!question) {
     redirect(`/courses/${params.courseId}`);
   }
@@ -44,14 +40,10 @@ export default async function StudentSubmissionView({
   if (!submission) {
     redirect(`/courses/${params.courseId}`);
   }
-  
-  
-  if (userRole === Role.TEACHER) {
-    return <SubmissionViewContainer  submission={submission} question={question} user={user}></SubmissionViewContainer>; 
-  } else if (userRole === Role.STUDENT) {
-    return <QuestionViewContainer question={question} user={user}></QuestionViewContainer>;
-  } else {
-    redirect("/"); // Redirect if user role is not defined or recognized
-  }
 
+  const submitted_program_text = await fetch(submission.submitted_program).then((res) =>
+      res.text()
+  );
+  
+  return <SubmissionViewContainer code={submitted_program_text} submission={submission} question={question} user={user}></SubmissionViewContainer>; 
 }

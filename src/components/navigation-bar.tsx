@@ -1,17 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,27 +9,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  NavigationMenu,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { School } from "@prisma/client";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 
 const PAGE_ROUTES = {
-  user: [{ label: "My Courses", url: "/courses/" }],
-  admin: [{ label: "User Management", url: "/user-management" }],
+  STUDENT: [{ label: "My Courses", url: "/courses/" }],
+  TEACHER: [{ label: "My Courses", url: "/courses/" }],
+  ADMIN: [{ label: "User Management", url: "/user-management" }],
 };
 
 export default function NavigationBar({
-  type,
   user,
 }: {
-  type: "user" | "admin";
-  user: User;
+  user: User & { school: School };
 }) {
   return (
     <NavigationMenu>
       <span className="font-bold text-lg">ITS Management System</span>
       <NavigationMenuList>
-        {PAGE_ROUTES[type].map((page, index) => (
+        {PAGE_ROUTES[user.role].map((page, index) => (
           <NavigationMenuLink
             className={navigationMenuTriggerStyle()}
             href={page.url}
@@ -57,12 +51,17 @@ export default function NavigationBar({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
-              <p>My Account {type === "admin" && "[Admin]"}</p>
-              <p className="font-light">{user.email}</p>
+              <p className="text-lg">Account Overview</p>
+              <p className="font-light">{user.school.name}</p>
+              <p className="font-light">Type: {user.role}</p>
+              <p className="font-light">Email: {user.email}</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <p style={{ marginLeft: 27 }} onClick={() => signOut()}>Sign out</p>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => signOut()}
+            >
+              Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
