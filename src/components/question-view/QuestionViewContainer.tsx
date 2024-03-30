@@ -17,6 +17,7 @@ import { Course, Question, Submission, User } from "@prisma/client";
 import { createSubmission } from "@/actions/createSubmission";
 import { useRouter } from "next/navigation";
 import { PutBlobResult } from "@vercel/blob";
+import { Separator } from "@/components/ui/separator";
 
 export default function QuestionViewContainer({
   user,
@@ -93,6 +94,7 @@ export default function QuestionViewContainer({
               handleEditorChange={handleEditorChange}
             />
           </div>
+          <Separator />
           <div className="h-1/6">
             <QuestionViewFeedback feedbacks={feedbacks} />
           </div>
