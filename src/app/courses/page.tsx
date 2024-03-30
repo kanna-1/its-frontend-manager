@@ -18,7 +18,7 @@ export default async function MyCourseView() {
         <h1 className="text-xl font-semibold">My Courses</h1>
         {isTeacher && <NewCourseDialog user={user}></NewCourseDialog>}
       </div>
-      <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 mt-8">
+      <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 mt-4 p-4 border rounded-md min-h-96">
         {isTeacher &&
           user.created_courses.map((course, index) => (
             <Link key={index} href={`/courses/${course.code}`}>
