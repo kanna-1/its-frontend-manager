@@ -15,19 +15,18 @@ export default function QuestionViewEditor({
   }
 
   return (
-    <div className="flex h-full items-center justify-center p-6">
-      <Editor
-        language="python"
-        onChange={handleEditorChange}
-        height="100%"
-        width="100%"
-        onMount={handleEditorDidMount}
-        options={{
-          minimap: { enabled: false },
-          scrollBeyondLastLine: false,
-          automaticLayout: true,
-        }}
-      />
-    </div>
+    <Editor
+      language="python"
+      defaultValue={`\n\n\n\n\n\n\n\n\n\n`}
+      onChange={handleEditorChange}
+      height="100%"
+      width="100%"
+      onMount={handleEditorDidMount}
+      options={{
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+      }}
+    />
   );
 }

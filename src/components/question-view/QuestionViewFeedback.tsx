@@ -11,7 +11,7 @@ export default function QuestionViewFeedback({
   feedbacks: FeedbackType[];
 }) {
   return (
-    <div className="border m-4">
+    <div className="border ml-4 h-full">
       {feedbacks.length > 0 ? (
         feedbacks.map((feedback, index) => (
           <div key={index}>

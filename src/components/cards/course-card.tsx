@@ -12,8 +12,8 @@ export default function CourseCard({
   return (
     <Card className="min-w-64 min-h-32">
       <CardHeader>
-        <CardTitle className="flex space-x-2">
-          <span>{course.code}</span>{isCreator && <ClipboardCheck />}
+        <CardTitle className="flex items-center space-x-2">
+          <span>{course.code}</span>{isCreator && <ClipboardCheck size={20}/>}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
