@@ -1,8 +1,5 @@
-import * as React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -26,17 +26,16 @@ export const columns: ColumnDef<User>[] = [
     ),
   },
   {
-    accessorKey: "index",
-    header: "Index",
-    cell: ({ row }) => <span>{row.index + 1}</span>,
-  },
-  {
     accessorKey: "email",
     header: "Email",
   },
   {
     accessorKey: "role",
     header: "Role",
+  },
+  {
+    accessorKey: "id",
+    header: "ID",
   },
   {
     accessorKey: "action",
@@ -50,8 +49,7 @@ export const columns: ColumnDef<User>[] = [
 
 // Define a separate component for the dropdown menu
 const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
-  const [users, setUsers] = React.useState<User[]>([]);
-  const [error, setError] = React.useState<string | null>(null); 
+  const router = useRouter();
 
   const promoteToTeacher = async () => {
     try {
@@ -62,17 +60,12 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
         },
         body: JSON.stringify({ email }),
       });
-      if (response.ok) {
-        console.log("User promoted to teacher successfully");
-        // Update the user's role in the local state
-        window.location.reload();
-      } else {
-        console.error("Failed to promote user to teacher");
-        setError("Failed to promote user to teacher");
+      if (!response.ok) {
+        throw new Error("Failed to promote user to teacher");
       }
+      router.refresh();
     } catch (error) {
       console.error("Error promoting user to teacher:", error);
-      setError("Error promoting user to teacher. Please try again later.");
     }
   };
 
@@ -85,16 +78,12 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
         },
         body: JSON.stringify({ email }),
       });
-      if (response.ok) {
-        console.log("User deleted successfully");
-        window.location.reload();
-      } else {
-        console.error("Failed to delete user");
-        setError("Failed to delete user");
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
       }
+      router.refresh();
     } catch (error) {
       console.error("Error deleting user:", error);
-      setError("Error deleting user. Please try again later.");
     }
   };
 
@@ -108,12 +97,9 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={promoteToTeacher}>
-          Promote
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={deleteUser}>
-          Delete
-        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={promoteToTeacher}>Promote</DropdownMenuItem>
+        <DropdownMenuItem onClick={deleteUser} className="text-destructive">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

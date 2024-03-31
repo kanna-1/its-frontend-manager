@@ -32,7 +32,7 @@ export default function NavigationBar({
 }) {
   return (
     <NavigationMenu>
-      <span className="font-bold text-lg">ITS Management System</span>
+      <span className="font-semibold text-xl">ITS Management System</span>
       <NavigationMenuList>
         {PAGE_ROUTES[user.role].map((page, index) => (
           <NavigationMenuLink

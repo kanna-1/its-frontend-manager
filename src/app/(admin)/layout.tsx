@@ -14,7 +14,7 @@ export default async function AdminLayout({
   return (
     <main>
       <NavigationBar user={user}></NavigationBar>
-      {children}
+      <div className="p-4">{children}</div>
     </main>
   );
 }

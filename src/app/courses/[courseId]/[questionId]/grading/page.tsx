@@ -17,7 +17,7 @@ export default async function GradingDashboardView({
   }
 
   return (
-    <div>
+    <>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-semibold">Grading Dashboard</h1>
         <Link href={`/courses/${params.courseId}`}>
@@ -25,6 +25,6 @@ export default async function GradingDashboardView({
         </Link>
       </div>
       <DataTableContainer submissions={submissions}></DataTableContainer>
-    </div>
+    </>
   );
 }
