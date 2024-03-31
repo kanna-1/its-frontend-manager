@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "test": "jest"
+    "test": "jest",
+    "test:frontend": "jest --testPathPattern=src/__tests__/frontend"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.4.0",

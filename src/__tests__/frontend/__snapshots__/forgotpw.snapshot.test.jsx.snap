@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders forgot password page unchanged 1`] = `
+<div>
+  <div
+    style="display: flex; height: 100vh;"
+  >
+    <div
+      style="flex: 70%;"
+    />
+    <div
+      style="flex: 30%; background-color: rgb(204, 204, 204); padding: 20px;"
+    >
+      <div
+        style="display: flex; justify-content: center; align-items: center; padding-bottom: 15px;"
+      >
+        <p
+          style="font-weight: bold; font-size: 20px;"
+        >
+           Reset Password
+        </p>
+      </div>
+      <form>
+        <div
+          class="space-y-2"
+        >
+          <label
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for=":r0:-form-item"
+          >
+            Email
+          </label>
+          <input
+            aria-describedby=":r0:-form-item-description"
+            aria-invalid="false"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            id=":r0:-form-item"
+            name="email"
+            placeholder="👤 Type your email"
+          />
+        </div>
+        <div
+          style="text-align: center; padding-bottom: 15px; padding-top: 5px;"
+        >
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            style="width: 200px; border-radius: 10px;"
+            type="submit"
+          >
+            Send reset email
+          </button>
+        </div>
+      </form>
+      <hr
+        style="border-color: gray;"
+      />
+      <div
+        style="justify-content: space-between; align-items: center; display: flex;"
+      >
+        <div
+          style="display: flex;"
+        >
+          <p
+            style="color: gray;"
+          >
+            Have an account?
+          </p>
+        </div>
+        <div>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-10 px-4 py-2"
+          >
+            <a
+              href="/signin"
+            >
+              Login now
+            </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
