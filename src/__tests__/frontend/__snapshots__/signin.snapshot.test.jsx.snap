@@ -29,26 +29,30 @@ exports[`renders signin page unchanged 1`] = `
             id=":r0:-form-item"
             style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
           >
-            <span
-              aria-label="mail"
-              class="anticon anticon-mail"
-              role="img"
+            <svg
+              class="lucide lucide-mail "
+              fill="none"
+              height="30"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="30"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                data-icon="mail"
-                fill="currentColor"
-                focusable="false"
-                height="1em"
-                viewBox="64 64 896 896"
-                width="1em"
-              >
-                <path
-                  d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 110.8V792H136V270.8l-27.6-21.5 39.3-50.5 42.8 33.3h643.1l42.8-33.3 39.3 50.5-27.7 21.5zM833.6 232L512 482 190.4 232l-42.8-33.3-39.3 50.5 27.6 21.5 341.6 265.6a55.99 55.99 0 0068.7 0L888 270.8l27.6-21.5-39.3-50.5-42.7 33.2z"
-                />
-              </svg>
-            </span>
+              <rect
+                height="16"
+                rx="2"
+                width="20"
+                x="2"
+                y="4"
+              />
+              <path
+                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+              />
+            </svg>
             <input
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               name="email"
@@ -72,36 +76,41 @@ exports[`renders signin page unchanged 1`] = `
             id=":r1:-form-item"
             style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
           >
-            <span
-              aria-label="lock"
-              class="anticon anticon-lock"
-              role="img"
+            <svg
+              class="lucide lucide-lock "
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                data-icon="lock"
-                fill="currentColor"
-                focusable="false"
-                height="1em"
-                viewBox="64 64 896 896"
-                width="1em"
-              >
-                <path
-                  d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 10-56 0z"
-                />
-              </svg>
-            </span>
+              <rect
+                height="11"
+                rx="2"
+                ry="2"
+                width="18"
+                x="3"
+                y="11"
+              />
+              <path
+                d="M7 11V7a5 5 0 0 1 10 0v4"
+              />
+            </svg>
             <input
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               name="password"
-              placeholder="e.g. iloveits123"
+              placeholder="e.g. password123"
               type="password"
             />
           </div>
         </div>
         <div
-          style="text-align: center; padding-bottom: 15px; padding-top: 10px;"
+          style="text-align: right; padding-bottom: 5px; padding-top: 5px;"
         >
           <a
             href="/forgot-password"
