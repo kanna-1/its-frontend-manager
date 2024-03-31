@@ -3,23 +3,16 @@
 exports[`renders forgot password page unchanged 1`] = `
 <div>
   <div
-    style="display: flex; height: 100vh;"
+    class="flex justify-center items-center h-screen"
   >
     <div
-      style="flex: 70%;"
-    />
-    <div
-      style="flex: 30%; background-color: rgb(204, 204, 204); padding: 20px;"
+      class="max-w-md p-8 bg-white rounded-lg shadow-lg"
     >
-      <div
-        style="display: flex; justify-content: center; align-items: center; padding-bottom: 15px;"
+      <h2
+        class="text-2xl font-semibold mb-7 text-center"
       >
-        <p
-          style="font-weight: bold; font-size: 20px;"
-        >
-           Reset Password
-        </p>
-      </div>
+        Password Reset Form
+      </h2>
       <form>
         <div
           class="space-y-2"
@@ -28,16 +21,45 @@ exports[`renders forgot password page unchanged 1`] = `
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             for=":r0:-form-item"
           >
-            Email
+            Your Email
           </label>
-          <input
+          <div
             aria-describedby=":r0:-form-item-description"
             aria-invalid="false"
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             id=":r0:-form-item"
-            name="email"
-            placeholder="👤 Type your email"
-          />
+            style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
+          >
+            <svg
+              class="lucide lucide-mail "
+              fill="none"
+              height="30"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="30"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="16"
+                rx="2"
+                width="20"
+                x="2"
+                y="4"
+              />
+              <path
+                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+              />
+            </svg>
+            <input
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              name="email"
+              placeholder="e.g. jane@doe.com"
+              style="width: 500px;"
+            />
+          </div>
         </div>
         <div
           style="text-align: center; padding-bottom: 15px; padding-top: 5px;"

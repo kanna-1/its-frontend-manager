@@ -29,26 +29,30 @@ exports[`renders signup page unchanged 1`] = `
             id=":r0:-form-item"
             style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
           >
-            <span
-              aria-label="mail"
-              class="anticon anticon-mail"
-              role="img"
+            <svg
+              class="lucide lucide-mail "
+              fill="none"
+              height="30"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="30"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                data-icon="mail"
-                fill="currentColor"
-                focusable="false"
-                height="1em"
-                viewBox="64 64 896 896"
-                width="1em"
-              >
-                <path
-                  d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 110.8V792H136V270.8l-27.6-21.5 39.3-50.5 42.8 33.3h643.1l42.8-33.3 39.3 50.5-27.7 21.5zM833.6 232L512 482 190.4 232l-42.8-33.3-39.3 50.5 27.6 21.5 341.6 265.6a55.99 55.99 0 0068.7 0L888 270.8l27.6-21.5-39.3-50.5-42.7 33.2z"
-                />
-              </svg>
-            </span>
+              <rect
+                height="16"
+                rx="2"
+                width="20"
+                x="2"
+                y="4"
+              />
+              <path
+                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+              />
+            </svg>
             <input
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               name="email"
@@ -72,30 +76,35 @@ exports[`renders signup page unchanged 1`] = `
             id=":r1:-form-item"
             style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
           >
-            <span
-              aria-label="lock"
-              class="anticon anticon-lock"
-              role="img"
+            <svg
+              class="lucide lucide-lock "
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                data-icon="lock"
-                fill="currentColor"
-                focusable="false"
-                height="1em"
-                viewBox="64 64 896 896"
-                width="1em"
-              >
-                <path
-                  d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 10-56 0z"
-                />
-              </svg>
-            </span>
+              <rect
+                height="11"
+                rx="2"
+                ry="2"
+                width="18"
+                x="3"
+                y="11"
+              />
+              <path
+                d="M7 11V7a5 5 0 0 1 10 0v4"
+              />
+            </svg>
             <input
               class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               name="password"
-              placeholder="e.g. iloveits123"
+              placeholder="e.g. password123"
               type="password"
             />
           </div>
@@ -115,26 +124,53 @@ exports[`renders signup page unchanged 1`] = `
             id=":r2:-form-item"
             style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
           >
-            <span
-              aria-label="bank"
-              class="anticon anticon-bank"
-              role="img"
+            <svg
+              class="lucide lucide-landmark "
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               style="margin-right: 8px;"
+              viewBox="0 0 24 24"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                data-icon="bank"
-                fill="currentColor"
-                focusable="false"
-                height="1em"
-                viewBox="64 64 896 896"
-                width="1em"
-              >
-                <path
-                  d="M894 462c30.9 0 43.8-39.7 18.7-58L530.8 126.2a31.81 31.81 0 00-37.6 0L111.3 404c-25.1 18.2-12.2 58 18.8 58H192v374h-72c-4.4 0-8 3.6-8 8v52c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-52c0-4.4-3.6-8-8-8h-72V462h62zM512 196.7l271.1 197.2H240.9L512 196.7zM264 462h117v374H264V462zm189 0h117v374H453V462zm307 374H642V462h118v374z"
-                />
-              </svg>
-            </span>
+              <line
+                x1="3"
+                x2="21"
+                y1="22"
+                y2="22"
+              />
+              <line
+                x1="6"
+                x2="6"
+                y1="18"
+                y2="11"
+              />
+              <line
+                x1="10"
+                x2="10"
+                y1="18"
+                y2="11"
+              />
+              <line
+                x1="14"
+                x2="14"
+                y1="18"
+                y2="11"
+              />
+              <line
+                x1="18"
+                x2="18"
+                y1="18"
+                y2="11"
+              />
+              <polygon
+                points="12 2 20 7 4 7"
+              />
+            </svg>
             <button
               aria-autocomplete="none"
               aria-controls="radix-:r3:"
@@ -178,7 +214,7 @@ exports[`renders signup page unchanged 1`] = `
           />
         </div>
         <div
-          style="text-align: center; padding-bottom: 15px; padding-top: 10px;"
+          style="text-align: center; padding-bottom: 15px; padding-top: 5px;"
         >
           <button
             class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
