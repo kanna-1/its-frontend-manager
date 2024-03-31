@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
 import { Role } from "@prisma/client";
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
 import { auth } from "./lib/auth";
 
 export default auth(async function middleware(request) {
@@ -17,7 +17,6 @@ export default auth(async function middleware(request) {
   });
   if (!token) return NextResponse.redirect(new URL("/signin", request.url));
 
-  // Check the role and redirect based on the role
   if (token) {
     switch (token.role) {
       case Role.ADMIN:
@@ -33,7 +32,6 @@ export default auth(async function middleware(request) {
         }
         break;
       case Role.STUDENT:
-        // Add the paths that the student can access here
         if (!request.nextUrl.pathname.startsWith("/courses")) {
           return NextResponse.redirect(new URL("/courses", request.url));
         }
@@ -46,7 +44,6 @@ export default auth(async function middleware(request) {
 
 export const config = {
   matcher: [
-    // Match all routes except the ones that start with /signin and api and the static folder
     "/((?!api|_next/static|_next/image|favicon.ico|signin|signup|forgot-password|new-password).*)",
   ],
 };
