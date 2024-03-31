@@ -138,7 +138,7 @@ export function RegisterForm({ schools }: { schools: School[] }) {
                     marginTop: 10,
                   }}
                 >
-                  <Mail style={{ marginRight: 8 }} />
+                  <Mail size={30} style={{ marginRight: 8 }} />
                   <Input
                     style={{ width: "500px" }}
                     placeholder="e.g. john@doe.com"
@@ -165,10 +165,10 @@ export function RegisterForm({ schools }: { schools: School[] }) {
                     marginTop: 10,
                   }}
                 >
-                  <Lock style={{ marginRight: 8 }} />
+                  <Lock size={18} style={{ marginRight: 8 }} />
                   <Input
                     type="password"
-                    placeholder="e.g. iloveits123"
+                    placeholder="e.g. password123"
                     {...register("password")}
                   />
                 </div>
@@ -194,7 +194,7 @@ export function RegisterForm({ schools }: { schools: School[] }) {
                       marginTop: 10,
                     }}
                   >
-                    <Landmark style={{ marginRight: 8 }} />
+                    <Landmark size={18} style={{ marginRight: 8 }} />
                     <SelectTrigger>
                       <SelectValue
                         placeholder="Select Institution"
@@ -217,9 +217,13 @@ export function RegisterForm({ schools }: { schools: School[] }) {
             </FormItem>
           )}
         />
-        <div style={{ textAlign: "center", paddingBottom: 15, paddingTop: 10 }}>
-          <Button type="submit" style={{ width: 200, borderRadius: 10 }}>
-            {submitting ? "Registering..." : "Register"}
+        <div style={{ textAlign: "center", paddingBottom: 15, paddingTop: 5 }}>
+          <Button
+            type="submit"
+            style={{ width: 200, borderRadius: 10 }}
+            disabled={submitting}
+          >
+            Register
           </Button>
         </div>
       </form>

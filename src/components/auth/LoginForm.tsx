@@ -105,7 +105,7 @@ export function LoginForm() {
                     marginTop: 10,
                   }}
                 >
-                  <Mail style={{ marginRight: 8 }} />
+                  <Mail size={30} style={{ marginRight: 8 }} />
                   <Input
                     style={{ width: "500px" }}
                     placeholder="e.g. john@doe.com"
@@ -132,10 +132,10 @@ export function LoginForm() {
                     marginTop: 10,
                   }}
                 >
-                  <Lock style={{ marginRight: 8 }} />
+                  <Lock size={18} style={{ marginRight: 8 }} />
                   <Input
                     type="password"
-                    placeholder="e.g. iloveits123"
+                    placeholder="e.g. password123"
                     {...register("password")}
                   />
                 </div>
@@ -145,7 +145,7 @@ export function LoginForm() {
           )}
         />
 
-        <div style={{ textAlign: "center", paddingBottom: 15, paddingTop: 10 }}>
+        <div style={{ textAlign: "right", paddingBottom: 5, paddingTop: 5 }}>
           <a href="/forgot-password" style={{ fontSize: 9 }}>
             Forgot Password?
           </a>
