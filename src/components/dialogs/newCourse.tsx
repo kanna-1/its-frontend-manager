@@ -76,9 +76,8 @@ export default function NewCourseDialog({ user }: { user: User }) {
   }
   return (
     <Dialog>
-
       <DialogTrigger>
-        <Button variant="secondary">New Course</Button>
+        <Button>New Course</Button>
       </DialogTrigger>
       <DialogContent>
       {success && 

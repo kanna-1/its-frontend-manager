@@ -98,7 +98,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button variant="secondary">New question</Button>
+        <Button>New question</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

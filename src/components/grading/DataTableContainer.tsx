@@ -5,13 +5,9 @@ import { columns } from "@/components/grading/columns";
 import { DataTable } from "@/components/grading/data-table";
 
 export default function DataTableContainer({
-  users,
+  submissions,
 }: {
-  users: UserSubmission[];
+  submissions: UserSubmission[];
 }) {
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={users} />
-    </div>
-  );
+  return <DataTable columns={columns} data={submissions} />;
 }

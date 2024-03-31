@@ -11,9 +11,5 @@ export default function DataTableContainer({
   name: string;
   users: User[];
 }) {
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable institution={name} columns={columns} data={users} />
-    </div>
-  );
+  return <DataTable institution={name} columns={columns} data={users} />;
 }

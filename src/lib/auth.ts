@@ -1,10 +1,9 @@
-import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import authConfig from "@/auth.config";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Role } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface User {
@@ -21,12 +20,11 @@ declare module "@auth/core/adapters" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(prisma),
-  ...authConfig,
   pages: {
     signIn: "/signin",
   },
-  trustHost: true, // to be reviewed
-  secret: process.env.AUTH_SECRET, // to be redacted
+  trustHost: true,
+  secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Sign in",
@@ -56,11 +54,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         ) {
           return null;
         }
-        
+
         return {
           id: user.id,
           email: user.email,
-          role: user.role
+          role: user.role,
         };
       },
     }),

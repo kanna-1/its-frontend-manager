@@ -1,18 +1,37 @@
-'use client';
+"use client";
 
-import Link from "next/link";
+import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
+import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
+import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
+import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Question, Role, Submission, User } from "@prisma/client";
-import SubmissionViewEditor from "./SubmissionViewEditor";
-import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
-import QuestionViewFeedback, { FeedbackType } from "../question-view/QuestionViewFeedback";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Course, Question, Role, Submission, User } from "@prisma/client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
+const formSchema = z.object({
+  feedback: z.string(),
+  grade: z.number(),
+});
 
 export default function SubmissionViewContainer({
   submission,
@@ -20,76 +39,126 @@ export default function SubmissionViewContainer({
   user,
   code,
 }: {
-  submission: Submission,
-  question: Question;
+  submission: Submission;
+  question: Question & { course: Course };
   user: User;
   code: string;
 }) {
+  const router = useRouter();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      feedback: submission.feedback || "",
+      grade: submission.grade < 0 ? 0 : submission.grade,
+    },
+  });
 
- 
-  const [feedback, setFeedback] = useState<FeedbackType[]>([]);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await setSubmissionFeedback({
+        submission_id: submission.id,
+        feedback: values.feedback,
+      });
 
-  const handleSave = () => {
-    window.location.reload();
-  };
+      await setSubmissionGrade({
+        submission_id: submission.id,
+        grade: values.grade,
+      });
 
+      router.push(`/courses/${question.course.code}/${question.id}/grading`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
-    <ResizablePanelGroup direction="horizontal" className="min-h-screen">
-      <ResizablePanel defaultSize={50}>
-        <div className="flex flex-col p-6">
-          <h2 className="text-lg font-semibold mb-4">{question.title}</h2>
-          <p>{question.description}</p>
-          <div style={{ marginTop: 14}}>
-            <Link href={`/courses/${question.courseId.substring(8)}`}>
-              <Button variant="secondary">Return to course</Button>
-            </Link>
+    <ResizablePanelGroup
+      direction="horizontal"
+      className="min-h-[calc(100vh-100px)]"
+    >
+      <ResizablePanel defaultSize={30}>
+        <div className="pr-4 h-full">
+          <div className="h-5/6 flex flex-col space-y-2">
+            <h1 className="text-2xl font-semibold">{question.title}</h1>
+            <p>{question.description}</p>
           </div>
-          <div style={{ marginTop: 14}}>
-            <Link href={`/courses/${question.courseId.substring(8)}/${question.id}/grading`}>
-              <Button variant="secondary">Return to grading dashboard</Button>
-            </Link>
+          <div className="h-1/6 flex items-end pb-4">
+            {user.role === Role.TEACHER ? (
+              <Link
+                href={`/courses/${question.course.code}/${question.id}/grading`}
+              >
+                <Button variant="secondary">Return to grading dashboard</Button>
+              </Link>
+            ) : (
+              <Link href={`/courses/${question.course.code}`}>
+                <Button variant="secondary">Return to course</Button>
+              </Link>
+            )}
           </div>
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={50}>
-        <div className="flex flex-col h-full">     
+      <ResizablePanel defaultSize={70}>
+        <div className="h-full">
+          <div className="h-4/6">
             <SubmissionViewEditor code={code} language={question.language} />
-            {user.role == Role.TEACHER && (
-            <div className="flex flex-col">
-              {/* <QuestionViewFeedback feedbacks={feedback} /> */}
-              {/* <SubmissionViewFeedback feedback={submission.feedback || ""}/>     */}
-              <div className="items-center justify-center p-6">
-                <div className="flex mt-4">    
-                  <div>
-                    <input
-                      type="number"
-                      onChange={(e) => setSubmissionGrade({submission_id : submission.id, grade: parseInt(e.target.value)})}
-                      className="border rounded-md px-2 py-1"
-                      placeholder="Score"
+          </div>
+          <Separator />
+          {user.role === Role.TEACHER ? (
+            <div className="h-2/6 pl-4 pt-4">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-2"
+                >
+                  <FormField
+                    control={form.control}
+                    name="feedback"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Feedback</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex flex-row space-x-2 items-end justify-between">
+                    <FormField
+                      control={form.control}
+                      name="grade"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Grade</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              {...field}
+                              onChange={(value) =>
+                                field.onChange(value.target.valueAsNumber)
+                              }
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    
-                    {/* <input
-                      className="flex-grow border rounded-md px-2 py-1 w-full"
-                      placeholder="Comments"
-                      style={{ resize: "vertical" }}
-                    /> */}
-                   
+                    <Button type="submit">Submit</Button>
                   </div>
-                  <div className="flex-grow ml-8">
-                    <Button onClick={handleSave}>Submit</Button>
-                  </div>
-                  
-                </div>
-              </div>
-              
+                </form>
+              </Form>
             </div>
-            )}
+          ) : (
+            <div className="h-2/6 pl-4 pt-4">
+              <SubmissionViewFeedback
+                feedback={submission.feedback}
+                grade={submission.grade}
+              />
+            </div>
+          )}
         </div>
-        
       </ResizablePanel>
-      
     </ResizablePanelGroup>
   );
 }

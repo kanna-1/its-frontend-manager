@@ -1,8 +1,5 @@
-import * as React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,10 +7,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditScoreDialog from "../dialogs/editScore";
+import { ColumnDef } from "@tanstack/react-table";
+import { ChevronRightCircle, MoreHorizontal } from "lucide-react";
 import EditFeedbackDialog from "../dialogs/editFeedback";
+import EditScoreDialog from "../dialogs/editScore";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-export type Users = {
+type Users = {
   email: string;
   role: string;
   school_id: string;
@@ -36,7 +37,6 @@ export const columns: ColumnDef<Users>[] = [
     accessorKey: "student email",
     header: "Student Email",
     cell: ({ row }) => <span>{row.original.email}</span>,
-    
   },
   {
     accessorKey: "grade",
@@ -50,51 +50,16 @@ export const columns: ColumnDef<Users>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      const email = row.original.email; // Extracting email from the row data
-      const id = row.original.id; 
-      return <ActionDropdown email={email} submissionid={id} />;
+      return <MoreDetails submissionid={row.original.id} />;
     },
   },
 ];
 
-  // Define a separate component for the dropdown menu
-  const ActionDropdown: React.FC<{ email: string, submissionid: string }> = ({ email, submissionid }) => {
-    const [error, setError] = React.useState<string | null>(null);
-
-    const viewCode = () => {
-      const currentPath = window.location.pathname;
-      const [, courses, courseId, qnId] = currentPath.split('/');
-      if (courseId && qnId) {
-        const submissionUrl = `/courses/${courseId}/${qnId}/${submissionid}`;
-        window.location.href = submissionUrl;
-      } else {
-        console.error('Unable to retrieve courseId or qnId from the current URL');
-        setError('Unable to retrieve required information from the URL');
-      }
-    };
-    
-
-  
-
+function MoreDetails({ submissionid }: { submissionid: string }) {
+  const pathname = usePathname();
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={viewCode}>
-          View code
-        </DropdownMenuItem>
-        <div>
-          <EditScoreDialog submissionId={submissionid}/>
-        </div>
-          <EditFeedbackDialog submissionId={submissionid}/>
-      </DropdownMenuContent>
-    </DropdownMenu>
-    
+    <Link href={pathname.replace("grading", submissionid)}>
+      <ChevronRightCircle className="text-muted-foreground" />
+    </Link>
   );
-};
+}

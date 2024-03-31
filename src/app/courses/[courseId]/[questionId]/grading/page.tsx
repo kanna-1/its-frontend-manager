@@ -1,5 +1,7 @@
-import DataTableContainer from "@/components/grading/DataTableContainer";
 import { getQuestionSubmissions } from "@/actions/getQuestionSubmissions";
+import DataTableContainer from "@/components/grading/DataTableContainer";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function GradingDashboardView({
@@ -7,22 +9,22 @@ export default async function GradingDashboardView({
 }: {
   params: { questionId: string; courseId: string };
 }) {
-  const question = { question_id: params.questionId};
-  
+  const question = { question_id: params.questionId };
   const submissions = await getQuestionSubmissions(question);
+
   if (!submissions) {
     redirect(`/courses/${params.courseId}`);
   }
-  
-  
+
   return (
-    <div>
-      <main className="flex min-h-screen flex-col">
-        <div className="z-10 max-w-5xl w-full justify-start font-mono text-sm lg:flex">
-          <div className="absolute left-5 top-18"></div>
-        </div>
-        <DataTableContainer users={submissions}></DataTableContainer>
-      </main>
-    </div>
+    <>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-xl font-semibold">Grading Dashboard</h1>
+        <Link href={`/courses/${params.courseId}`}>
+          <Button variant="secondary">Return to course</Button>
+        </Link>
+      </div>
+      <DataTableContainer submissions={submissions}></DataTableContainer>
+    </>
   );
 }
