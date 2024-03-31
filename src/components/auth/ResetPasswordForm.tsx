@@ -123,8 +123,8 @@ export function ResetPasswordForm() {
               <FormLabel>New password</FormLabel>
               <FormControl>
               <div style={{display: 'flex', alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
-                <Lock style={{marginRight: 8}}/>
-                <Input type="password" placeholder="e.g. iloveits123" {...register('password')}/>
+                <Lock size={19} style={{marginRight: 8}}/>
+                <Input type="password" placeholder="e.g. password123" {...register('password')}/>
               </div>
               </FormControl>
               <FormMessage />
