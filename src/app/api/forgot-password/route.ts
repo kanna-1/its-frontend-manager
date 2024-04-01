@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       // user exists
       console.log(user.email)
       const passwordResetToken = await createPasswordResetToken(user.email)
-      await sendPasswordResetEmail(user.email, passwordResetToken.token);
+      sendPasswordResetEmail(user.email, passwordResetToken.token);
 
       return NextResponse.json({
         reset: {
