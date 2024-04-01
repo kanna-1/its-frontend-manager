@@ -20,6 +20,10 @@ export const sendPasswordResetEmail = async (
     host: "smtp.zoho.com",
     port: 587,
     secureConnection: true,
+    tls: {
+      rejectUnauthorized: false,
+      ciphers: 'DEFAULT@SECLEVEL=0'
+    },
     auth: {
       user: hostEmail,
       pass: appPassword,
