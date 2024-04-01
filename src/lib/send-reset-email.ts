@@ -1,25 +1,41 @@
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 const publicURL = process.env.PUBLIC_URL;
+const appPassword = process.env.APP_PASSWORD;
 
 export const sendPasswordResetEmail = async (
     email: string,
     token: string,
   ) => {
 
+  let resetLink = ""
+  if (process.env.NODE_ENV === "production"){
+    resetLink = `${publicURL}/new-password?token=${token}`
+  } else {
+    resetLink = `http://localhost:3000/new-password?token=${token}`
+  }
+  const nodemailer = require("nodemailer");
 
-    let resetLink = ""
-    if (process.env.NODE_ENV === "production"){
-      resetLink = `${publicURL}/new-password?token=${token}`
-    } else {
-      resetLink = `http://localhost:3000/new-password?token=${token}`
-    }
+  const transporter = nodemailer.createTransport({
+    host: "smtp.zoho.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "itsdevteam@zohomail.com",
+      pass: appPassword,
+    },
+  });
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: email,
-      subject: "Password reset link",
-      html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
-    });
+  const mailOptions = {
+    from: "itsdevteam@zohomail.com",
+    to: email,
+    subject: "Password reset link",
+    html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
   };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email: ", error);
+    } else {
+      console.log("Email sent: ", info.response);
+    }
+  });
+};
