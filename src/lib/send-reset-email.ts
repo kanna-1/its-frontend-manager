@@ -14,12 +14,11 @@ export const sendPasswordResetEmail = async (
     resetLink = `http://localhost:3000/new-password?token=${token}`
   }
   const nodemailer = require("nodemailer");
-  const smtpTransport = require('nodemailer-smtp-transport');
 
-  const transporter = nodemailer.createTransport(smtpTransport({
+  const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
     port: 587,
-    secureConnection: true,
+    secure: false,
     tls: {
       rejectUnauthorized: false,
       ciphers: 'DEFAULT@SECLEVEL=0'
@@ -28,7 +27,7 @@ export const sendPasswordResetEmail = async (
       user: hostEmail,
       pass: appPassword,
     },
-  }));
+  });
 
   const mailOptions = {
     from: hostEmail,
