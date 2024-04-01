@@ -1,6 +1,8 @@
 import { getQuestionSubmissions } from "@/actions/getQuestionSubmissions";
+import { getUserProps } from "@/actions/getUserProps";
 import DataTableContainer from "@/components/grading/DataTableContainer";
 import { Button } from "@/components/ui/button";
+import { Role } from "@prisma/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -9,6 +11,16 @@ export default async function GradingDashboardView({
 }: {
   params: { questionId: string; courseId: string };
 }) {
+  const user = await getUserProps({
+    includeSchool: false,
+    includeCourses: false,
+    includeSubmissions: false,
+  });
+
+  if (user.role != Role.TEACHER) {
+    redirect(`/courses/${params.courseId}`);
+  }
+
   const question = { question_id: params.questionId };
   const submissions = await getQuestionSubmissions(question);
 
