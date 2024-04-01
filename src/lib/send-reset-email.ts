@@ -1,5 +1,6 @@
 const publicURL = process.env.PUBLIC_URL;
 const appPassword = process.env.APP_PASSWORD;
+const hostEmail = process.env.HOST_EMAIL;
 
 export const sendPasswordResetEmail = async (
     email: string,
@@ -19,13 +20,13 @@ export const sendPasswordResetEmail = async (
     port: 465,
     secure: true,
     auth: {
-      user: "itsdevteam@zohomail.com",
+      user: hostEmail,
       pass: appPassword,
     },
   });
 
   const mailOptions = {
-    from: "itsdevteam@zohomail.com",
+    from: hostEmail,
     to: email,
     subject: "Password reset link",
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
