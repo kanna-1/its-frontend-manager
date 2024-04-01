@@ -1,6 +1,7 @@
 const publicURL = process.env.PUBLIC_URL;
 const appPassword = process.env.APP_PASSWORD;
 const hostEmail = process.env.HOST_EMAIL;
+const smtpHost = process.env.SMTP_HOST;
 
 export const sendPasswordResetEmail = async (
     email: string,
@@ -16,7 +17,7 @@ export const sendPasswordResetEmail = async (
   const nodemailer = require("nodemailer");
 
   const transporter = nodemailer.createTransport({
-    host: "smtp.zoho.com",
+    host: smtpHost,
     port: 465,
     secure: true,
     tls: {
