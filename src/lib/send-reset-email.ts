@@ -17,8 +17,8 @@ export const sendPasswordResetEmail = async (
 
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
-    port: 587,
-    secure: false,
+    port: 465,
+    secure: true,
     tls: {
       rejectUnauthorized: false,
       ciphers: 'DEFAULT@SECLEVEL=0'
