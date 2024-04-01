@@ -36,11 +36,18 @@ export const sendPasswordResetEmail = async (
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
   };
 
-  await transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email: ", error);
-    } else {
-      console.log("Email sent: ", info.response);
-    }
-  });
+  const send = () => {
+    return new Promise((resolve, reject) => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email: ", error);
+        } else {
+          console.log("Email sent: ", info.response);
+        }
+      });
+
+    });
+  }
+
+  send();
 };
