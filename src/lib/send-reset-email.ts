@@ -32,7 +32,7 @@ export const sendPasswordResetEmail = async (
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email: ", error);
     } else {
