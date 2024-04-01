@@ -38,14 +38,7 @@ export const sendPasswordResetEmail = async (
 
 
   await new Promise((resolve, reject) => {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error("Error sending email: ", error);
-      } else {
-        console.log("Email sent: ", info.response);
-      }
-    });
-
+    transporter.sendMail(mailOptions);
   });
 
 };
