@@ -3,6 +3,7 @@ import { getUserProps } from "@/actions/getUserProps";
 import QuestionCard from "@/components/cards/question-card";
 import AddMemberDialog from "@/components/dialogs/addMember";
 import NewQuestionDialog from "@/components/dialogs/newQuestion";
+import CourseMemberList from "@/components/course-member-list/CourseMemberList";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Question, Role, User } from "@prisma/client";
@@ -82,11 +83,7 @@ export default async function CourseView({
                 </h3>
                 <AddMemberDialog user={user} course={course}></AddMemberDialog>
               </div>
-              <ul>
-                {courseMembers.map((member, index) => (
-                  <li key={index}>{`${member.email} [${member.role}]`}</li>
-                ))}
-              </ul>
+              <CourseMemberList requestorEmail={user.email} course={course} />
             </TabsContent>
           )}
         </div>
