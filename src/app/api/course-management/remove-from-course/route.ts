@@ -1,6 +1,23 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+/*
+Example Usage:
+
+const res = await fetch('/api/course-management/remove-from-course', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    requestorEmail: requestorEmail,
+    courseId: course.id,
+    userEmailToRemove: selectedUser
+  })
+});
+
+*/
+
 export async function POST(req: Request) {
   try {
     const { requestorEmail, courseId, userEmailToRemove } = (await req.json()) as {
