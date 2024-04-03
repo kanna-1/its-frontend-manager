@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { setErrorMap, z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -103,6 +103,7 @@ export default function AddMemberDialog({ user, course }: { user: User, course: 
             fontWeight: "500",
             color: "red",
             padding: "10px",
+            textAlign: 'center',
             borderRadius: "5px",
             marginBottom: "10px",
           }}
