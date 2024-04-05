@@ -1,22 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z, TypeOf } from "zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectLabel,
-  SelectGroup,
-} from "@/components/ui/select";
+import { LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -25,21 +9,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
-  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-type ResetPasswordInput = TypeOf<typeof formSchema>;
-
 export function ResetPasswordForm() {
+  const { toast } = useToast();
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-
+  const token = searchParams.get("token");
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,96 +38,75 @@ export function ResetPasswordForm() {
     },
   });
 
-  const {
-    reset,
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = form;
-
-  const onSubmitHandler: SubmitHandler<ResetPasswordInput> = async (values) => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setSubmitting(true);
-      setError(null);
-
-      const dataToSend = {
-        ...values,
-        token: token,
-      }
 
       const res = await fetch("/api/reset-password", {
         method: "POST",
-        body: JSON.stringify(dataToSend),
+        body: JSON.stringify({
+          ...values,
+          token: token,
+        }),
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (!res.ok) {
-        const message = (await res.json()).message;
-          setError('An error occurred during registration.');
-        return;
+        throw new Error("An error occurred during registration.");
       }
+      toast({
+        title: "Password Reset Success",
+        description: "Your password has been updated. Redirecting to sign-in",
+        variant: "success",
+      });
 
-      setSuccess(true);
       setTimeout(() => {
         signIn(undefined, { callbackUrl: "/" });
       }, 3000);
-
     } catch (error) {
-      console.error(error)
+      toast({
+        title: "Password Reset Error",
+        description: error.message,
+        variant: "destructive",
+      });
     } finally {
+      form.reset();
       setSubmitting(false);
     }
-  };
+  }
 
   return (
     <Form {...form}>
-        {error && (
-          <p style={{
-            backgroundColor: '#ffcccc',
-            fontWeight: '500',
-            color: 'red',
-            padding: '10px',
-            borderRadius: '5px',
-            marginBottom: '10px',
-          }}>{error}</p>
-        )}
-        {success && (
-          <p style={{
-            backgroundColor: '#ccffcc',
-            fontWeight: '500',
-            color: 'green',
-            padding: '10px',
-            borderRadius: '5px',
-            marginBottom: '10px',
-            fontSize: '10px'
-          }}>Password changed successful. Redirecting to sign-in...</p>
-        )}
-      <form onSubmit={handleSubmit(onSubmitHandler)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New password</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <FormControl>
-              <div style={{display: 'flex', alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
-                <Lock size={19} style={{marginRight: 8}}/>
-                <Input type="password" placeholder="e.g. password123" {...register('password')}/>
-              </div>
+                <div className="flex space-x-2 items-center">
+                  <Lock />
+                  <Input type="password" disabled={submitting} {...field} />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div style={{ textAlign: "center", paddingBottom: 15, paddingTop: 10 }}>
-          <Button type="submit" style={{ width: 200, borderRadius: 10 }} disabled={submitting}>
-            Change password
-          </Button>
+        <div className="flex flex-col w-full justify-center items-center text-center">
+          <LoadingButton
+            type="submit"
+            className="w-3/4 mt-4"
+            loading={submitting}
+            disabled={submitting}
+          >
+            Change Password
+          </LoadingButton>
         </div>
       </form>
-      <hr style={{ borderColor: "gray" }} />
     </Form>
   );
 }

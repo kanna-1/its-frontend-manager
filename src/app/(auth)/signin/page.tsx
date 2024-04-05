@@ -1,12 +1,21 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { LoginForm } from '@/components/auth/LoginForm';
-import Link from 'next/link';
+import LoginForm from "@/components/auth/LoginForm";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Link from "next/link";
+import React from "react";
 
 export default async function SignInView() {
   return (
-    <div className="flex justify-center items-center h-screen" style={{ 
-      background: `
+    <div
+      className="flex flex-col space-y-8 justify-center items-center min-h-screen"
+      style={{
+        background: `
         linear-gradient(to bottom, #e0f2f1, #b2dfdb),
         repeating-linear-gradient(
           45deg,
@@ -15,19 +24,26 @@ export default async function SignInView() {
           transparent 10px,
           transparent 20px
         )
-      `
-    }}>
-
-      <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-7 text-center">ITS Frontend System Log In</h2>
-        <LoginForm />
-        <div className="mt-4 flex items-center justify-center">
-        <p className="ml-2">Don&rsquo;t have an account? </p>
-        <Button variant="link">
-          <Link href="/signup">Register now</Link>
-        </Button>
-      </div>
-      </div>
+      `,
+      }}
+    >
+      <h1 className="text-2xl font-semibold">ITS Frontend Manager</h1>
+      <Card className="min-w-96 md:min-w-[500px]">
+        <CardHeader>
+          <CardTitle className="text-center">Log In</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <LoginForm />
+          <CardFooter className="justify-center">
+            <span className="text-sm">Don&rsquo;t have an account?</span>
+            <Link href="/signup">
+              <Button variant="link" className="text-sm">
+                Register Now
+              </Button>
+            </Link>
+          </CardFooter>
+        </CardContent>
+      </Card>
     </div>
   );
 }

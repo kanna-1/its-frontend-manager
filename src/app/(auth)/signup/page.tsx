@@ -1,13 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { RegisterForm } from "@/components/auth/RegisterForm";
-import Link from "next/link";
 import { getSchools } from "@/actions/getSchools";
+import { RegisterForm } from "@/components/auth/RegisterForm";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Link from "next/link";
+import React from "react";
 
 export default async function SignUpView() {
-  const schools = await getSchools().then(schools => schools ? schools : []);
+  const schools = await getSchools().then((schools) =>
+    schools ? schools : []
+  );
   return (
-    <div className="flex justify-center items-center h-screen" style={{ 
-      background: `
+    <div
+      className="flex flex-col space-y-8 justify-center items-center min-h-screen"
+      style={{
+        background: `
         linear-gradient(to bottom, #e0f2f1, #b2dfdb),
         repeating-linear-gradient(
           45deg,
@@ -16,19 +28,26 @@ export default async function SignUpView() {
           transparent 10px,
           transparent 20px
         )
-      `
-    }}>
-      <div className="max-w-md p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-7 text-center">ITS Frontend System Sign Up</h2>
-        <RegisterForm schools={schools} />
-        <div className="mt-4 flex items-center justify-center">
-        <p className="ml-2">Have an account? </p>
-        <Button variant="link">
-          <Link href="/signin">Login now</Link>
-        </Button>
-      </div>
-      </div>
+      `,
+      }}
+    >
+      <h1 className="text-2xl font-semibold">ITS Frontend Manager</h1>
+      <Card className="min-w-96 md:min-w-[500px]">
+        <CardHeader>
+          <CardTitle className="text-center">Sign Up</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <RegisterForm schools={schools} />
+          <CardFooter className="justify-center mt-4">
+            <span className="text-sm">Have an account?</span>
+            <Link href="/signin">
+              <Button variant="link" className="text-sm">
+                Login Now
+              </Button>
+            </Link>
+          </CardFooter>
+        </CardContent>
+      </Card>
     </div>
   );
 }
-
