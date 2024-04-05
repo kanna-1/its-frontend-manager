@@ -73,9 +73,7 @@ export default function NewCourseDialog({ user }: { user: User }) {
           title: "New Course Created",
           variant: "success",
         });
-        setTimeout(() => {
-          router.push("/courses/" + values.code);
-        }, 1000);
+        router.push("/courses/" + values.code);
       }
     } catch (error) {
       toast({

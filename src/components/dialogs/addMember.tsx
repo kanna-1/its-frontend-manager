@@ -73,10 +73,8 @@ export default function AddMemberDialog({
           title: "New Members Added",
           variant: "success",
         });
-        setTimeout(() => {
-          setOpen(false);
-          router.refresh();
-        }, 1000); // 1-second delay
+        setOpen(false);
+        router.refresh();
       }
     } catch (error) {
       toast({
