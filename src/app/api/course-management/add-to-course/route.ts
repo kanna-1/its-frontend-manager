@@ -68,23 +68,38 @@ export async function POST(req: Request) {
     var addedUsers: string[] = [];
 
     for (const email of emailsToAdd) {
-        const added = await prisma.user.update({
+        const user = await prisma.user.findUnique({
             where: {
                 email: email,
             },
-            data: {
-                joined_courses: {
-                    connect: {
-                        id: courseId,
-                    },
-                },
+          });
+
+          if (!user) {
+            return new NextResponse(
+              JSON.stringify({
+                status: 'error',
+                message: `User with email: ${email} does not exist.`,
+              }),
+              { status: 404 }
+            );
+          }
+
+          const added = await prisma.user.update({
+            where: {
+              email: email,
             },
-        });
+            data: {
+              joined_courses: {
+                connect: {
+                  id: courseId,
+                },
+              },
+            },
+          });
 
         if (added !== null && added.email !== null) {
             addedUsers.push(added.email);
         }
-        
     }
 
     return NextResponse.json({
