@@ -10,7 +10,6 @@ const res = await fetch('/api/course-management/remove-from-course', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    requestorEmail: requestorEmail,
     courseId: course.id,
     userEmailToRemove: selectedUser
   })
@@ -20,27 +19,10 @@ const res = await fetch('/api/course-management/remove-from-course', {
 
 export async function POST(req: Request) {
   try {
-    const { requestorEmail, courseId, userEmailToRemove } = (await req.json()) as {
-      requestorEmail: string,
+    const { courseId, userEmailToRemove } = (await req.json()) as {
       courseId: string,
       userEmailToRemove: string,
     };
-
-    const requestor = await prisma.user.findUnique({
-      where: {
-        email: requestorEmail,
-      },
-    });
-
-    if (!requestor || requestor.role !== 'TEACHER') {
-      return new NextResponse(
-        JSON.stringify({
-          status: 'error',
-          message: 'You do not have the permission to make this request.',
-        }),
-        { status: 500 } 
-      );
-    }
 
     const course = await prisma.course.findUnique({
       where: {
