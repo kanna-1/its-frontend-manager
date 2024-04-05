@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from 'next/navigation'
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -23,28 +19,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Course, User } from "@prisma/client";
-import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
-  emails: z.string()
+  emails: z.string(),
 });
 
-
-export default function AddMemberDialog({ user, course }: { user: User, course: Course }) {
+export default function AddMemberDialog({
+  user,
+  course,
+}: {
+  user: User;
+  course: Course;
+}) {
   const router = useRouter();
+  const { toast } = useToast();
   const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
-  // Clears the success and error when dialog opens
-  useEffect(() => {
-    if (open) {
-      setError('');
-      setSuccess(false);
-    }
-  }, [open]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,12 +51,8 @@ export default function AddMemberDialog({ user, course }: { user: User, course: 
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setError('');
-      setSuccess(false);
-      setSubmitting(true);
       if (!values.emails.trim()) {
-        setError("Email field cannot be empty!")
-        return
+        throw new Error("Email field cannot be empty!");
       }
       const res = await fetch("/api/course-management/add-to-course", {
         method: "POST",
@@ -74,60 +66,32 @@ export default function AddMemberDialog({ user, course }: { user: User, course: 
         },
       });
       const resBody = await res.json();
-      if (resBody.status == 'error') {
-        setError(resBody.message)
+      if (resBody.status == "error") {
+        throw new Error(resBody.message);
       } else {
-        setSuccess(true)
+        toast({
+          title: "New Members Added",
+          variant: "success",
+        });
         setTimeout(() => {
           setOpen(false);
           router.refresh();
-        }, 2000); // 2-second delay
+        }, 1000); // 1-second delay
       }
     } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false)
+      toast({
+        title: "Error Adding New Members",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   }
   return (
-      <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>Invite Member</Button>
       </DialogTrigger>
       <DialogContent>
-
-      {error && (
-        <p
-          style={{
-            backgroundColor: "#ffcccc",
-            fontWeight: "500",
-            color: "red",
-            padding: "10px",
-            textAlign: 'center',
-            borderRadius: "5px",
-            marginBottom: "10px",
-          }}
-        >
-          {error}
-        </p>
-      )}
-      {success && (
-        <p
-          style={{
-            backgroundColor: "#ccffcc",
-            fontWeight: "500",
-            color: "green",
-            padding: "10px",
-            textAlign: 'center',
-            borderRadius: "5px",
-            marginBottom: "10px",
-            fontSize: "10px",
-          }}
-        >
-          Student(s) successfully added!
-        </p>
-      )}
-
         <DialogHeader>
           <DialogTitle>Add new members</DialogTitle>
         </DialogHeader>
@@ -140,16 +104,22 @@ export default function AddMemberDialog({ user, course }: { user: User, course: 
                 <FormItem>
                   <FormLabel>New member emails</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
-                  <FormDescription>Please comma separate the emails without space</FormDescription>
+                  <FormDescription>
+                    Please comma separate the emails without space
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={submitting}>
-              {submitting ? 'Submitting...' : 'Submit'}
-            </Button>
+            <LoadingButton
+              type="submit"
+              loading={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+            </LoadingButton>
           </form>
         </Form>
       </DialogContent>

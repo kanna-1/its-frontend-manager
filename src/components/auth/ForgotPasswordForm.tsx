@@ -14,7 +14,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -24,7 +23,6 @@ const formSchema = z.object({
 
 export function ForgotPasswordForm() {
   const { toast } = useToast();
-  const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,7 +32,6 @@ export function ForgotPasswordForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setSubmitting(true);
     try {
       const res = await fetch("/api/forgot-password", {
         method: "POST",
@@ -63,7 +60,6 @@ export function ForgotPasswordForm() {
       });
     } finally {
       form.reset();
-      setSubmitting(false);
     }
   }
 
@@ -78,7 +74,7 @@ export function ForgotPasswordForm() {
               <FormControl>
                 <div className="flex space-x-2 items-center">
                   <Mail />
-                  <Input disabled={submitting} {...field} />
+                  <Input disabled={form.formState.isSubmitting} {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -89,8 +85,8 @@ export function ForgotPasswordForm() {
           <LoadingButton
             type="submit"
             className="w-3/4 mt-4"
-            loading={submitting}
-            disabled={submitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             Reset
           </LoadingButton>

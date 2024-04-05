@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -29,7 +28,6 @@ export function ResetPasswordForm() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,8 +38,6 @@ export function ResetPasswordForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setSubmitting(true);
-
       const res = await fetch("/api/reset-password", {
         method: "POST",
         body: JSON.stringify({
@@ -73,7 +69,6 @@ export function ResetPasswordForm() {
       });
     } finally {
       form.reset();
-      setSubmitting(false);
     }
   }
 
@@ -89,7 +84,11 @@ export function ResetPasswordForm() {
               <FormControl>
                 <div className="flex space-x-2 items-center">
                   <Lock />
-                  <Input type="password" disabled={submitting} {...field} />
+                  <Input
+                    type="password"
+                    disabled={form.formState.isSubmitting}
+                    {...field}
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -100,8 +99,8 @@ export function ResetPasswordForm() {
           <LoadingButton
             type="submit"
             className="w-3/4 mt-4"
-            loading={submitting}
-            disabled={submitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             Change Password
           </LoadingButton>

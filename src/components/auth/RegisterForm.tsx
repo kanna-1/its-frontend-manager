@@ -24,7 +24,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { School } from "@prisma/client";
 import { Landmark, Lock, Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -38,7 +37,6 @@ const formSchema = z.object({
 
 export function RegisterForm({ schools }: { schools: School[] }) {
   const { toast } = useToast();
-  const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,8 +49,6 @@ export function RegisterForm({ schools }: { schools: School[] }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setSubmitting(true);
-
       const res = await fetch("/api/register", {
         method: "POST",
         body: JSON.stringify(values),
@@ -86,7 +82,6 @@ export function RegisterForm({ schools }: { schools: School[] }) {
       });
     } finally {
       form.reset();
-      setSubmitting(false);
     }
   }
 
@@ -101,7 +96,7 @@ export function RegisterForm({ schools }: { schools: School[] }) {
               <FormControl>
                 <div className="flex space-x-2 items-center">
                   <Mail />
-                  <Input disabled={submitting} {...field} />
+                  <Input disabled={form.formState.isSubmitting} {...field} />
                 </div>
               </FormControl>
               <FormMessage />
@@ -117,7 +112,11 @@ export function RegisterForm({ schools }: { schools: School[] }) {
               <FormControl>
                 <div className="flex space-x-2 items-center">
                   <Lock />
-                  <Input type="password" disabled={submitting} {...field} />
+                  <Input
+                    type="password"
+                    disabled={form.formState.isSubmitting}
+                    {...field}
+                  />
                 </div>
               </FormControl>
               <FormMessage />
@@ -135,7 +134,7 @@ export function RegisterForm({ schools }: { schools: School[] }) {
                 <FormControl>
                   <div className="flex space-x-2 items-center">
                     <Landmark />
-                    <SelectTrigger>
+                    <SelectTrigger disabled={form.formState.isSubmitting}>
                       <SelectValue
                         placeholder="Select Institution"
                         {...field}
@@ -161,8 +160,8 @@ export function RegisterForm({ schools }: { schools: School[] }) {
           <LoadingButton
             type="submit"
             className="w-3/4 mt-4"
-            loading={submitting}
-            disabled={submitting}
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
           >
             Register
           </LoadingButton>
