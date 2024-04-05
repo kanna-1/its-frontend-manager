@@ -5,7 +5,7 @@ import AddMemberDialog from "@/components/dialogs/addMember";
 import NewQuestionDialog from "@/components/dialogs/newQuestion";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Question, Role, User } from "@prisma/client";
+import { Question, Role, User, Announcement } from "@prisma/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -29,6 +29,8 @@ export default async function CourseView({
 
   const courseQuestions: Question[] = course.questions;
   const courseMembers: User[] = course.members;
+  const courseAnnouncements: Announcement[] = course.announcements;
+
   return (
     <>
       <h1 className="text-2xl font-semibold">
