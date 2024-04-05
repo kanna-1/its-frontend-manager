@@ -1,4 +1,3 @@
-import { hash } from 'bcryptjs';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import {sendPasswordResetEmail} from '@/lib/send-reset-email';
