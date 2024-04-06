@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import React from "react";
 
 export default async function SignUpView() {
   const schools = await getSchools().then((schools) =>

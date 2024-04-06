@@ -82,6 +82,8 @@ export default function AddMemberDialog({
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      form.reset();
     }
   }
   return (
