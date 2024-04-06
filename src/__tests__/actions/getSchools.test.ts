@@ -15,6 +15,13 @@ describe('/actions/getSchools', () => {
         // Call the function
         const school = await getSchools();
         expect(school).toEqual(schools);
+    })
 
+    test('should return error', async () => {
+        prismaMock.school.findMany.mockRejectedValue(new Error())
+
+        // Call the function
+        const school = await getSchools();
+        expect(school).toEqual(null);
     })
 })

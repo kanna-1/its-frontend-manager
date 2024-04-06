@@ -55,4 +55,11 @@ describe('/actions/getQuestionSubmissions', () => {
 
     })
 
+    test('should return error', async () => {
+        prismaMock.question.findUnique.mockRejectedValue(new Error())
+
+        // Call the function
+        const questionSubmission = await getQuestionSubmissions({questionId: "question_1"});
+        expect(questionSubmission).toEqual(null);
+    })
 })

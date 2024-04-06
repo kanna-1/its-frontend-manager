@@ -66,4 +66,12 @@ describe('/actions/setSubmissionGrade', () => {
         const submission = await setSubmissionGrade({submission_id: "submission_1", grade: 100});
         expect(submission).toEqual(submission1);
     })
+
+    test('should return error', async () => {
+        prismaMock.submission.update.mockRejectedValue(new Error())
+
+        // Call the function
+        const submission = await setSubmissionGrade({submission_id: "submission_1", grade: 100});
+        expect(submission).toEqual(null);
+    })
 })

@@ -53,4 +53,14 @@ describe('/actions/getMySubmissions', () => {
         expect(submission).toEqual(null);
 
     })
+
+    test('should return error', async () => {
+
+        prismaMock.user.findUnique.mockRejectedValue(new Error())
+
+        // Call the function
+        const submission = await getMySubmissions({question_id: "question_2", user_email: ""});
+        expect(submission).toEqual(null);
+
+    })
 })

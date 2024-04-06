@@ -26,7 +26,33 @@ describe('/actions/getCourseInfo', () => {
         const course = await getCourseInfo(courseId);
         expect(course).toEqual(test_course);
 
+    })
 
+    test('should not return course info as course is null', async () => {
+        prismaMock.course.findUnique.mockResolvedValue(null)
+
+        const courseId = {
+            json: async () => ({
+                courseId: ''
+            }), } as any
+
+        // Call the function
+        const course = await getCourseInfo(courseId);
+        expect(course).toEqual(null);
+
+    })
+
+    test('should return error', async () => {
+        prismaMock.course.findUnique.mockRejectedValue(new Error())
+
+        const courseId = {
+            json: async () => ({
+                courseId: 'inst001_CS3213'
+            }), } as any
+
+        // Call the function
+        const course = await getCourseInfo(courseId);
+        expect(course).toEqual(null);
     })
 })
 

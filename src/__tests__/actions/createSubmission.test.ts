@@ -63,4 +63,48 @@ describe('/actions/createSubmission', () => {
         expect(createdSubmission).toEqual(newSubmission);
 
     })
+
+    test('should return error', async () => {
+        prismaMock.submission.create.mockRejectedValue(new Error())
+
+        const student = {
+            id: "1",
+            email: "student@test.com",
+            password: "password123",
+            role: Role.STUDENT,
+            school_id: "inst001",
+        }
+
+        const course = {
+            id: "inst001_CS3213",
+            code: "CS3213",
+            name: "Foundations of Software Engineering",
+            creator_id: 'teacher@test.com',
+            school_id: 'inst001',
+        }
+
+        const question = {
+
+            id: "question_1",
+            title: "question title",
+            description: "question description",
+            language: "python",
+            entry_function: "",
+            io_input: "",
+            func_args: "",
+            reference_program: "",
+            courseId: "",
+        }
+
+        const question_param = {
+
+            ...question,
+            course: course,
+            submissions: []
+        };
+
+        // Call the function
+        const createdSubmission = await createSubmission({user:student, question:question_param, student_solution_url:""});
+        expect(createdSubmission).toEqual(null);
+    })
 })

@@ -32,4 +32,12 @@ describe('/actions/setSubmissionFeedback', () => {
 
     })
 
+    test('should return error', async () => {
+        prismaMock.submission.update.mockRejectedValue(new Error())
+
+        // Call the function
+        const submission = await setSubmissionFeedback({submission_id: "submission_1", feedback:""});
+        expect(submission).toEqual(null);
+    })
+
 })
