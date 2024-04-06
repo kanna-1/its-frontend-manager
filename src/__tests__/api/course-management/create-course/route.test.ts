@@ -88,6 +88,24 @@ describe('/api/course-management/create-course/route', () => {
 
     })
 
+    test('should return status 500 when error is encountered', async () => {
 
+        prismaMock.course.findUnique.mockRejectedValue(new Error())
+
+        const requestObj = {
+            json: async () => ({
+                user_id: "teacher@test.com",
+                user_role: Role.TEACHER,
+                school_id: "inst001",
+                code: "CS3213",
+                name: "Software Engineering",
+            }), } as any
+
+        // Call the POST function
+        const response = await POST(requestObj);
+
+        // Check the response
+        expect(response.status).toBe(500);
+    })
 
 })

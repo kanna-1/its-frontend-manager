@@ -35,4 +35,20 @@ describe('/api/user-management/delete-row/route', () => {
         expect(response.status).toBe(200);
         expect(body).toEqual(expected_response)
     })
+
+    test('should return status 500 when error is encountered', async () => {
+
+        prismaMock.user.delete.mockRejectedValue(new Error())
+        const requestObj = {
+            json: async () => ({
+                email: 'student@test.com'
+            }), } as any
+
+        // Call the POST function
+        const response = await DELETE(requestObj);
+        const body = await response.json();
+
+        // Check the response
+        expect(response.status).toBe(500);
+    })
 })
