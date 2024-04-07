@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User } from "@prisma/client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const formSchema = z.object({
   code: z.string(),
@@ -41,11 +41,31 @@ export default function NewCourseDialog({ user }: { user: User }) {
     },
   });
 
+  
+  const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (open) {
+      setError('');
+      setSuccess(false);
+    }
+  }, [open]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setError('');
+      setSuccess(false);
+      if (!values.code.trim()) {
+        setError("Course code cannot be empty!")
+        return
+      }
+      if (!values.name.trim()) {
+        setError("Course name cannot be empty!")
+        return
+      }
       setSubmitting(true);
       const res = await fetch("/api/course-management/create-course", {
         method: "POST",
@@ -75,21 +95,41 @@ export default function NewCourseDialog({ user }: { user: User }) {
     }
   }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button>New Course</Button>
       </DialogTrigger>
       <DialogContent>
+
+      {error && (
+        <p
+          style={{
+            backgroundColor: "#ffcccc",
+            fontWeight: "500",
+            color: "red",
+            padding: "10px",
+            textAlign: 'center',
+            borderRadius: "5px",
+            marginBottom: "10px",
+          }}
+        >
+          {error}
+        </p>
+      )}
+
       {success && 
         <p style={{
-          backgroundColor: '#D1E7DD',
-          color: '#155724',
-          padding: '10px',
-          borderRadius: '5px',
+          backgroundColor: "#ccffcc",
+          fontWeight: "500",
+          color: "green",
+          padding: "10px",
           textAlign: 'center',
-          marginBottom: '10px',
+          borderRadius: "5px",
+          marginBottom: "10px",
+          fontSize: "10px",
         }}>Course created successfully!</p>
       }
+
         <DialogHeader>
           <DialogTitle>Create a new course</DialogTitle>
           <DialogDescription>

@@ -24,6 +24,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Role } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   institution: string;
@@ -51,8 +52,13 @@ export function DataTable<TData, TValue>({
   const filteredData = filterValue ? filterData(data, filterValue) : data;
   const [rowSelection, setRowSelection] = React.useState({});
 
+  // Filter out data where role is ADMIN
+  const filteredDataWithoutAdmin = filteredData.filter(
+    (item: any) => item.role !== Role.ADMIN
+  );
+
   const table = useReactTable({
-    data,
+    data: filteredDataWithoutAdmin,
     columns,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
