@@ -96,7 +96,7 @@ export default function NewCourseDialog({ user }: { user: User }) {
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>New Course</Button>
       </DialogTrigger>
       <DialogContent>
