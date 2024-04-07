@@ -4,13 +4,9 @@
 import { POST } from '@/app/api/forgot-password/route'
 import { prismaMock } from '@/prisma-mock';
 import { Role } from "@prisma/client";
-import { createPasswordResetToken } from "@/lib/tokens";
-import { sendPasswordResetEmail } from "@/lib/send-reset-email";
-
 
 describe('/api/forgot-password/route', () => {
     test('should return status 200 when user can forget password', async () => {
-
         const passwordResetToken = {
             id: "1",
             email: "student1@test.com",
@@ -20,12 +16,12 @@ describe('/api/forgot-password/route', () => {
 
         // Mock createPasswordResetToken
         jest.mock('@/lib/tokens', () => ({
-            createPasswordResetToken: jest.fn().mockResolvedValue(null),
+            createPasswordResetToken: jest.fn().mockResolvedValue(passwordResetToken),
         }))
 
         // Mock sendPasswordResetEmail
         jest.mock('@/lib/send-reset-email', () => ({
-            sendPasswordResetEmail: jest.fn().mockResolvedValue(null),
+            sendPasswordResetEmail: jest.fn().mockImplementationOnce(() => Promise.resolve()),
         }));
 
         const requestObj = {
@@ -43,39 +39,46 @@ describe('/api/forgot-password/route', () => {
 
         prismaMock.user.findUnique.mockResolvedValue(student)
 
-
         // Call the POST function
         const response = await POST(requestObj);
         const body = await response.json();
 
         // Check the response
         const expected_response = {
-            user: {
+            reset: {
                 email: 'student1@test.com',
             }
         }
         expect(response.status).toBe(200);
-        // expect(body).toEqual(expected_response);
-
+        expect(body).toEqual(expected_response);
     })
 
-    // test('should return status 500 when reset password is null', async () => {
+    test('should return status 500 when user is not found', async () => {
+        const requestObj = {
+            json: async () => ({
+                email: ""
+            }), } as any
 
-    //     const requestObj = {
-    //         json: async () => ({
-    //             password: "password123",
-    //             token: "token123"
-    //         }), } as any
+        prismaMock.user.findUnique.mockResolvedValue(null)
 
-    //     prismaMock.passwordResetToken.findUnique.mockResolvedValue(null)
+        // Call the POST function
+        const response = await POST(requestObj);
 
-    //     // Call the POST function
-    //     const response = await POST(requestObj);
-    //     const body = await response.json();
+        expect(response.status).toBe(500);
+    })
 
-    //     expect(response.status).toBe(500);
-    //     expect(body.message).toEqual("Null password reset token");
+    test('should return status 500 when error is encountered', async () => {
+        const requestObj = {
+            json: async () => ({
+                email: ""
+            }), } as any
 
-    // })
+        prismaMock.user.findUnique.mockRejectedValue(new Error())
+
+        // Call the POST function
+        const response = await POST(requestObj);
+
+        expect(response.status).toBe(500);
+    })
 
 })
