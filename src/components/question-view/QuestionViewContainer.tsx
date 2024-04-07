@@ -28,9 +28,16 @@ export default function QuestionViewContainer({
 }) {
   const router = useRouter();
   const [editorContent, setEditorContent] = useState("");
+  const [shouldApplyDecorations, setShouldApplyDecorations] = useState(false);
   const [feedbacks, setFeedbacks] = useState<FeedbackType[]>([]);
   const handleEditorChange = (value: string | undefined) => {
     setEditorContent(value || "");
+    setShouldApplyDecorations(false)
+  };
+
+  const handleFeedbackChange = (value: FeedbackType) => {
+    setFeedbacks([value])
+    setShouldApplyDecorations(true);
   };
 
   const handleSubmission = async () => {
@@ -92,6 +99,8 @@ export default function QuestionViewContainer({
             <QuestionViewEditor
               language={question.language}
               handleEditorChange={handleEditorChange}
+              feedback={feedbacks}
+              shouldApplyDecorations={shouldApplyDecorations}
             />
           </div>
           <Separator />
@@ -105,7 +114,7 @@ export default function QuestionViewContainer({
                 await getCodeFeedback({
                   question: question,
                   student_solution: editorContent,
-                }).then((feedbacks) => setFeedbacks(feedbacks))
+                }).then((feedbacks) => handleFeedbackChange(feedbacks))
               }
             >
               Run Check

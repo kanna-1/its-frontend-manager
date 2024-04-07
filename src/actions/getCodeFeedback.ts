@@ -47,6 +47,8 @@ import { Question } from "@prisma/client";
 
 const parserApiUrl = "https://its.comp.nus.edu.sg/cs3213/parser";
 const feedbackFixApiUrl = "https://its.comp.nus.edu.sg/cs3213/feedback_fix";
+//const feedbackFixApiUrl = "http://localhost:9123"; 
+
 const language_map = {
   py: "python",
   c: "c",
@@ -84,7 +86,6 @@ export async function getCodeFeedback({
       inputs: question.io_input,
       args: question.func_args,
     });
-
     return feedback;
   } catch (error) {
     console.error(error);
@@ -128,6 +129,7 @@ async function generateFeedback(req): Promise<any> {
     if (!feedback.ok) {
       throw new Error("Network response was not ok");
     }
+    
     return feedback.json();
   } catch (error) {
     console.error("Error generating feedback:", error);
