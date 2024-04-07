@@ -13,7 +13,8 @@ describe('/actions/getCourseInfo', () => {
             creator_id: 'teacher@test.com',
             school_id: 'inst001',
             questions: [],
-            members: []
+            members: [],
+            announcements: []
         }
         prismaMock.course.findUnique.mockResolvedValue(test_course)
 
