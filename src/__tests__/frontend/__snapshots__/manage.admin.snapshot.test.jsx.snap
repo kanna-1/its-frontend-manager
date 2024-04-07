@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders admin's user management page unchanged 1`] = `
+<div>
+  <h1
+    class="text-xl font-semibold mb-2"
+  >
+    User Management
+  </h1>
+  <div
+    class="flex items-center justify-between mb-4"
+  >
+    <p>
+      Institution: 
+      mockSchoolName
+    </p>
+    <input
+      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-sm"
+      placeholder="Search by email"
+      value=""
+    />
+  </div>
+  <div
+    class="rounded-md border"
+  >
+    <div
+      class="relative w-full overflow-auto"
+    >
+      <table
+        class="w-full caption-bottom text-sm"
+      >
+        <thead
+          class="[&_tr]:border-b"
+        >
+          <tr
+            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+          >
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Select
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Email
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Role
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              ID
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="[&_tr:last-child]:border-0"
+        >
+          <tr
+            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+            data-state="false"
+          >
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              <button
+                aria-checked="false"
+                aria-label="Select row"
+                class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                data-state="unchecked"
+                role="checkbox"
+                type="button"
+                value="on"
+              />
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              mockEmail2
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              TEACHER
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              mockId2
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="menu"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+                data-state="closed"
+                id="radix-:r0:"
+                type="button"
+              >
+                <span
+                  class="sr-only"
+                >
+                  Open menu
+                </span>
+                <svg
+                  class="lucide lucide-more-horizontal h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="1"
+                  />
+                  <circle
+                    cx="19"
+                    cy="12"
+                    r="1"
+                  />
+                  <circle
+                    cx="5"
+                    cy="12"
+                    r="1"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr
+            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+            data-state="false"
+          >
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              <button
+                aria-checked="false"
+                aria-label="Select row"
+                class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                data-state="unchecked"
+                role="checkbox"
+                type="button"
+                value="on"
+              />
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              mockEmail3
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              STUDENT
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              mockId3
+            </td>
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+            >
+              <button
+                aria-expanded="false"
+                aria-haspopup="menu"
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
+                data-state="closed"
+                id="radix-:r2:"
+                type="button"
+              >
+                <span
+                  class="sr-only"
+                >
+                  Open menu
+                </span>
+                <svg
+                  class="lucide lucide-more-horizontal h-4 w-4"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="1"
+                  />
+                  <circle
+                    cx="19"
+                    cy="12"
+                    r="1"
+                  />
+                  <circle
+                    cx="5"
+                    cy="12"
+                    r="1"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

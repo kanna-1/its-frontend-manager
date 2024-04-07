@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders teacher's courses page unchanged 1`] = `
+<div>
+  <div
+    class="flex justify-between items-center"
+  >
+    <h1
+      class="text-xl font-semibold"
+    >
+      My Courses
+    </h1>
+    <button
+      aria-controls="radix-:r0:"
+      aria-expanded="false"
+      aria-haspopup="dialog"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+      data-state="closed"
+      type="button"
+    >
+      New Course
+    </button>
+  </div>
+  <div
+    class="grid grid-cols-4 lg:grid-cols-8 gap-4 mt-4 p-4 border rounded-md min-h-[calc(100vh-160px)]"
+  >
+    <a
+      href="/courses/mockCourseCode1"
+    >
+      <div
+        class="rounded-lg border bg-card text-card-foreground shadow-sm"
+      >
+        <div
+          class="flex flex-col space-y-1.5 p-6"
+        >
+          <h3
+            class="text-2xl font-semibold leading-none tracking-tight flex items-center space-x-2"
+          >
+            <span>
+              mockCourseCode1
+            </span>
+            <svg
+              class="lucide lucide-clipboard-check "
+              fill="none"
+              height="17"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              style="margin-bottom: 2px;"
+              viewBox="0 0 24 24"
+              width="17"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="4"
+                rx="1"
+                ry="1"
+                width="8"
+                x="8"
+                y="2"
+              />
+              <path
+                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+              />
+              <path
+                d="m9 14 2 2 4-4"
+              />
+            </svg>
+          </h3>
+        </div>
+        <div
+          class="p-6 pt-0 space-y-2"
+        >
+          <h4
+            class="font-medium"
+          >
+            mockCourseName1
+          </h4>
+        </div>
+      </div>
+    </a>
+    <a
+      href="/courses/mockCourseCode2"
+    >
+      <div
+        class="rounded-lg border bg-card text-card-foreground shadow-sm"
+      >
+        <div
+          class="flex flex-col space-y-1.5 p-6"
+        >
+          <h3
+            class="text-2xl font-semibold leading-none tracking-tight flex items-center space-x-2"
+          >
+            <span>
+              mockCourseCode2
+            </span>
+          </h3>
+        </div>
+        <div
+          class="p-6 pt-0 space-y-2"
+        >
+          <h4
+            class="font-medium"
+          >
+            mockCourseName2
+          </h4>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+`;
