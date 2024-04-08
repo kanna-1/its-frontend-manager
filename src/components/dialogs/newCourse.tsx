@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from 'next/navigation'
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -23,8 +19,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
-import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
   code: z.string(),
@@ -33,6 +34,9 @@ const formSchema = z.object({
 
 export default function NewCourseDialog({ user }: { user: User }) {
   const router = useRouter();
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,32 +45,14 @@ export default function NewCourseDialog({ user }: { user: User }) {
     },
   });
 
-  
-  const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    if (open) {
-      setError('');
-      setSuccess(false);
-    }
-  }, [open]);
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setError('');
-      setSuccess(false);
       if (!values.code.trim()) {
-        setError("Course code cannot be empty!")
-        return
+        throw new Error("Course code cannot be empty.");
       }
       if (!values.name.trim()) {
-        setError("Course name cannot be empty!")
-        return
+        throw new Error("Course name cannot be empty.");
       }
-      setSubmitting(true);
       const res = await fetch("/api/course-management/create-course", {
         method: "POST",
         body: JSON.stringify({
@@ -82,16 +68,19 @@ export default function NewCourseDialog({ user }: { user: User }) {
       });
 
       const resBody = await res.json();
-      if (resBody.status == 'success') {
-        setSuccess(true);
-        setTimeout(() => {
-          router.push('/courses/' + values.code);
-        }, 1000);
+      if (resBody.status == "success") {
+        toast({
+          title: "New Course Created",
+          variant: "success",
+        });
+        router.push("/courses/" + values.code);
       }
     } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false);
+      toast({
+        title: "Error Creating New Course",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   }
   return (
@@ -100,40 +89,11 @@ export default function NewCourseDialog({ user }: { user: User }) {
         <Button>New Course</Button>
       </DialogTrigger>
       <DialogContent>
-
-      {error && (
-        <p
-          style={{
-            backgroundColor: "#ffcccc",
-            fontWeight: "500",
-            color: "red",
-            padding: "10px",
-            textAlign: 'center',
-            borderRadius: "5px",
-            marginBottom: "10px",
-          }}
-        >
-          {error}
-        </p>
-      )}
-
-      {success && 
-        <p style={{
-          backgroundColor: "#ccffcc",
-          fontWeight: "500",
-          color: "green",
-          padding: "10px",
-          textAlign: 'center',
-          borderRadius: "5px",
-          marginBottom: "10px",
-          fontSize: "10px",
-        }}>Course created successfully!</p>
-      }
-
         <DialogHeader>
           <DialogTitle>Create a new course</DialogTitle>
           <DialogDescription>
-            This action cannot be reversed. Please review the course details carefully before proceeding.
+            This action cannot be reversed. Please review the course details
+            carefully before proceeding.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -145,7 +105,7 @@ export default function NewCourseDialog({ user }: { user: User }) {
                 <FormItem>
                   <FormLabel>Course Code</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -158,15 +118,19 @@ export default function NewCourseDialog({ user }: { user: User }) {
                 <FormItem>
                   <FormLabel>Course Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={submitting}>
-              {submitting ? 'Submitting...' : 'Submit'}
-            </Button>
+            <LoadingButton
+              type="submit"
+              loading={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+            </LoadingButton>
           </form>
         </Form>
       </DialogContent>

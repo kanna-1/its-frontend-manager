@@ -1,21 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import type { PutBlobResult } from "@vercel/blob";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -25,15 +10,30 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { User } from "@prisma/client";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { PutBlobResult } from "@vercel/blob";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
   title: z.string(),
@@ -46,6 +46,7 @@ const formSchema = z.object({
 
 export default function NewQuestionForm({ courseId }: { courseId: string }) {
   const router = useRouter();
+  const { toast } = useToast();
   const inputRefFileRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -89,10 +90,18 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
         },
       });
       setOpen(false);
-      form.reset()
+      toast({
+        title: "New Question Created",
+        variant: "success",
+      });
+      form.reset();
       router.refresh();
     } catch (error) {
-      console.error(error);
+      toast({
+        title: "Error Creating New Question",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   }
   return (
@@ -116,7 +125,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,7 +138,10 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea
+                      {...field}
+                      disabled={form.formState.isSubmitting}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,7 +158,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger disabled={form.formState.isSubmitting}>
                         <SelectValue placeholder="Select a programming languange" />
                       </SelectTrigger>
                     </FormControl>
@@ -174,7 +186,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>Entry Function</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -187,7 +199,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>IO Inputs</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -200,13 +212,19 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
                 <FormItem>
                   <FormLabel>Function Arguments</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={form.formState.isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <LoadingButton
+              type="submit"
+              loading={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting}
+            >
+              Submit
+            </LoadingButton>
           </form>
         </Form>
       </DialogContent>

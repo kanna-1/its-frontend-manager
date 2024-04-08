@@ -4,7 +4,7 @@ import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
 import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
 import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
 import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -118,7 +118,10 @@ export default function SubmissionViewContainer({
                       <FormItem>
                         <FormLabel>Feedback</FormLabel>
                         <FormControl>
-                          <Textarea {...field} />
+                          <Textarea
+                            {...field}
+                            disabled={form.formState.isSubmitting}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -135,6 +138,7 @@ export default function SubmissionViewContainer({
                             <Input
                               type="number"
                               {...field}
+                              disabled={form.formState.isSubmitting}
                               onChange={(value) =>
                                 field.onChange(value.target.valueAsNumber)
                               }
@@ -144,7 +148,13 @@ export default function SubmissionViewContainer({
                         </FormItem>
                       )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <LoadingButton
+                      type="submit"
+                      loading={form.formState.isSubmitting}
+                      disabled={form.formState.isSubmitting}
+                    >
+                      {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+                    </LoadingButton>
                   </div>
                 </form>
               </Form>

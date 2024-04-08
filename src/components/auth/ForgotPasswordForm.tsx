@@ -1,13 +1,6 @@
-"use client"
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { z, TypeOf, object, string } from "zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button"
-import { useRouter } from 'next/navigation';
-import { useState, useTransition  } from 'react';
-import { signIn } from 'next-auth/react';
+"use client";
+
+import { LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,117 +8,90 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const formSchema = z.object({
-    email: z.string(),
-})
-
-type ResetUserInput = TypeOf<typeof formSchema>;
+  email: z.string().email({ message: "Invalid email format" }),
+});
 
 export function ForgotPasswordForm() {
-    const router = useRouter();
-    const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-        email: ""
-      },
-    })
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
-    const {
-        reset,
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = form;
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/forgot-password", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-
-    const onSubmitHandler: SubmitHandler<ResetUserInput> = async (values) => {
-        try {
-            setSubmitting(true);
-            setError(null);
-            const res = await fetch("/api/forgot-password", {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-            });
-
-            if (!res.ok) {
-                const message = (await res.json()).message;
-                return;
-            }
-            signIn(undefined, { callbackUrl: "/" });
-
-        } catch (error: any) {
-            setError(error.message);
-            console.error(error);
-        } finally {
-            setSubmitting(false);
-        }
+      if (res.ok) {
+        toast({
+          title: "Login Success",
+          description: "Welcome back!",
+          variant: "success",
+        });
+        signIn(undefined, { callbackUrl: "/" });
+      } else {
+        const message = (await res.json()).message;
+        throw new Error(message);
+      }
+    } catch (error) {
+      toast({
+        title: "Password Reset Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      form.reset();
     }
+  }
 
-    return (
-        <Form {...form}>
-            {error && (
-            <p
-            style={{
-                backgroundColor: "#ffcccc",
-                fontWeight: "500",
-                color: "red",
-                padding: "10px",
-                borderRadius: "5px",
-                marginBottom: "10px",
-            }}
-            >
-            {error}
-            </p>
-            )}
-            <form onSubmit={handleSubmit(onSubmitHandler)}>
-                <FormField
-                name="email"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Your Email</FormLabel>
-                            <FormControl>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    marginBottom: 10,
-                                    marginTop: 10,
-                                }}
-                                >
-                                <Mail size={30} style={{ marginRight: 8 }} />
-                                <Input
-                                    style={{ width: "500px" }}
-                                    placeholder="e.g. jane@doe.com"
-                                    {...register("email")}
-                                />
-                                </div>
-                            </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <div style={{ textAlign: "center", paddingBottom: 15, paddingTop: 5 }}>
-                    <Button
-                        type="submit"
-                        style={{ width: 200, borderRadius: 10 }}
-                        disabled={submitting}
-                    >
-                        Send reset email
-                    </Button>
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email Address</FormLabel>
+              <FormControl>
+                <div className="flex space-x-2 items-center">
+                  <Mail />
+                  <Input disabled={form.formState.isSubmitting} {...field} />
                 </div>
-            </form>
-
-            <hr style={{ borderColor: 'gray'}} />
-        </Form>
-    );
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-col w-full justify-center items-center text-center">
+          <LoadingButton
+            type="submit"
+            className="w-3/4 mt-4"
+            loading={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting}
+          >
+            Reset
+          </LoadingButton>
+        </div>
+      </form>
+    </Form>
+  );
 }
