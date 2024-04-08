@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders admin's user management page unchanged 1`] = `
+exports[`renders teacher's course page unchanged 1`] = `
 <div>
   <h1
     class="text-2xl font-semibold"
