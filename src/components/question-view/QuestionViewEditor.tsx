@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import Editor, { Monaco } from "@monaco-editor/react";
+import React, { useEffect, useRef } from "react";
+import Editor, { Monaco, OnMount } from "@monaco-editor/react";
 import { FeedbackType } from "./QuestionViewFeedback";
-import { getCodeFeedback } from "@/actions/getCodeFeedback";
+import * as monaco from "monaco-editor";
 
 export default function QuestionViewEditor({
   handleEditorChange,
@@ -14,11 +14,12 @@ export default function QuestionViewEditor({
   feedback: FeedbackType[];
   shouldApplyDecorations: boolean;
 }) {
-  const editorRef = useRef<any>(null);
-  const monacoRef = useRef<any>(null);
+  
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const monacoRef = useRef<Monaco | null>(null);
   
 
-  function applyDecorations(editor: any, monaco: any, feedback: FeedbackType[]) {
+  function applyDecorations(editor: monaco.editor.IStandaloneCodeEditor | null,  feedback: FeedbackType[]) {
     if (!editor || !editor.getModel()) return;
 
     const decorations = feedback.map((fb, index) => ({
@@ -32,22 +33,20 @@ export default function QuestionViewEditor({
     return editor.deltaDecorations([], decorations);
   }
 
-  function handleEditorDidMount(editor, monaco) {
+  const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-  }
+  };
+
   
   useEffect(() => {
     if (shouldApplyDecorations && feedback.length > 0) {
       console.log("feedback", feedback[0].lineNumber == null)
       const editor = editorRef.current;
-      const monaco = monacoRef.current;
       
       for (let i = 0; i < feedback.length; i++) {
-        console.log("test")
         if (feedback[i].lineNumber != null) {
-          console.log("hi")
-          applyDecorations(editor, monaco, feedback);
+          applyDecorations(editor, feedback);
         }
         
       }
