@@ -3,6 +3,7 @@ import { getUserProps } from "@/actions/getUserProps";
 import QuestionCard from "@/components/cards/question-card";
 import AddMemberDialog from "@/components/dialogs/addMember";
 import NewQuestionDialog from "@/components/dialogs/newQuestion";
+import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
 import DataTableContainer from "@/components/course-member-list/DataTableContainer";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +11,8 @@ import { Question, Role, User, Announcement } from "@prisma/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from '@/lib/auth';
-
+import AnnouncementCard from "@/components/cards/announcement-card";
+import { DateTime } from 'luxon';
 export default async function CourseView({
   params,
 }: {
@@ -33,6 +35,8 @@ export default async function CourseView({
   const courseMembers: User[] = course.members;
   const courseAnnouncements: Announcement[] = course.announcements;
 
+  const reversedAnnouncements = courseAnnouncements.slice().reverse();
+
   return (
     <>
       <h1 className="text-2xl font-semibold">
@@ -50,7 +54,18 @@ export default async function CourseView({
           <TabsContent value="home">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-medium">Announcements</h3>
-              <Button variant="secondary">New Announcement</Button>
+              {user.role == Role.TEACHER && (
+                <NewAnnouncementDialog user={user} courseId={course.id} />
+              )}
+            </div>
+            <div className="mt-2 space-y-4">
+              {reversedAnnouncements.map((announcement, index) => (
+                  <AnnouncementCard
+                    announcementTitle={announcement.title}
+                    announcementBody={announcement.body}
+                    announcementDate={announcement.time.toString()}
+                  />
+              ))}
             </div>
           </TabsContent>
           <TabsContent value="questions">
