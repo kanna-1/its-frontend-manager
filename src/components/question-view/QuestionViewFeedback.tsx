@@ -20,9 +20,9 @@ export default function QuestionViewFeedback({
             <p>New Expression: {feedback.newExpr}</p>
             <p>
               Possible Repair:{" "}
-              {feedback.repairStrings.map((repair, index) => (
+              {feedback.repairStrings ? (feedback.repairStrings.map((repair, index) => (
                 <span key={index}>{repair}</span>
-              ))}
+              ))): <span>No repair suggestions </span>}
             </p>
           </div>
         ))
