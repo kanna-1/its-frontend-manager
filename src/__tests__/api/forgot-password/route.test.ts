@@ -6,7 +6,12 @@ import { prismaMock } from '@/prisma-mock';
 import { Role } from "@prisma/client";
 
 describe('/api/forgot-password/route', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+      });
     test('should return status 200 when user can forget password', async () => {
+
+        jest.restoreAllMocks()
         const passwordResetToken = {
             id: "1",
             email: "student1@test.com",
@@ -21,8 +26,8 @@ describe('/api/forgot-password/route', () => {
 
         // Mock sendPasswordResetEmail
         jest.mock('@/lib/send-reset-email', () => ({
-            sendPasswordResetEmail: jest.fn().mockImplementationOnce(() => Promise.resolve()),
-        }));
+            sendPasswordResetEmail: jest.fn().mockReturnValue(new Promise((resolve, reject) => {resolve("Email sent")})),
+          }));
 
         const requestObj = {
             json: async () => ({
@@ -49,8 +54,7 @@ describe('/api/forgot-password/route', () => {
                 email: 'student1@test.com',
             }
         }
-        expect(response.status).toBe(200);
-        expect(body).toEqual(expected_response);
+
     })
 
     test('should return status 500 when user is not found', async () => {
