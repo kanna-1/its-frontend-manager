@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders teacher's course page unchanged 1`] = `
+<div>
+  <h1
+    class="text-2xl font-semibold"
+  >
+    mock123
+     
+    <span
+      class="font-light"
+    >
+      mockCourse
+    </span>
+  </h1>
+  <div
+    class="flex flex-row mt-4 space-x-8"
+    data-orientation="horizontal"
+    dir="ltr"
+  >
+    <div
+      aria-orientation="horizontal"
+      class="flex-row items-center justify-start space-y-4 text-muted-foreground w-32"
+      data-orientation="horizontal"
+      role="tablist"
+      style="outline: none;"
+      tabindex="0"
+    >
+      <button
+        aria-controls="radix-:r0:-content-home"
+        aria-selected="true"
+        class="w-full text-center items-center justify-center whitespace-nowrap rounded-full p-3 bg-muted font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-muted-foreground data-[state=active]:text-white data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="active"
+        id="radix-:r0:-trigger-home"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        Home
+      </button>
+      <button
+        aria-controls="radix-:r0:-content-questions"
+        aria-selected="false"
+        class="w-full text-center items-center justify-center whitespace-nowrap rounded-full p-3 bg-muted font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-muted-foreground data-[state=active]:text-white data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        id="radix-:r0:-trigger-questions"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        Questions
+      </button>
+      <button
+        aria-controls="radix-:r0:-content-people"
+        aria-selected="false"
+        class="w-full text-center items-center justify-center whitespace-nowrap rounded-full p-3 bg-muted font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-muted-foreground data-[state=active]:text-white data-[state=active]:shadow-sm"
+        data-orientation="horizontal"
+        data-radix-collection-item=""
+        data-state="inactive"
+        id="radix-:r0:-trigger-people"
+        role="tab"
+        tabindex="-1"
+        type="button"
+      >
+        People
+      </button>
+    </div>
+    <div
+      class="w-full"
+    >
+      <div
+        aria-labelledby="radix-:r0:-trigger-home"
+        class="p-4 border rounded-md min-h-[calc(100vh-160px)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        data-orientation="horizontal"
+        data-state="active"
+        id="radix-:r0:-content-home"
+        role="tabpanel"
+        style="animation-duration: 0s;"
+        tabindex="0"
+      >
+        <div
+          class="flex items-center justify-between"
+        >
+          <h3
+            class="text-xl font-medium"
+          >
+            Announcements
+          </h3>
+          <button
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2"
+          >
+            New Announcement
+          </button>
+        </div>
+      </div>
+      <div
+        aria-labelledby="radix-:r0:-trigger-questions"
+        class="p-4 border rounded-md min-h-[calc(100vh-160px)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        data-orientation="horizontal"
+        data-state="inactive"
+        hidden=""
+        id="radix-:r0:-content-questions"
+        role="tabpanel"
+        tabindex="0"
+      />
+      <div
+        aria-labelledby="radix-:r0:-trigger-people"
+        class="p-4 border rounded-md min-h-[calc(100vh-160px)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        data-orientation="horizontal"
+        data-state="inactive"
+        hidden=""
+        id="radix-:r0:-content-people"
+        role="tabpanel"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</div>
+`;
