@@ -1,23 +1,24 @@
 "use client";
 
-import Link from "next/link";
+import { createSubmission } from "@/actions/createSubmission";
+import { getCodeFeedback } from "@/actions/getCodeFeedback";
+import QuestionViewFeedback, {
+  FeedbackType,
+} from "@/components/question-view//QuestionViewFeedback";
+import QuestionViewEditor from "@/components/question-view/QuestionViewEditor";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import QuestionViewEditor from "@/components/question-view/QuestionViewEditor";
-import QuestionViewFeedback, {
-  FeedbackType,
-} from "@/components/question-view//QuestionViewFeedback";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { getCodeFeedback } from "@/actions/getCodeFeedback";
-import { Course, Question, Submission, User } from "@prisma/client";
-import { createSubmission } from "@/actions/createSubmission";
-import { useRouter } from "next/navigation";
-import { PutBlobResult } from "@vercel/blob";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import { Course, Question, Submission, User } from "@prisma/client";
+import { PutBlobResult } from "@vercel/blob";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function QuestionViewContainer({
   user,
@@ -27,20 +28,39 @@ export default function QuestionViewContainer({
   question: Question & { course: Course; submissions: Submission[] };
 }) {
   const router = useRouter();
+  const { toast } = useToast();
   const [editorContent, setEditorContent] = useState("");
   const [shouldApplyDecorations, setShouldApplyDecorations] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbacks, setFeedbacks] = useState<FeedbackType[]>([]);
+
   const handleEditorChange = (value: string | undefined) => {
     setEditorContent(value || "");
-    setShouldApplyDecorations(false)
+    setShouldApplyDecorations(false);
   };
 
-  const handleFeedbackChange = (value: FeedbackType) => {
-    setFeedbacks([value])
-    setShouldApplyDecorations(true);
+  const handleFeedback = async () => {
+    setIsChecking(true);
+    const { status, feedback } = await getCodeFeedback({
+      question: question,
+      student_solution: editorContent,
+    });
+
+    if (status) {
+      toast({
+        title: status,
+        variant: "destructive",
+      });
+    } else {
+      setFeedbacks(feedback);
+      setShouldApplyDecorations(true);
+    }
+    setIsChecking(false);
   };
 
   const handleSubmission = async () => {
+    setIsSubmitting(true);
     try {
       const solFile = new File(
         [editorContent],
@@ -67,11 +87,24 @@ export default function QuestionViewContainer({
         throw new Error("Unable to create new submission");
       }
 
+      toast({
+        title: "Submission Successful",
+        description: "Redirecting back to your course.",
+        variant: "success",
+      });
+
       router.push(
         `/courses/${question.course.code}/${question.id}/${newSubmission.id}`
       );
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Submission Failed",
+        description: "Please save your work and try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -95,7 +128,7 @@ export default function QuestionViewContainer({
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
         <div className="h-full">
-          <div className="h-4/6">
+          <div className="h-3/5">
             <QuestionViewEditor
               language={question.language}
               handleEditorChange={handleEditorChange}
@@ -104,22 +137,23 @@ export default function QuestionViewContainer({
             />
           </div>
           <Separator />
-          <div className="h-1/6">
+          <div className="h-2/5 mt-4">
             <QuestionViewFeedback feedbacks={feedbacks} />
-          </div>
-          <div className="h-1/6 flex items-end justify-end pb-4">
-            <Button
-              className="mr-2"
-              onClick={async () =>
-                await getCodeFeedback({
-                  question: question,
-                  student_solution: editorContent,
-                }).then((feedbacks) => handleFeedbackChange(feedbacks))
-              }
-            >
-              Run Check
-            </Button>
-            <Button onClick={() => handleSubmission()}>Submit Code</Button>
+            <div className="flex items-end justify-end">
+              <LoadingButton
+                loading={isChecking}
+                className="mr-2"
+                onClick={() => handleFeedback()}
+              >
+                Run Check
+              </LoadingButton>
+              <LoadingButton
+                loading={isSubmitting}
+                onClick={() => handleSubmission()}
+              >
+                Submit Code
+              </LoadingButton>
+            </div>
           </div>
         </div>
       </ResizablePanel>

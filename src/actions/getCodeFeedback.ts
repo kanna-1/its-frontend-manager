@@ -47,7 +47,6 @@ import { Question } from "@prisma/client";
 
 const parserApiUrl = "https://its.comp.nus.edu.sg/cs3213/parser";
 const feedbackFixApiUrl = "https://its.comp.nus.edu.sg/cs3213/feedback_fix";
-//const feedbackFixApiUrl = "http://localhost:9123"; 
 
 const language_map = {
   py: "python",
@@ -67,72 +66,83 @@ export async function getCodeFeedback({
       res.text()
     );
 
-    // Generates parsed student code and reference code
-    const parsedStudentCode = await parseCode({
-      language: language_map[language],
-      source_code: student_solution,
-    });
-    const parsedReferenceCode = await parseCode({
-      language: language_map[language],
-      source_code: reference_program_text,
-    });
+    // Parse student and reference program
+    const parsedStudentCode = await parseCode(
+      language_map[language],
+      student_solution
+    );
 
-    // Generate feedback
+    const parsedReferenceCode = await parseCode(
+      language_map[language],
+      reference_program_text
+    );
+
+    // Generate feedback from ITS
     const feedback = await generateFeedback({
       language: question.language,
       reference_solution: JSON.stringify(parsedReferenceCode),
       student_solution: JSON.stringify(parsedStudentCode),
-      function: question.entry_function,
-      inputs: question.io_input,
-      args: question.func_args,
+      function: question.entry_function || "main",
+      inputs: question.io_input || "[]",
+      args: question.func_args || "",
     });
-    return feedback;
+
+    return {
+      status: "",
+      feedback: feedback,
+    };
   } catch (error) {
     console.error(error);
-    return [];
+    return {
+      status: error.message,
+      feedback: [],
+    };
   }
 }
 
-// Call the parser API
-async function parseCode(sourceCodeParams) {
-  try {
-    const response = await fetch(parserApiUrl, {
-      method: "POST",
-      body: JSON.stringify(sourceCodeParams),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+// Call ITS Parser API
+async function parseCode(language: string, code: string) {
+  const response = await fetch(parserApiUrl, {
+    method: "POST",
+    body: JSON.stringify({
+      language: language,
+      source_code: code,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error parsing source code:", error);
-    throw error;
+  if (response.status === 422) {
+    throw new Error("Parser: Validation error");
+  } else if (!response.ok) {
+    throw new Error("Parser: Unknown error");
   }
+  return await response.json();
 }
 
-// Call the Feedback service API
-async function generateFeedback(req): Promise<any> {
-  try {
-    const feedback = await fetch(feedbackFixApiUrl, {
-      method: "POST",
-      body: JSON.stringify(req),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+// Call ITS Feedback API
+async function generateFeedback(req: {
+  language: string;
+  reference_solution: string;
+  student_solution: string;
+  function: string;
+  inputs: string;
+  args: string;
+}) {
+  const response = await fetch(feedbackFixApiUrl, {
+    method: "POST",
+    body: JSON.stringify(req),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    if (!feedback.ok) {
-      throw new Error("Network response was not ok");
-    }
-    
-    return feedback.json();
-  } catch (error) {
-    console.error("Error generating feedback:", error);
-    throw error;
+  if (response.status === 422) {
+    throw new Error("Feedback Fix: Validation error");
+  } else if (!response.ok) {
+    throw new Error("Feedback Fix: Unknown error");
   }
+
+  return await response.json();
 }
