@@ -70,18 +70,18 @@ export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncemen
         },
       });
       
-      const resBody = await res.json(); //point of error
-      if (resBody.announcement) {
+      if (res.ok) {
         toast({
           title: "New Announcement Created",
           variant: "success",
         });
-        setOpen(false); // Close the dialog after successful creation
+        form.reset();
+        setOpen(false);
+        router.refresh()
       }
     } catch (error) {
-      console.error('Error occurrede:', error.message);
       toast({
-        title: "Error Creating New Announcement",
+        title: "New Announcement Failed",
         description: error.message,
         variant: "destructive",
       });

@@ -1,18 +1,16 @@
 import { getCourseInfo } from "@/actions/getCourseInfo";
 import { getUserProps } from "@/actions/getUserProps";
+import AnnouncementCard from "@/components/cards/announcement-card";
 import QuestionCard from "@/components/cards/question-card";
-import AddMemberDialog from "@/components/dialogs/addMember";
-import NewQuestionDialog from "@/components/dialogs/newQuestion";
-import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
 import DataTableContainer from "@/components/course-member-list/DataTableContainer";
-import { Button } from "@/components/ui/button";
+import AddMemberDialog from "@/components/dialogs/addMember";
+import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
+import NewQuestionDialog from "@/components/dialogs/newQuestion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Question, Role, User, Announcement } from "@prisma/client";
+import { Announcement, Question, Role } from "@prisma/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth } from '@/lib/auth';
-import AnnouncementCard from "@/components/cards/announcement-card";
-import { DateTime } from 'luxon';
+
 export default async function CourseView({
   params,
 }: {
@@ -32,9 +30,7 @@ export default async function CourseView({
   }
 
   const courseQuestions: Question[] = course.questions;
-  const courseMembers: User[] = course.members;
   const courseAnnouncements: Announcement[] = course.announcements;
-
   const reversedAnnouncements = courseAnnouncements.slice().reverse();
 
   return (
@@ -60,11 +56,7 @@ export default async function CourseView({
             </div>
             <div className="mt-2 space-y-4">
               {reversedAnnouncements.map((announcement, index) => (
-                  <AnnouncementCard
-                    announcementTitle={announcement.title}
-                    announcementBody={announcement.body}
-                    announcementDate={announcement.time.toString()}
-                  />
+                <AnnouncementCard key={index} announcement={announcement} />
               ))}
             </div>
           </TabsContent>
@@ -101,8 +93,12 @@ export default async function CourseView({
                 </h3>
                 <AddMemberDialog user={user} course={course}></AddMemberDialog>
               </div>
-              <div style={{ marginTop: 15}}>
-                <DataTableContainer  members={course.members} courseId={course.id} requestorEmail={user.email}/>
+              <div style={{ marginTop: 15 }}>
+                <DataTableContainer
+                  members={course.members}
+                  courseId={course.id}
+                  requestorEmail={user.email}
+                />
               </div>
             </TabsContent>
           )}
