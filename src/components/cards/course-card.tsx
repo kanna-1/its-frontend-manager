@@ -10,7 +10,7 @@ export default function CourseCard({
   isCreator: boolean;
 }) {
   return (
-    <Card >
+    <Card className="min-w-64">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
           <span>{course.code}</span>{isCreator && <ClipboardCheck size={17} style={{ marginBottom: 2 }}/>}

@@ -1,16 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronRightCircle, MoreHorizontal } from "lucide-react";
-import EditFeedbackDialog from "../dialogs/editFeedback";
-import EditScoreDialog from "../dialogs/editScore";
+import { ChevronRightCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
