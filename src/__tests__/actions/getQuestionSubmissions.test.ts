@@ -42,7 +42,7 @@ describe('/actions/getQuestionSubmissions', () => {
         const expected_output = [{...submission1, ...student}]
 
         // Call the function
-        const questionSubmission = await getQuestionSubmissions({questionId: "question_1"});
+        const questionSubmission = await getQuestionSubmissions({question_id: "question_1"});
         expect(questionSubmission).toEqual(expected_output);
     })
 
@@ -50,7 +50,7 @@ describe('/actions/getQuestionSubmissions', () => {
         prismaMock.question.findUnique.mockResolvedValue(null)
 
         // Call the function
-        const questionSubmission = await getQuestionSubmissions({questionId: ""});
+        const questionSubmission = await getQuestionSubmissions({question_id: ""});
         expect(questionSubmission).toEqual(null);
 
     })
@@ -59,7 +59,7 @@ describe('/actions/getQuestionSubmissions', () => {
         prismaMock.question.findUnique.mockRejectedValue(new Error())
 
         // Call the function
-        const questionSubmission = await getQuestionSubmissions({questionId: "question_1"});
+        const questionSubmission = await getQuestionSubmissions({question_id: "question_1"});
         expect(questionSubmission).toEqual(null);
     })
 })
