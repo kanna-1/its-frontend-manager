@@ -8,6 +8,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { User } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -50,6 +52,7 @@ export const columns: ColumnDef<User>[] = [
 // Define a separate component for the dropdown menu
 const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const promoteToTeacher = async () => {
     try {
@@ -61,11 +64,20 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
         body: JSON.stringify({ email }),
       });
       if (!response.ok) {
-        throw new Error("Failed to promote user to teacher");
+        throw new Error("Failed to promote user to teacher.");
       }
+      toast({
+        title: "Promotion Success",
+        description: `${email} has been successfully promoted to a teacher.`,
+        variant: "success",
+      });
       router.refresh();
     } catch (error) {
-      console.error("Error promoting user to teacher:", error);
+      toast({
+        title: "Promotion Error",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -79,11 +91,20 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
         body: JSON.stringify({ email }),
       });
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error("Failed to delete user.");
       }
+      toast({
+        title: "Deletion Success",
+        description: `${email} has been successfully deleted.`,
+        variant: "success",
+      });
       router.refresh();
     } catch (error) {
-      console.error("Error deleting user:", error);
+      toast({
+        title: "Deletion Error",
+        description: error.message,
+        variant: "destructive",
+      });
     }
   };
 
@@ -98,8 +119,38 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={promoteToTeacher}>Promote</DropdownMenuItem>
-        <DropdownMenuItem onClick={deleteUser} className="text-destructive">Delete</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            toast({
+              title: "Are you sure you want to promote?",
+              description: "Teacher accounts have special access permissions.",
+              action: (
+                <ToastAction altText="confirm" onClick={promoteToTeacher}>
+                  Confirm
+                </ToastAction>
+              ),
+            });
+          }}
+        >
+          Promote
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            toast({
+              title: "Are you sure you want to delete?",
+              description: "This action is irreversible.",
+              variant: "destructive",
+              action: (
+                <ToastAction altText="confirm" onClick={deleteUser}>
+                  Confirm
+                </ToastAction>
+              ),
+            });
+          }}
+          className="text-destructive"
+        >
+          Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
