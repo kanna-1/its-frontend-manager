@@ -43,7 +43,7 @@ jest.mock('@/actions/getCourseInfo', () => {
     }    
 })
 
-it("renders admin's user management page unchanged", async () => {
+it("renders student's course page unchanged", async () => {
     const result = await CourseView({ params: mockCourseIdParam })
     const { container } = render(result);
     expect(container).toMatchSnapshot();
