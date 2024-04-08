@@ -43,6 +43,25 @@ describe('/api/register', () => {
     expect(body).toEqual(expected_response)
   })
 
+  test('should return status 500 when error is encountered', async () => {
+    const requestObj = {
+      json: async () => ({
+        email: 'tester1@test.com',
+        password: 'password1',
+        school_id: 'inst001',
+        role: Role.STUDENT,
+      }), } as any
+
+    prismaMock.user.create.mockRejectedValue(new Error())
+
+    // Call the POST function
+    const response = await POST(requestObj);
+    const body = await response.json();
+
+    // Check the response
+    expect(response.status).toBe(500);
+  })
+
 })
 
 

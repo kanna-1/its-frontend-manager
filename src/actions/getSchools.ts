@@ -8,5 +8,6 @@ export async function getSchools() {
     return school
   } catch (error) {
     console.error(error)
+    return null
   }
 }

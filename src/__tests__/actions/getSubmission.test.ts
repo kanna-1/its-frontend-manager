@@ -27,4 +27,31 @@ describe('/actions/getSubmission', () => {
         expect(submission).toEqual(expected_submission);
 
     })
+
+    test('should return null when submission is null', async () => {
+        prismaMock.submission.findUnique.mockResolvedValue(null)
+
+        const submission_id = {
+            json: async () => ({
+                submission_id: ''
+            }), } as any
+
+        // Call the function
+        const submission = await getSubmission(submission_id);
+        expect(submission).toEqual(null);
+
+    })
+
+    test('should return error', async () => {
+        prismaMock.submission.findUnique.mockRejectedValue(new Error())
+
+        const submission_id = {
+            json: async () => ({
+                submission_id: 'submission_1'
+            }), } as any
+        // Call the function
+        const submission = await getSubmission(submission_id);
+        expect(submission).toEqual(null);
+
+    })
 })

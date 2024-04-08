@@ -27,4 +27,18 @@ describe('/api/user-management/promote-to-teacher/route', () => {
         // Check the response
         expect(response.status).toBe(200);
     })
+
+    test('should return status 500 when error is encountered', async () => {
+        prismaMock.user.update.mockRejectedValue(new Error())
+        const requestObj = {
+            json: async () => ({
+                email: 'student@test.com'
+            }), } as any
+
+        // Call the POST function
+        const response = await POST(requestObj);
+
+        // Check the response
+        expect(response.status).toBe(500);
+    })
 })

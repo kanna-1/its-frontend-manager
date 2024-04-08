@@ -39,18 +39,18 @@ describe('/actions/getUsers', () => {
         expect(users).toEqual(expected_users);
     })
 
-    // test('should return error when getting users if requestor is not admin', async () => {
+    test('should return error when getting users if requestor is not admin', async () => {
 
-    //     const student = {
-    //         id: "1",
-    //         email: "student@test.com",
-    //         password: "password123",
-    //         role: Role.STUDENT,
-    //         school_id: "inst001",
-    //     };
+        const student = {
+            id: "1",
+            email: "student@test.com",
+            password: "password123",
+            role: Role.STUDENT,
+            school_id: "inst001",
+        };
 
-    //     // Call the function
-    //     const result = getUsers(student);
-    //     await expect(result).rejects.toThrowError("User is not admin");
-    // })
+        // Call the function
+        expect.assertions(1);
+        await expect(getUsers(student)).rejects.toThrow("User is not admin");
+    })
 })

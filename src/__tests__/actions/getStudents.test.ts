@@ -38,4 +38,18 @@ describe('/actions/getStudents', () => {
         expect(students).toEqual(expected_students);
 
     })
+
+    test('should throw error if requestor is not a teacher', async () => {
+        const student = {
+            id: "3",
+            email: "student3@test.com",
+            password: "password123",
+            role: Role.STUDENT,
+            school_id: "inst001",
+        }
+
+        // Call the function
+        expect.assertions(1);
+        await expect(getStudents(student)).rejects.toThrow("User is not a teacher");
+    })
 })

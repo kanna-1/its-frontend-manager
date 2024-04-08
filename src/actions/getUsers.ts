@@ -18,6 +18,7 @@ export async function getUsers(user: User) {
     }
   } catch (error) {
     console.error(error);
-    
+    throw error;
+
   }
 }

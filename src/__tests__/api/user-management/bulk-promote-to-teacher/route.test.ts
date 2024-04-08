@@ -33,4 +33,20 @@ describe('/api/user-management/bulk-promote-to-teacher/route', () => {
 
         })
     })
+
+    test('should return status 500 when error is encountered', async () => {
+
+        prismaMock.user.updateMany.mockRejectedValue(new Error())
+        const requestObj = {
+            json: async () => ({
+                emails: ['student@test.com', 'student2@test.com']
+            }), } as any
+
+        // Call the POST function
+        const response = await POST(requestObj);
+        const body = await response.json();
+
+        // Check the response
+        expect(response.status).toBe(500);
+    })
 })
