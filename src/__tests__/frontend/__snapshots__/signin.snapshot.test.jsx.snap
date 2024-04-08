@@ -3,154 +3,161 @@
 exports[`renders signin page unchanged 1`] = `
 <div>
   <div
-    class="flex justify-center items-center h-screen"
+    class="flex flex-col space-y-8 justify-center items-center min-h-screen"
   >
-    <div
-      class="max-w-md p-8 bg-white rounded-lg shadow-lg"
+    <h1
+      class="text-2xl font-semibold"
     >
-      <h2
-        class="text-2xl font-semibold mb-7 text-center"
-      >
-        ITS Frontend System Log In
-      </h2>
-      <form>
-        <div
-          class="space-y-2"
-        >
-          <label
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            for=":r0:-form-item"
-          >
-            Your email
-          </label>
-          <div
-            aria-describedby=":r0:-form-item-description"
-            aria-invalid="false"
-            id=":r0:-form-item"
-            style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
-          >
-            <svg
-              class="lucide lucide-mail "
-              fill="none"
-              height="30"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              style="margin-right: 8px;"
-              viewBox="0 0 24 24"
-              width="30"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="16"
-                rx="2"
-                width="20"
-                x="2"
-                y="4"
-              />
-              <path
-                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-              />
-            </svg>
-            <input
-              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              name="email"
-              placeholder="e.g. john@doe.com"
-              style="width: 500px;"
-            />
-          </div>
-        </div>
-        <div
-          class="space-y-2"
-        >
-          <label
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            for=":r1:-form-item"
-          >
-            Your password
-          </label>
-          <div
-            aria-describedby=":r1:-form-item-description"
-            aria-invalid="false"
-            id=":r1:-form-item"
-            style="display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;"
-          >
-            <svg
-              class="lucide lucide-lock "
-              fill="none"
-              height="18"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              style="margin-right: 8px;"
-              viewBox="0 0 24 24"
-              width="18"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="11"
-                rx="2"
-                ry="2"
-                width="18"
-                x="3"
-                y="11"
-              />
-              <path
-                d="M7 11V7a5 5 0 0 1 10 0v4"
-              />
-            </svg>
-            <input
-              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              name="password"
-              placeholder="e.g. password123"
-              type="password"
-            />
-          </div>
-        </div>
-        <div
-          style="text-align: right; padding-bottom: 5px; padding-top: 5px;"
-        >
-          <a
-            href="/forgot-password"
-            style="font-size: 9px;"
-          >
-            Forgot Password?
-          </a>
-        </div>
-        <div
-          style="text-align: center; padding-bottom: 15px; padding-top: 5px;"
-        >
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-            style="width: 200px; border-radius: 10px;"
-            type="submit"
-          >
-            Login
-          </button>
-        </div>
-      </form>
-      <hr
-        style="border-color: gray;"
-      />
+      ITS Frontend Manager
+    </h1>
+    <div
+      class="rounded-lg border bg-card text-card-foreground shadow-sm min-w-96 md:min-w-[500px]"
+    >
       <div
-        class="mt-4 flex items-center justify-center"
+        class="flex flex-col space-y-1.5 p-6"
       >
-        <p
-          class="ml-2"
+        <h3
+          class="text-2xl font-semibold leading-none tracking-tight text-center"
         >
-          Don’t have an account? 
-        </p>
-        <button
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-10 px-4 py-2"
+          Log In
+        </h3>
+      </div>
+      <div
+        class="p-6 pt-0"
+      >
+        <form
+          class="space-y-4"
         >
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for=":r0:-form-item"
+            >
+              Email Address
+            </label>
+            <div
+              aria-describedby=":r0:-form-item-description"
+              aria-invalid="false"
+              class="flex space-x-2 items-center"
+              id=":r0:-form-item"
+            >
+              <svg
+                class="lucide lucide-mail "
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="16"
+                  rx="2"
+                  width="20"
+                  x="2"
+                  y="4"
+                />
+                <path
+                  d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                />
+              </svg>
+              <input
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                name="email"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="space-y-2"
+          >
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              for=":r1:-form-item"
+            >
+              Password
+            </label>
+            <div
+              aria-describedby=":r1:-form-item-description"
+              aria-invalid="false"
+              class="flex space-x-2 items-center"
+              id=":r1:-form-item"
+            >
+              <svg
+                class="lucide lucide-lock "
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="11"
+                  rx="2"
+                  ry="2"
+                  width="18"
+                  x="3"
+                  y="11"
+                />
+                <path
+                  d="M7 11V7a5 5 0 0 1 10 0v4"
+                />
+              </svg>
+              <input
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                name="password"
+                type="password"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="flex flex-col w-full justify-center items-center text-center"
+          >
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-3/4 mt-4"
+              type="submit"
+            >
+              Login
+            </button>
+            <a
+              href="/forgot-password"
+            >
+              <button
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-10 px-4 py-2"
+              >
+                Reset Password
+              </button>
+            </a>
+          </div>
+        </form>
+        <div
+          class="flex items-center p-6 pt-0 justify-center"
+        >
+          <span
+            class="text-sm"
+          >
+            Don’t have an account?
+          </span>
           <a
             href="/signup"
           >
-            Register now
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-10 px-4 py-2 text-sm"
+            >
+              Register Now
+            </button>
           </a>
-        </button>
+        </div>
       </div>
     </div>
   </div>
