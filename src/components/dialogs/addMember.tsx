@@ -65,16 +65,20 @@ export default function AddMemberDialog({
           "Content-Type": "application/json",
         },
       });
-      const resBody = await res.json();
-      if (resBody.status == "error") {
-        throw new Error(resBody.message);
-      } else {
+      if (res.ok) {
         toast({
           title: "New Members Added",
           variant: "success",
         });
         setOpen(false);
         router.refresh();
+      } else {
+        const errorResponse = await res.json();
+        toast({
+          title: "Error Adding New Members",
+          description: errorResponse.error,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({

@@ -32,21 +32,17 @@ export async function POST(req: Request) {
     })
 
     if (requestor == undefined || requestor == null) {
-        return new NextResponse(
-            JSON.stringify({
-              status: 'error',
-              message: 'Not a valid user.',
-            }),
-            { status: 500 }
-          );
+      return NextResponse.json({
+        error: 'Not a valid user.'
+      }, {
+        status: 404
+      });
     } else if (requestor.role !== 'TEACHER') {
-        return new NextResponse(
-            JSON.stringify({
-              status: 'error',
-              message: 'You do not have the permission to make this request.',
-            }),
-            { status: 500 }
-          );
+      return NextResponse.json({
+        error: 'You do not have the permission to make this request.'
+      }, {
+        status: 403
+      });
     }
 
     const course = await prisma.course.findUnique({
@@ -56,13 +52,11 @@ export async function POST(req: Request) {
     })
 
     if (course == undefined || course == null) {
-        return new NextResponse(
-            JSON.stringify({
-              status: 'error',
-              message: 'Invalid course ID.',
-            }),
-            { status: 500 }
-          );
+      return NextResponse.json({
+        error: 'Invalid course ID.'
+      }, {
+        status: 404
+      });
     }
 
     var addedUsers: string[] = [];
@@ -75,13 +69,11 @@ export async function POST(req: Request) {
           });
 
           if (!user) {
-            return new NextResponse(
-              JSON.stringify({
-                status: 'error',
-                message: `User with email: ${email} does not exist.`,
-              }),
-              { status: 404 }
-            );
+            return NextResponse.json({
+              error: `User with email: ${email} does not exist.`
+            }, {
+              status: 404
+            });
           }
 
           const added = await prisma.user.update({
@@ -103,15 +95,15 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({
-      addedUsers: addedUsers
-    });
+      addedUsers: addedUsers,
+    },
+    { status: 200 }
+  );
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
