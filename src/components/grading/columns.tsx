@@ -31,10 +31,18 @@ export const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "grade",
     header: "Grades",
+    cell: ({getValue}) => {
+      const grade = getValue() as Number;
+      return grade === -1 ? "Ungraded" : grade
+    }
   },
   {
     accessorKey: "feedback",
     header: "Feedback",
+    cell: ({getValue}) => {
+      const feedback = getValue() as String;
+      return feedback ? feedback.slice(0, 10) + "..." : "Pending Feedback"
+    }
   },
   {
     accessorKey: "action",
