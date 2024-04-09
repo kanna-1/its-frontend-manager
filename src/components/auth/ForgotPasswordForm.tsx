@@ -49,7 +49,7 @@ export function ForgotPasswordForm() {
         });
         signIn(undefined, { callbackUrl: "/" });
       } else {
-        const message = (await res.json()).message;
+        const message = (await res.json()).error;
         throw new Error(message);
       }
     } catch (error) {
