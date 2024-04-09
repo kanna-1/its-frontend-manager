@@ -31,7 +31,7 @@ describe('/api/register', () => {
         role: Role.STUDENT,
         }
       }
-
+    prismaMock.user.findUnique.mockResolvedValue(null)
     prismaMock.user.create.mockResolvedValue(test_user)
 
     // Call the POST function
@@ -43,6 +43,33 @@ describe('/api/register', () => {
     expect(body).toEqual(expected_response)
   })
 
+  test('should return status 409 when the email address is already registered', async () => {
+    const test_user = {
+      id: "1",
+      email: 'tester1@test.com',
+      password: 'password1',
+      school_id: 'inst001',
+      role: Role.STUDENT,
+    }
+
+    const requestObj = {
+      json: async () => ({
+        email: 'tester1@test.com',
+        password: 'password1',
+        school_id: 'inst001',
+        role: Role.STUDENT,
+      }), } as any
+
+
+    prismaMock.user.findUnique.mockResolvedValue(test_user)
+
+    // Call the POST function
+    const response = await POST(requestObj);
+
+    // Check the response
+    expect(response.status).toBe(409);
+  })
+
   test('should return status 500 when error is encountered', async () => {
     const requestObj = {
       json: async () => ({
@@ -52,7 +79,7 @@ describe('/api/register', () => {
         role: Role.STUDENT,
       }), } as any
 
-    prismaMock.user.create.mockRejectedValue(new Error())
+    prismaMock.user.findUnique.mockRejectedValue(new Error())
 
     // Call the POST function
     const response = await POST(requestObj);

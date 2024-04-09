@@ -46,7 +46,7 @@ describe('/api/reset-password/route', () => {
 
     })
 
-    test('should return status 500 when reset password is null', async () => {
+    test('should return status 404 when reset password is null', async () => {
 
         const requestObj = {
             json: async () => ({
@@ -60,8 +60,25 @@ describe('/api/reset-password/route', () => {
         const response = await POST(requestObj);
         const body = await response.json();
 
+        expect(response.status).toBe(404);
+        expect(body.error).toEqual("Invalid password reset token.");
+
+    })
+
+    test('should return status 500 when error is encountered', async () => {
+
+        const requestObj = {
+            json: async () => ({
+                password: "password123",
+                token: "token123"
+            }), } as any
+
+        prismaMock.passwordResetToken.findUnique.mockRejectedValue(new Error())
+
+        // Call the POST function
+        const response = await POST(requestObj);
+
         expect(response.status).toBe(500);
-        expect(body.message).toEqual("Null password reset token");
 
     })
 

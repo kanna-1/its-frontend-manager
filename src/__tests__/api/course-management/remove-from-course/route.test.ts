@@ -21,7 +21,7 @@ describe('/api/course-management/remove-from-course/route', () => {
 
         // Check the response
         expect(response.status).toBe(404);
-        expect(body.message).toEqual('Invalid course ID.');
+        expect(body.error).toEqual('Invalid course ID.');
     })
 
     test('should return status 404 if the user to remove is not found', async () => {
@@ -47,7 +47,7 @@ describe('/api/course-management/remove-from-course/route', () => {
 
         // Check the response
         expect(response.status).toBe(404);
-        expect(body.message).toEqual("User with email: student@test.com does not exist.");
+        expect(body.error).toEqual("User with email: student@test.com does not exist.");
     })
 
     test('should return status 200 if the user is removed from course successfully', async () => {

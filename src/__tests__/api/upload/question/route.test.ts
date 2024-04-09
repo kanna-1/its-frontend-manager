@@ -6,7 +6,7 @@ import { POST } from '@/app/api/upload/question/route'
 import { prismaMock } from '@/prisma-mock';
 
 describe('/api/upload/question/route', () => {
-    test('should return status 500 as there is no course id', async () => {
+    test('should return status 400 as there is no course id', async () => {
         const requestObj = {
             json: async () => ({
                 reference_program: "reference_program_1",
@@ -20,11 +20,11 @@ describe('/api/upload/question/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.body).toEqual('Expected course id.');
+        expect(response.status).toBe(400);
+        expect(body.error).toEqual('Expected course id.');
     })
 
-    test('should return status 500 as there is no reference program', async () => {
+    test('should return status 400 as there is no reference program', async () => {
         const requestObj = {
             json: async () => ({
                 reference_program: null,
@@ -38,11 +38,11 @@ describe('/api/upload/question/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.body).toEqual('Expected reference program id. Please upload the reference program first.');
+        expect(response.status).toBe(400);
+        expect(body.error).toEqual('Expected reference program id. Please upload the reference program first.');
     })
 
-    test('should return status 500 if unable to find course', async () => {
+    test('should return status 404 if unable to find course', async () => {
         const requestObj = {
             json: async () => ({
                 reference_program: "reference_program_1",
@@ -71,9 +71,28 @@ describe('/api/upload/question/route', () => {
         prismaMock.course.findUnique.mockResolvedValue(null)
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.body).toEqual("Unable to find course");
+        expect(response.status).toBe(404);
+        expect(body.error).toEqual("Unable to find course");
     })
+
+    // test('should return status 500 if error is encountered', async () => {
+    //     const requestObj = {
+    //         json: async () => ({
+    //             reference_program: "reference_program_1",
+    //             courseId: "inst001_CS3213",
+    //             content: {}
+
+    //         }), } as any
+
+    //     // Call the POST function
+    //     const response = await POST(requestObj);
+    //     const body = await response.json();
+
+    //     prismaMock.question.create.mockRejectedValue(new Error())
+
+    //     // Check the response
+    //     expect(response.status).toBe(500);
+    // })
 
     // test('should return status 200 if upload question is successful', async () => {
     //     const requestObj = {

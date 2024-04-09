@@ -14,7 +14,7 @@ describe('/api/user-management/promote-to-teacher/route', () => {
             school_id: 'inst001',
             role: Role.STUDENT,
         }
-
+        prismaMock.user.findUnique.mockResolvedValue(student)
         prismaMock.user.update.mockResolvedValue(student)
         const requestObj = {
             json: async () => ({
@@ -28,8 +28,22 @@ describe('/api/user-management/promote-to-teacher/route', () => {
         expect(response.status).toBe(200);
     })
 
+    test('should return status 404 when the requestor cannot be found', async () => {
+        prismaMock.user.findUnique.mockResolvedValue(null)
+        const requestObj = {
+            json: async () => ({
+                email: 'student@test.com'
+            }), } as any
+
+        // Call the POST function
+        const response = await POST(requestObj);
+
+        // Check the response
+        expect(response.status).toBe(404);
+    })
+
     test('should return status 500 when error is encountered', async () => {
-        prismaMock.user.update.mockRejectedValue(new Error())
+        prismaMock.user.findUnique.mockRejectedValue(new Error())
         const requestObj = {
             json: async () => ({
                 email: 'student@test.com'

@@ -6,7 +6,7 @@ import { prismaMock } from '@/prisma-mock';
 import { Role } from "@prisma/client";
 
 describe('/api/course-management/create-course/route', () => {
-    test('should return status 500 as student has no permission to create course', async () => {
+    test('should return status 403 as student has no permission to create course', async () => {
 
         const requestObj = {
             json: async () => ({
@@ -22,12 +22,12 @@ describe('/api/course-management/create-course/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.message).toEqual("You do not have the permission to make this request.");
+        expect(response.status).toBe(403);
+        expect(body.error).toEqual("You do not have the permission to make this request.");
 
     })
 
-    test('should return status 500 as the teacher tries to create a duplicate course', async () => {
+    test('should return status 409 as the teacher tries to create a duplicate course', async () => {
 
         const course = {
             id: "inst001_CS3213",
@@ -53,8 +53,8 @@ describe('/api/course-management/create-course/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.message).toEqual("Course already exists.");
+        expect(response.status).toBe(409);
+        expect(body.error).toEqual("Course already exists.");
 
     })
 
