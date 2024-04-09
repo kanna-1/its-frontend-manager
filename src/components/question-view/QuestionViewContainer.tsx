@@ -105,7 +105,7 @@ export default function QuestionViewContainer({
       console.error(error);
       toast({
         title: "Submission Failed",
-        description: "Please save your work and try again later.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
