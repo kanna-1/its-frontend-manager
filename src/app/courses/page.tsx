@@ -18,18 +18,20 @@ export default async function MyCourseView() {
         <h1 className="text-xl font-semibold">My Courses</h1>
         {isTeacher && <NewCourseDialog user={user}></NewCourseDialog>}
       </div>
-      <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 mt-4 p-4 border rounded-md min-h-[calc(100vh-160px)]">
-        {isTeacher &&
-          user.created_courses.map((course, index) => (
+      <div className="mt-4 p-4 border rounded-md min-h-[calc(100vh-160px)]">
+        <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+          {isTeacher &&
+            user.created_courses.map((course, index) => (
+              <Link key={index} href={`/courses/${course.code}`}>
+                <CourseCard key={index} course={course} isCreator={true} />
+              </Link>
+            ))}
+          {user.joined_courses.map((course, index) => (
             <Link key={index} href={`/courses/${course.code}`}>
-              <CourseCard course={course} isCreator={true} />
+              <CourseCard key={index} course={course} isCreator={false} />
             </Link>
           ))}
-        {user.joined_courses.map((course, index) => (
-          <Link key={index} href={`/courses/${course.code}`}>
-            <CourseCard course={course} isCreator={false} />
-          </Link>
-        ))}
+        </div>
       </div>
     </>
   );
