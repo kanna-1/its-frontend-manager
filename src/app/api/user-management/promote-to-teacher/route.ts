@@ -17,8 +17,21 @@ export async function POST(req: Request) {
       email: string;
     };
 
-    const promoteToTeacher = await prisma.user.update({
+    const requestor = await prisma.user.findUnique({
+      where: {
+          email: email,
+      },
+    })
 
+    if (requestor == undefined || requestor == null) {
+      return NextResponse.json({
+        error: 'Not a valid user.'
+      }, {
+        status: 404
+      });
+    }
+
+    const promoteToTeacher = await prisma.user.update({
       where: {
         email: email,
       },
@@ -32,15 +45,15 @@ export async function POST(req: Request) {
         email: promoteToTeacher.email,
         updatedrole: promoteToTeacher.role,
       },
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
 
