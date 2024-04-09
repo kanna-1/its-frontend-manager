@@ -31,13 +31,11 @@ export async function POST(req: Request) {
     });
 
     if (!course) {
-      return new NextResponse(
-        JSON.stringify({
-          status: 'error',
-          message: 'Invalid course ID.',
-        }),
-        { status: 404 } 
-      );
+      return NextResponse.json({
+        error: 'Invalid course ID.'
+      }, {
+        status: 404
+      });
     }
 
     const userToRemove = await prisma.user.findUnique({
@@ -47,13 +45,11 @@ export async function POST(req: Request) {
     });
 
     if (!userToRemove) {
-      return new NextResponse(
-        JSON.stringify({
-          status: 'error',
-          message: `User with email: ${userEmailToRemove} does not exist.`,
-        }),
-        { status: 404 }
-      );
+      return NextResponse.json({
+        error: `User with email: ${userEmailToRemove} does not exist.`
+      }, {
+        status: 404
+      });
     }
 
     await prisma.user.update({
@@ -70,16 +66,15 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({
-      status: 'success',
       message: `User ${userEmailToRemove} removed from the course.`,
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 } 
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
