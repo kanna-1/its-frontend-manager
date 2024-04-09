@@ -11,13 +11,13 @@ export default function QuestionViewFeedback({
   feedbacks: FeedbackType[];
 }) {
   return (
-    <div className="flex flex-col space-y-2 ml-4 h-2/3">
+    <div className="flex flex-col h-3/4 space-y-2 ml-4">
       <h4 className="font-medium">Feedback Console</h4>
-      <div className="rounded-md bg-secondary p-4">
+      <div className="max-h-48 rounded-md bg-secondary p-4 space-y-2 overflow-auto">
         {feedbacks.length > 0 ? (
           feedbacks.map((feedback, index) => (
             <div key={index}>
-              <p>Line Number: {feedback.lineNumber}</p>
+              <p className="font-medium">Line Number: {feedback.lineNumber}</p>
               <p>Old Expression: {feedback.oldExpr}</p>
               <p>New Expression: {feedback.newExpr}</p>
               <p>

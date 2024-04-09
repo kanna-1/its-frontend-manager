@@ -53,7 +53,7 @@ export default function QuestionViewContainer({
         variant: "destructive",
       });
     } else {
-      setFeedbacks(feedback);
+      setFeedbacks(feedbacks.sort((a, b) => a.lineNumber - b.lineNumber));
       setShouldApplyDecorations(true);
     }
     setIsChecking(false);
@@ -118,7 +118,7 @@ export default function QuestionViewContainer({
             <h1 className="text-2xl font-semibold">{question.title}</h1>
             <p>{question.description}</p>
           </div>
-          <div className="h-1/6 flex items-end pb-4">
+          <div className="h-1/6 flex items-end pb-6">
             <Link href={`/courses/${question.course.code}`}>
               <Button variant="secondary">Return to course</Button>
             </Link>
@@ -128,7 +128,7 @@ export default function QuestionViewContainer({
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
         <div className="h-full">
-          <div className="h-3/5">
+          <div className="h-1/2">
             <QuestionViewEditor
               language={question.language}
               handleEditorChange={handleEditorChange}
@@ -137,9 +137,9 @@ export default function QuestionViewContainer({
             />
           </div>
           <Separator />
-          <div className="h-2/5 mt-4">
+          <div className="flex flex-col justify-between h-1/2 mt-4">
             <QuestionViewFeedback feedbacks={feedbacks} />
-            <div className="flex items-end justify-end">
+            <div className="flex h-1/4 items-start justify-end">
               <LoadingButton
                 loading={isChecking}
                 className="mr-2"
