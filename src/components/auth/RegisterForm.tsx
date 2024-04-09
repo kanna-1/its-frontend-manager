@@ -58,12 +58,8 @@ export function RegisterForm({ schools }: { schools: School[] }) {
       });
 
       if (!res.ok) {
-        const message = (await res.json()).message;
-        if (message.includes("Invalid `prisma.user.create()` invocation")) {
-          throw new Error("This email address is already registered.");
-        } else {
-          throw new Error("An error occurred during registration.");
-        }
+        const message = (await res.json()).error;
+        throw new Error(message);
       }
 
       toast({
