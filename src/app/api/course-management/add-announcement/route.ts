@@ -21,13 +21,11 @@ export async function POST(req: Request) {
     });
 
     if (requestor == undefined || requestor == null) {
-      return new NextResponse(
-        JSON.stringify({
-          status: "error",
-          message: "Not a valid user.",
-        }),
-        { status: 500 }
-      );
+      return NextResponse.json({
+        error: 'Not a valid user.'
+      }, {
+        status: 404
+      });
     }
 
     const inCourses = requestor.created_courses
@@ -35,13 +33,11 @@ export async function POST(req: Request) {
       .map((course) => course["id"]);
 
     if (requestor.role !== "TEACHER" || !inCourses.includes(courseId)) {
-      return new NextResponse(
-        JSON.stringify({
-          status: "error",
-          message: "You do not have the permission to make this request.",
-        }),
-        { status: 500 }
-      );
+      return NextResponse.json({
+        error: 'You do not have the permission to make this request.'
+      }, {
+        status: 403
+      });
     }
 
     const course = await prisma.course.findUnique({
@@ -51,13 +47,11 @@ export async function POST(req: Request) {
     });
 
     if (course == undefined || course == null) {
-      return new NextResponse(
-        JSON.stringify({
-          status: "error",
-          message: "Invalid course ID.",
-        }),
-        { status: 500 }
-      );
+      return NextResponse.json({
+        error: 'Invalid course ID.'
+      }, {
+        status: 404
+      });
     }
 
     const announcement = await prisma.announcement.create({
@@ -72,19 +66,16 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(
-      {
+    return NextResponse.json({
         announcement,
       },
       { status: 200 }
     );
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: "error",
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }

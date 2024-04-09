@@ -82,12 +82,10 @@ export async function POST(req: Request) {
       status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: "error",
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
