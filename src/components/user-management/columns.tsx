@@ -92,7 +92,8 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
         body: JSON.stringify({ email }),
       });
       if (!response.ok) {
-        throw new Error("Failed to delete user.");
+        const message = (await response.json()).error;
+        throw new Error(message);
       }
       toast({
         title: "Deletion Success",

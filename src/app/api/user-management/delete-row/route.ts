@@ -7,6 +7,20 @@ export async function DELETE(req: Request) {
       email: string;
     };
 
+    const requestor = await prisma.user.findUnique({
+      where: {
+          email: email,
+      },
+    })
+
+    if (requestor == undefined || requestor == null) {
+      return NextResponse.json({
+        error: 'Not a valid user.'
+      }, {
+        status: 404
+      });
+    }
+
     // Delete the user based on the email
     const deletedUser = await prisma.user.delete({
       where: {
@@ -18,14 +32,14 @@ export async function DELETE(req: Request) {
       deleted: {
         email: deletedUser.email,
       },
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
