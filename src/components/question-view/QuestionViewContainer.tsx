@@ -53,7 +53,7 @@ export default function QuestionViewContainer({
         variant: "destructive",
       });
     } else {
-      setFeedbacks(feedbacks.sort((a, b) => a.lineNumber - b.lineNumber));
+      setFeedbacks(feedback.sort((a, b) => a.lineNumber - b.lineNumber));
       setShouldApplyDecorations(true);
     }
     setIsChecking(false);
