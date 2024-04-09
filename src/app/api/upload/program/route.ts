@@ -14,15 +14,15 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   if (!filename) {
     return NextResponse.json(
-      { body: "Expected filename in url" },
-      { status: 500 }
+      { error: "Expected filename in url." },
+      { status: 400 }
     );
   }
   
   if (!request.body) {
     return NextResponse.json(
-      { body: "Expected file content in request body" },
-      { status: 500 }
+      { error: "Expected file content in request body." },
+      { status: 400 }
     );
   }
 

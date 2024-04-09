@@ -75,6 +75,11 @@ export default function QuestionViewContainer({
         }
       );
 
+      if (!response.ok) {
+        const message = (await response.json()).error;
+        throw new Error(message);
+      }
+
       const newBlob = (await response.json()) as PutBlobResult;
 
       const newSubmission = await createSubmission({

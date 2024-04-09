@@ -12,16 +12,23 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const { reference_program, courseId, ...content } = await request.json();
 
     if (!content) {
-      throw new Error("Expected question content.");
+      return NextResponse.json(
+        { error: "Expected question content." },
+        { status: 400 }
+      );
     }
 
     if (!courseId) {
-      throw new Error("Expected course id.");
+      return NextResponse.json(
+        { error: "Expected course id." },
+        { status: 400 }
+      );
     }
 
     if (!reference_program) {
-      throw new Error(
-        "Expected reference program id. Please upload the reference program first."
+      return NextResponse.json(
+        { error: "Expected reference program id. Please upload the reference program first." },
+        { status: 400 }
       );
     }
 
@@ -45,7 +52,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     if (!course) {
-      throw new Error("Unable to find course")
+      return NextResponse.json(
+        { error: "Unable to find course" },
+        { status: 404 }
+      );
     }
 
     await prisma.course.update({
@@ -62,6 +72,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(question, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ body: error.message }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
