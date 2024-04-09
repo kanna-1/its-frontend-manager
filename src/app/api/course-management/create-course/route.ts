@@ -21,6 +21,16 @@ import { Role } from "@prisma/client";
 
 // console.log(resbody);
 
+/**
+ * @swagger
+ * /api/course-management/create-course:
+ *   post:
+ *     description: Creates course
+ *     responses:
+ *       200:
+ *         description: The created course
+ */
+
 export async function POST(req: Request) {
   try {
     const { user_id, user_role, school_id, code, name } =
@@ -32,39 +42,14 @@ export async function POST(req: Request) {
         name: string;
       };
 
-    // const courseCreator = await prisma.user.findUnique({
-    //     where: {
-    //         email: email,
-    //     }
-    // });
-
-    // if (courseCreator == undefined) {
-    //     return new NextResponse(
-    //         JSON.stringify({
-    //           status: 'error',
-    //           message: 'Not a valid user.',
-    //         }),
-    //         { status: 500 }
-    //       );
-    // } else if (courseCreator.role !== 'TEACHER') {
-    //     return new NextResponse(
-    //         JSON.stringify({
-    //           status: 'error',
-    //           message: 'You do not have the permission to make this request.',
-    //         }),
-    //         { status: 500 }
-    //       );
-    // }
-
     if (user_role !== Role.TEACHER) {
-      return new NextResponse(
-        JSON.stringify({
-          status: "error",
-          message: "You do not have the permission to make this request.",
-        }),
-        { status: 500 }
-      );
+      return NextResponse.json({
+        error: 'You do not have the permission to make this request.'
+      }, {
+        status: 403
+      });
     }
+
     const courseId = school_id + "_" + code;
 
     const duplicateCourse = await prisma.course.findUnique({
@@ -74,13 +59,11 @@ export async function POST(req: Request) {
     })
 
     if (duplicateCourse !== null) {
-        return new NextResponse(
-            JSON.stringify({
-              status: 'error',
-              message: 'Course already exists.',
-            }),
-            { status: 500 }
-          );
+      return NextResponse.json({
+        error: 'Course already exists.'
+      }, {
+        status: 409
+      });
     }
 
     const courseToCreate = await prisma.course.create({
@@ -94,16 +77,15 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({
-      status: 'success',
-      courseToCreate,
+      courseToCreate
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: "error",
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }

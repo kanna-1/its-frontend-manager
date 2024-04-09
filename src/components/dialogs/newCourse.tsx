@@ -67,13 +67,20 @@ export default function NewCourseDialog({ user }: { user: User }) {
         },
       });
 
-      const resBody = await res.json();
-      if (resBody.status == "success") {
+      if (res.ok) {
         toast({
           title: "New Course Created",
           variant: "success",
         });
         router.push("/courses/" + values.code);
+      }
+      else {
+        const errorResponse = await res.json();
+        toast({
+            title: "Error Creating New Course",
+            description: errorResponse.error,
+            variant: "destructive",
+          });
       }
     } catch (error) {
       toast({

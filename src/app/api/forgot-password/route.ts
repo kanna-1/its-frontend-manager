@@ -17,33 +17,29 @@ export async function POST(req: Request) {
     })
 
     if (!user) {
-      return new NextResponse(
-        JSON.stringify({
-          status: 'error',
-          message: 'User not found.',
-        }),
-        { status: 500 }
-      );
+      return NextResponse.json({
+        error: `User not found.`
+      }, {
+        status: 404
+      });
     } else {
       // user exists
-      console.log(user.email)
       const passwordResetToken = await createPasswordResetToken(user.email)
       const result = await sendPasswordResetEmail(user.email, passwordResetToken.token)
-      console.log(result)
       return NextResponse.json({
         reset: {
           email: user.email,
         }
+      }, {
+        status: 200
       });
     }
 
   } catch (error: any) {
-      return new NextResponse(
-        JSON.stringify({
-          status: 'error',
-          message: error.message,
-        }),
-        { status: 500 }
-      );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }

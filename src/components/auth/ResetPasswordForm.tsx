@@ -50,7 +50,8 @@ export function ResetPasswordForm() {
       });
 
       if (!res.ok) {
-        throw new Error("An error occurred during registration.");
+        const message = (await res.json()).error;
+        throw new Error(message);
       }
       toast({
         title: "Password Reset Success",

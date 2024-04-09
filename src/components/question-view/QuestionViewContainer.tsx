@@ -75,6 +75,11 @@ export default function QuestionViewContainer({
         }
       );
 
+      if (!response.ok) {
+        const message = (await response.json()).error;
+        throw new Error(message);
+      }
+
       const newBlob = (await response.json()) as PutBlobResult;
 
       const newSubmission = await createSubmission({
@@ -100,7 +105,7 @@ export default function QuestionViewContainer({
       console.error(error);
       toast({
         title: "Submission Failed",
-        description: "Please save your work and try again later.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {

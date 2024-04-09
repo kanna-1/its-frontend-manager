@@ -78,6 +78,13 @@ export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncemen
         form.reset();
         setOpen(false);
         router.refresh()
+      } else {
+        const errorResponse = await res.json();
+        toast({
+          title: "New Announcement Failed",
+          description: errorResponse.error,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({

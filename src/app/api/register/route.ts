@@ -13,6 +13,19 @@ export async function POST(req: NextRequest) {
     };
     const hashed_password = await hash(password, 12);
 
+    const duplicateUser = await prisma.user.findUnique({
+      where: {
+          email: email,
+      }
+    })
+
+    if (duplicateUser !== null) {
+      return NextResponse.json({
+        error: 'This email address is already registered.'
+      }, {
+        status: 409
+      });
+    }
 
     const user = await prisma.user.create({
       data: {
@@ -29,14 +42,14 @@ export async function POST(req: NextRequest) {
         school_id: user.school_id,
         role: user.role,
       },
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
