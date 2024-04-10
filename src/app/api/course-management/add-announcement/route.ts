@@ -1,6 +1,69 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+/**
+ * @swagger
+ * /api/course-management/add-announcement:
+ *   post:
+ *     description: |
+ *       # Adds announcement to course
+ *       Adds an announcement to a course, consisting of a title and body taken from input, visible to all members
+ *       
+ *       **Request format**  
+ *       requestorEmail: string  
+ *       courseId: string  
+ *       title: string  
+ *       body: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               requestorEmail:
+ *                 type: string
+ *                 example: "teacheremail@inst001.com"
+ *               courseId:
+ *                 type: string
+ *                 example: "inst001_CS3213"
+ *               title:
+ *                 type: string
+ *                 example: "Notice to all students"
+ *               body:
+ *                 type: string
+ *                 example: "Classes are cancelled next Tuesday"
+ *     responses:
+ *       200:
+ *         description: Successfully added announcement to course
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: "announcement0000ugjkfcp30"
+ *               title: "Notice to all students"
+ *               body: "Classes are cancelled next Tuesday"
+ *               time: "2024-04-10T07:06:32.556Z"
+ *               course_id: "inst001_CS3213"
+ *       403:
+ *         description: Permission denied
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "You do not have the permission to make this request."
+ *       404:
+ *         description: Requestor or course not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Invalid course ID."
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Unexpected error occurred."
+ */
+
 export async function POST(req: Request) {
   try {
     const { requestorEmail, courseId, title, body } = (await req.json()) as {
