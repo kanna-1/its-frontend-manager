@@ -30,6 +30,15 @@ jest.mock('@/actions/getCourseInfo', () => {
         courseId: 'mockSchoolId_mock123'
     }]
 
+    // mock course's announcements
+    const mockAnnouncements = [{
+        id: 'mockAnnouncementId1',
+        title: 'mockAnnouncementTitle1',
+        body: 'mockAnnouncementBody1',
+        time: new Date(),
+        course_id: 'mockSchoolId_mock123',
+    }]
+
     return {
         getCourseInfo: jest.fn().mockResolvedValue({
             id: 'mockSchoolId_mock123',
@@ -38,7 +47,8 @@ jest.mock('@/actions/getCourseInfo', () => {
             creator_id: 'mockCreatorId',
             school_id: 'mockSchoolId',
             members: [],
-            questions: mockQuestions
+            questions: mockQuestions,
+            announcements: mockAnnouncements,
         })
     }    
 })

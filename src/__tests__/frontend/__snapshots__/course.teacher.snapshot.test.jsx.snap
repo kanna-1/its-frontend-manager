@@ -91,10 +91,46 @@ exports[`renders teacher's course page unchanged 1`] = `
             Announcements
           </h3>
           <button
-            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2"
+            aria-controls="radix-:r4:"
+            aria-expanded="false"
+            aria-haspopup="dialog"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+            data-state="closed"
+            type="button"
           >
             New Announcement
           </button>
+        </div>
+        <div
+          class="mt-2 space-y-4"
+        >
+          <div
+            class="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col"
+          >
+            <div
+              class="flex flex-col space-y-1.5 p-6"
+            >
+              <h3
+                class="text-2xl font-semibold leading-none tracking-tight"
+              >
+                mockAnnouncementTitle1
+              </h3>
+              <p
+                class="text-sm text-gray-500"
+              >
+                Wed Apr 10 2024
+              </p>
+            </div>
+            <div
+              class="p-6 pt-0 flex-1"
+            >
+              <p
+                class="text-sm text-muted-foreground"
+              >
+                mockAnnouncementBody1
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       <div

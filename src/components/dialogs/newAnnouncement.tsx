@@ -97,7 +97,7 @@ export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncemen
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button>New Announcement</Button>
       </DialogTrigger>
       <DialogContent>

@@ -6,6 +6,15 @@ import CourseView from '@/app/courses/[courseId]/page'
 const mockCourseIdParam = {
     courseId: 'mock123'
 }
+
+// mock useRouter
+jest.mock("next/navigation", () => ({
+    useRouter() {
+        return {
+        prefetch: () => null
+        };
+    }
+    }));
   
 // mock server action getUserProps
 jest.mock('@/actions/getUserProps', () => ({
@@ -42,6 +51,15 @@ jest.mock('@/actions/getCourseInfo', () => {
             role: 'STUDENT',
         }
     ]
+
+    // mock course's announcements
+    const mockAnnouncements = [{
+        id: 'mockAnnouncementId1',
+        title: 'mockAnnouncementTitle1',
+        body: 'mockAnnouncementBody1',
+        time: new Date(),
+        course_id: 'mockSchoolId_mock123',
+    }]
     
     return {
         getCourseInfo: jest.fn().mockResolvedValue({
@@ -52,6 +70,7 @@ jest.mock('@/actions/getCourseInfo', () => {
             school_id: 'mockSchoolId',
             members: mockMembers,
             questions: mockQuestions,
+            announcements: mockAnnouncements,
         }),
     }
 })
