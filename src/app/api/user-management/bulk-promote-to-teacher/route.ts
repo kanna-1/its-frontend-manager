@@ -1,15 +1,42 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// example usage:
-// const emailsdata = {
-//     emails: ['test2@test.com', 'test3@test.com']
-// };
-
-// const res2 = await fetch(process.env.URL + '/api/user-management/bulk-promote-to-teacher', {
-//     method: 'POST',
-//     body: JSON.stringify(emailsdata),
-// });
+/**
+ * @swagger
+ * /api/user-management/bulk-promote-to-teacher:
+ *   post:
+ *     summary: UNUSED
+ *     description: |
+ *       # (UNUSED) Promotes multiple users to teacher role
+ *       Changes role of all specified users in the input list of emails, to "teacher"
+ *       
+ *       **Request format**  
+ *       emails: string[]  
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               emails:
+ *                 type: string[]
+ *                 example: ["teachertobe1@test.com", "teachertobe2@test.com"]
+ *     responses:
+ *       200:
+ *         description: Successfully changed users' role to teacher
+ *         content:
+ *           application/json:
+ *             example:
+ *               promoteToTeachers: 
+ *                 count: 2
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Unexpected error occurred."
+ */
 
 export async function POST(req: Request) {
   try {
@@ -31,14 +58,14 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       promoteToTeachers
+    }, {
+      status: 200
     });
   } catch (error: any) {
-    return new NextResponse(
-      JSON.stringify({
-        status: 'error',
-        message: error.message,
-      }),
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message
+    }, {
+      status: 500
+    });
   }
 }
