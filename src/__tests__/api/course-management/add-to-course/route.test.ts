@@ -7,7 +7,7 @@ import { prismaMock } from '@/prisma-mock';
 import { Role } from "@prisma/client";
 
 describe('/api/course-management/add-to-course/route', () => {
-    test('should return status 500 as student has no permission to add users to course', async () => {
+    test('should return status 403 as student has no permission to add users to course', async () => {
         const student = {
             id: "1",
             email: 'student@test.com',
@@ -27,14 +27,14 @@ describe('/api/course-management/add-to-course/route', () => {
       // Call the POST function
       const response = await POST(requestObj);
       const body = await response.json();
-        console.log(body)
+
       // Check the response
-      expect(response.status).toBe(500);
-      expect(body.message).toEqual('You do not have the permission to make this request.');
+      expect(response.status).toBe(403);
+      expect(body.error).toEqual('You do not have the permission to make this request.');
 
     })
 
-    test('should return status 500 as requestor is null', async () => {
+    test('should return status 404 as requestor is null', async () => {
       prismaMock.user.findUnique.mockResolvedValue(null)
 
       const requestObj = {
@@ -49,12 +49,12 @@ describe('/api/course-management/add-to-course/route', () => {
       const body = await response.json();
 
       // Check the response
-      expect(response.status).toBe(500);
-      expect(body.message).toEqual('Not a valid user.');
+      expect(response.status).toBe(404);
+      expect(body.error).toEqual('Not a valid user.');
 
     })
 
-    test('should return status 500 as the course is undefined', async () => {
+    test('should return status 404 as the course is undefined', async () => {
         const teacher = {
             id: "2",
             email: 'teacher@test.com',
@@ -77,8 +77,8 @@ describe('/api/course-management/add-to-course/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.message).toEqual('Invalid course ID.');
+        expect(response.status).toBe(404);
+        expect(body.error).toEqual('Invalid course ID.');
 
     })
 

@@ -7,7 +7,7 @@ import { prismaMock } from '@/prisma-mock';
 import { Role } from "@prisma/client";
 
 describe('/api/course-management/add-announcement/route', () => {
-    test('should return status 500 as requestor is null', async () => {
+    test('should return status 404 as requestor is null', async () => {
       prismaMock.user.findUnique.mockResolvedValue(null)
 
       const requestObj = {
@@ -23,12 +23,12 @@ describe('/api/course-management/add-announcement/route', () => {
       const body = await response.json();
 
       // Check the response
-      expect(response.status).toBe(500);
-      expect(body.message).toEqual('Not a valid user.');
+      expect(response.status).toBe(404);
+      expect(body.error).toEqual('Not a valid user.');
 
     })
 
-    test('should return status 500 as requestor is student', async () => {
+    test('should return status 403 as requestor is student', async () => {
 
         const student = {
             id: "1",
@@ -55,12 +55,12 @@ describe('/api/course-management/add-announcement/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.message).toEqual('You do not have the permission to make this request.');
+        expect(response.status).toBe(403);
+        expect(body.error).toEqual('You do not have the permission to make this request.');
 
     })
 
-    test('should return status 500 as course is not found', async () => {
+    test('should return status 404 as course is not found', async () => {
         const course = {
             id: "inst001_CS3213",
             code: "CS3213",
@@ -95,8 +95,8 @@ describe('/api/course-management/add-announcement/route', () => {
         const body = await response.json();
 
         // Check the response
-        expect(response.status).toBe(500);
-        expect(body.message).toEqual('Invalid course ID.');
+        expect(response.status).toBe(404);
+        expect(body.error).toEqual('Invalid course ID.');
 
     })
 
@@ -142,7 +142,6 @@ describe('/api/course-management/add-announcement/route', () => {
 
         // Call the POST function
         const response = await POST(requestObj);
-        const body = await response.json();
 
         // Check the response
         expect(response.status).toBe(200);
@@ -161,7 +160,6 @@ describe('/api/course-management/add-announcement/route', () => {
 
         // Call the POST function
         const response = await POST(requestObj);
-        const body = await response.json();
 
         // Check the response
         expect(response.status).toBe(500);

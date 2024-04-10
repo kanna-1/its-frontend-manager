@@ -57,7 +57,7 @@ describe('/api/forgot-password/route', () => {
 
     })
 
-    test('should return status 500 when user is not found', async () => {
+    test('should return status 404 when user is not found', async () => {
         const requestObj = {
             json: async () => ({
                 email: ""
@@ -68,7 +68,7 @@ describe('/api/forgot-password/route', () => {
         // Call the POST function
         const response = await POST(requestObj);
 
-        expect(response.status).toBe(500);
+        expect(response.status).toBe(404);
     })
 
     test('should return status 500 when error is encountered', async () => {
