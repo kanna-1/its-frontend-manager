@@ -57,7 +57,7 @@ jest.mock('@/actions/getCourseInfo', () => {
         id: 'mockAnnouncementId1',
         title: 'mockAnnouncementTitle1',
         body: 'mockAnnouncementBody1',
-        time: new Date(),
+        time: new Date('April 10, 2024 10:24:00'),
         course_id: 'mockSchoolId_mock123',
     }]
     
