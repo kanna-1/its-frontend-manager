@@ -1,15 +1,48 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// example usage:
-// const emaildata = {
-//     email: 'test1@test.com',
-// };
-
-// const res1 = await fetch(process.env.URL + '/api/user-management/promote-to-teacher', {
-//     method: 'POST',
-//     body: JSON.stringify(emaildata),
-// });
+/**
+ * @swagger
+ * /api/user-management/promote-to-teacher:
+ *   post:
+ *     description: |
+ *       # Promotes a user to teacher role
+ *       Changes role of user, specified by input email, to "teacher"
+ *       
+ *       **Request format**  
+ *       email: string  
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "teachertobe@test.com"
+ *     responses:
+ *       200:
+ *         description: Successfully changed user's role to teacher
+ *         content:
+ *           application/json:
+ *             example:
+ *               promoted: 
+ *                 email: "teachertobe@test.com"
+ *                 updatedrole: "TEACHER"
+ *       404:
+ *         description: Target user not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Not a valid user."
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Unexpected error occurred."
+ */
 
 export async function POST(req: Request) {
   try {

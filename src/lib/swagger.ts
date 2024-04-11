@@ -7,18 +7,10 @@ export const getApiDocs = async () => {
       openapi: '3.0.0',
       info: {
         title: 'API Documentation',
+        description: `This documentation specifies the details of the API routes 
+        that form the backend of the Management System for ITS.`,
         version: '1.0',
       },
-      components: {
-        securitySchemes: {
-          BearerAuth: {
-            type: 'http',
-            scheme: 'bearer',
-            bearerFormat: 'JWT',
-          },
-        },
-      },
-      security: [],
     },
   });
   return spec;

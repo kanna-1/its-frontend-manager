@@ -3,32 +3,72 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { Role } from "@prisma/client";
 
-// example usage:
-// const reqdata = {
-//    user_id: user.id,
-//    user_role: user.role,
-//    school_id: user.school_id,
-//    code: values.code.toUpperCase(),
-//    name: values.name,
-// };
-
-// const res4 = await fetch(process.env.URL + '/api/course-management/create-course', {
-//     method: 'POST',
-//     body: JSON.stringify(reqdata),
-// });
-
-// const resbody = await res4.json();
-
-// console.log(resbody);
-
 /**
  * @swagger
  * /api/course-management/create-course:
  *   post:
- *     description: Creates course
+ *     description: |
+ *       # Course creation
+ *       Creates a course with input details. The course is created as part of the creator's school.
+ *       
+ *       **Request format**  
+ *       user_id: string  
+ *       user_role: Role  
+ *       school_id: string  
+ *       code: string  
+ *       name: string  
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *                 example: "userID13z814m"
+ *               user_role:
+ *                 type: Role
+ *                 example: "TEACHER"
+ *               school_id:
+ *                 type: string
+ *                 example: "inst_001"
+ *               code:
+ *                 type: string
+ *                 example: "CS3213"
+ *               name:
+ *                 type: string
+ *                 example: "Foundations of Software Engineering"
  *     responses:
  *       200:
- *         description: The created course
+ *         description: Successfully created course
+ *         content:
+ *           application/json:
+ *             example:
+ *               courseToCreate:
+ *                 id: "inst001_CS3213"
+ *                 code: "CS3213"
+ *                 name: "Foundations of Software Engineering"
+ *                 creator_id: "userID13z814m"
+ *                 school_id: "inst001"
+ *       403:
+ *         description: Permission denied
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "You do not have the permission to make this request."
+ *       409:
+ *         description: Course already exists
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Course already exists."
+ *       500:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Unexpected error occurred."
  */
 
 export async function POST(req: Request) {
