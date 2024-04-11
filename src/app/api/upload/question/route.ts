@@ -41,7 +41,7 @@ import prisma from "@/lib/prisma";
  *                 description: The URL of the uploaded reference program associated with the question.
  *     responses:
  *       200:
- *         description: Successful question creation
+ *         description: Successful question creation. Returns the newly created question object.
  *         content:
  *           application/json:
  *             schema:
