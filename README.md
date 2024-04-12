@@ -6,6 +6,7 @@ To get started with your own development, you will need the following prerequisi
 
 1. A [Vercel account](https://vercel.com/signup)
 2. Basic knowledge of [Git](https://git-scm.com/doc) and [NPM](https://www.npmjs.com/)
+3. An email domain for sending emails
 
 ### Part 1: Set up a Vercel environment
 
@@ -31,7 +32,17 @@ openssl rand -base64 32
 
 5. Clone the forked repository into your local drive
 6. Navigate to the project directory with your preferred IDE or via the CLI
-7. Rename the environment variable file `.env.local` to `.env` and fill in the corresponding key-value (you may retrieve them from _Vercel.com > Your project > Settings > Environment Variables_)
+7. Rename the environment variable file `.env.local` to `.env`
+8. For the environment variables under `# NextAuth`, `# Vercel Blob` and , `# Vercel Postgres` _(see below)_, you may retrieve them from _Vercel.com > Your project > Settings > Environment Variables._
+9. For the `PUBLIC_URL` environment variable, you can retrieve it from _Vercel.com > Your project > Settings > Domains._ For example, the `PUBLIC_URL` environment variable for this project is set to `"https://its-frontend-manager.vercel.app"`.
+10. For the sending of reset password email, you can either use third-party mail service providers or libraries as such [nodemailer](https://nodemailer.com/). You can refer to this [Vercel guide](https://vercel.com/guides/sending-emails-from-an-application-on-vercel) for more information.
+11. If you use third-party service providers, you can remove the environment variables under `# Node Mailer` (_see below_) from your `.env` file. You will also have to reconfigure `send-reset-email.ts` based on your service provider's documentation.
+12. For this project, our team has decided to use the Nodemailer library with [Zoho](https://www.zoho.com/mail/) email hosting service.
+13. If you use `Nodemailer` with an email domain other than Zoho, you will have to reconfigure the environment variables under `# Node Mailer` (and possibly the _`send-reset-email.ts`_ file) based on the email domain used. You can read more about that at [nodemailer](https://nodemailer.com/).
+14. If you choose to use Zoho email hosting service with the Nodemailer library, you can retrieve the following environment variables with the steps below:
+- `SMTP_HOST="smtp.zoho.com"`, if you use the US data server, `SMTP_HOST="smtp.zoho.eu"` if you use the European data server.
+- For `APP_PASSWORD`, you can generate an app password from _mail.zoho.com/ > My profile > My Account > Security > App Password_
+- For `HOST_EMAIL`, you should use your Zoho mail account.
 
 ```bash
 # NextAuth
@@ -50,10 +61,12 @@ POSTGRES_URL_NON_POOLING=""
 POSTGRES_URL_NO_SSL=""
 POSTGRES_USER=""
 
+# Vercel deployment domain
+PUBLIC_URL=""
+
 # Node Mailer
 APP_PASSWORD=""
 HOST_EMAIL=""
-PUBLIC_URL=""
 SMTP_HOST=""
 ```
 
