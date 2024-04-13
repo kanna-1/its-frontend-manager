@@ -76,7 +76,7 @@ SMTP_HOST=""
 vercel env pull
 ```
 
-9. Install the project dependencies and generate Prisma client
+15. Install the project dependencies and generate Prisma client
 
 ```bash
 npm install
@@ -86,14 +86,14 @@ npm install
 
 > At this point, you should have correctly configured the deployed project on Vercel and the local project environment
 
-10. Push the database schema and seed the database with some initial values
+16. Push the database schema and seed the database with some initial values
 
 ```bash
 npx prisma db push
 npx prisma db seed
 ```
 
-11. Finally you can view the deployed project or run a local development
+17. Finally you can view the deployed project or run a local development
 
 ```bash
 npm run dev
