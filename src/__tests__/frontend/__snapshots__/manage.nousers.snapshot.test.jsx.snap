@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders admin's user management page unchanged 1`] = `
+<div>
+  <h1
+    class="text-xl font-semibold mb-2"
+  >
+    User Management
+  </h1>
+  <div
+    class="flex items-center justify-between mb-4"
+  >
+    <p>
+      Institution: 
+      mockSchoolName
+    </p>
+    <input
+      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-sm"
+      placeholder="Search by email"
+      value=""
+    />
+  </div>
+  <div
+    class="rounded-md border"
+  >
+    <div
+      class="relative w-full overflow-auto"
+    >
+      <table
+        class="w-full caption-bottom text-sm"
+      >
+        <thead
+          class="[&_tr]:border-b"
+        >
+          <tr
+            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+          >
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Select
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Email
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Role
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              ID
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="[&_tr:last-child]:border-0"
+        >
+          <tr
+            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+          >
+            <td
+              class="p-4 align-middle [&:has([role=checkbox])]:pr-0 h-24 text-center"
+              colspan="5"
+            >
+              No results.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;

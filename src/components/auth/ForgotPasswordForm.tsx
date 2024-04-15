@@ -32,6 +32,7 @@ export function ForgotPasswordForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("SUBMITTED")
     try {
       const res = await fetch("/api/forgot-password", {
         method: "POST",
@@ -47,7 +48,8 @@ export function ForgotPasswordForm() {
           description: "Welcome back!",
           variant: "success",
         });
-        signIn(undefined, { callbackUrl: "/" });
+        console.log("OK")
+        signIn(undefined, { callbackUrl: "/" }); 
       } else {
         const message = (await res.json()).error;
         throw new Error(message);
