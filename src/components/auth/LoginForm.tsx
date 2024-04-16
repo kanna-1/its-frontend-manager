@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-
 import { useRouter } from "next/navigation";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {
@@ -28,7 +27,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-export default function LoginForm() : React.JSX.Element {
+export default function LoginForm(): React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -40,7 +39,7 @@ export default function LoginForm() : React.JSX.Element {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       const res = await signIn("credentials", {
         redirect: false,

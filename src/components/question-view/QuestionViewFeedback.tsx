@@ -11,7 +11,7 @@ export default function QuestionViewFeedback({
   feedbacks,
 }: {
   feedbacks: FeedbackType[];
-}) : React.JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="flex flex-col h-3/4 space-y-2 ml-4">
       <h4 className="font-medium">Feedback Console</h4>

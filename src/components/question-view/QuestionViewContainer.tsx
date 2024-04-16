@@ -1,5 +1,12 @@
 "use client";
 
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { Course, Question, Submission, User } from "@prisma/client";
+import { getCodeFeedback } from "@/actions/getCodeFeedback";
+import { createSubmission } from "@/actions/createSubmission";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {
   ResizableHandle,
@@ -7,16 +14,9 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import { getCodeFeedback } from "@/actions/getCodeFeedback";
-import { createSubmission } from "@/actions/createSubmission";
 import QuestionViewFeedback, { FeedbackType } from "@/components/question-view//QuestionViewFeedback";
 import QuestionViewEditor from "@/components/question-view/QuestionViewEditor";
-import { Course, Question, Submission, User } from "@prisma/client";
 import { PutBlobResult } from "@vercel/blob";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 
 export default function QuestionViewContainer({
   user,
@@ -24,7 +24,7 @@ export default function QuestionViewContainer({
 }: {
   user: User;
   question: Question & { course: Course; submissions: Submission[] };
-}) : React.JSX.Element {
+}): React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const [editorContent, setEditorContent] = useState("");
@@ -33,12 +33,12 @@ export default function QuestionViewContainer({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbacks, setFeedbacks] = useState<FeedbackType[]>([]);
 
-  const handleEditorChange = (value: string | undefined) : void => {
+  const handleEditorChange = (value: string | undefined): void => {
     setEditorContent(value || "");
     setShouldApplyDecorations(false);
   };
 
-  const handleFeedback = async () : Promise<void> => {
+  const handleFeedback = async (): Promise<void> => {
     setIsChecking(true);
     const { status, feedback } = await getCodeFeedback({
       question: question,
@@ -57,7 +57,7 @@ export default function QuestionViewContainer({
     setIsChecking(false);
   };
 
-  const handleSubmission = async () : Promise<void> => {
+  const handleSubmission = async (): Promise<void> => {
     setIsSubmitting(true);
     try {
       const solFile = new File(

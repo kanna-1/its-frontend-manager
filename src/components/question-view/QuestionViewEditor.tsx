@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Editor, { Monaco, OnMount } from "@monaco-editor/react";
-import { FeedbackType } from "./QuestionViewFeedback";
 import * as monaco from "monaco-editor";
+import { FeedbackType } from "./QuestionViewFeedback";
 
 const language_map = {
   py: "python",
@@ -13,19 +13,19 @@ export default function QuestionViewEditor({
   language,
   feedback,
   shouldApplyDecorations,
-} : {
-  handleEditorChange: (value: string | undefined) => void;
+}: {
+  handleEditorChange:(value: string | undefined) => void;
   language: string;
   feedback: FeedbackType[];
   shouldApplyDecorations: boolean;
-}) : React.JSX.Element {
+}): React.JSX.Element {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<Monaco | null>(null);
 
   function applyDecorations(
     editor: monaco.editor.IStandaloneCodeEditor | null,
     feedback: FeedbackType[]
-  ) : monaco.editor.IEditorDecorationsCollection | undefined {
+  ): monaco.editor.IEditorDecorationsCollection | undefined {
     if (!editor || !editor.getModel()) return;
 
     const decorations = feedback.map((fb) => ({
@@ -35,11 +35,10 @@ export default function QuestionViewEditor({
         inlineClassName: "highlightedLine",
       },
     }));
-
     return editor.createDecorationsCollection(decorations);
   }
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
+  const handleEditorDidMount:OnMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
   };

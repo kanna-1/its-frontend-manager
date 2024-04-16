@@ -4,12 +4,12 @@ import * as monaco from "monaco-editor";
 
 export default function SubmissionViewEditor({
   code,
-} : {
+}: {
   code: string;
-}) : React.JSX.Element {
+}): React.JSX.Element {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
-  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) : void  {
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor): void  {
     editorRef.current = editor;
   }
   return (

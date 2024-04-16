@@ -1,5 +1,14 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
+import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
+import { Course, Question, Role, Submission, User } from "@prisma/client";
 import { Button, LoadingButton } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -8,15 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
 import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
-import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
-import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
-import { Course, Question, Role, Submission, User } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   feedback: z.string(),
@@ -33,7 +33,7 @@ export default function SubmissionViewContainer({
   question: Question & { course: Course };
   user: User;
   code: string;
-}) : React.JSX.Element {
+}): React.JSX.Element {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,7 +43,7 @@ export default function SubmissionViewContainer({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       await setSubmissionFeedback({
         submission_id: submission.id,

@@ -1,9 +1,9 @@
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronRightCircle } from "lucide-react";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
-import React from "react";
 
 type Users = {
   email: string;
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Users>[] = [
   },
 ];
 
-function MoreDetails({ submissionid }: { submissionid: string }) : React.JSX.Element {
+function MoreDetails({ submissionid }: { submissionid: string }): React.JSX.Element {
   const pathname = usePathname();
   return (
     <Link href={pathname.replace("grading", submissionid)}>

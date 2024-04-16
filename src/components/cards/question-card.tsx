@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Card,
   CardContent,
@@ -16,7 +15,7 @@ type QuestionCardProps = {
 export default function QuestionCard({
   question_title,
   question_description,
-} : QuestionCardProps) : React.JSX.Element {
+}: QuestionCardProps): React.JSX.Element {
   return (
     <Card className="min-w-64 min-h-32">
       <CardHeader>

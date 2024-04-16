@@ -1,4 +1,7 @@
 import React from "react";
+import { useRouter } from "next/navigation";
+import { User } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,10 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
-import { User } from "@prisma/client";
-import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -83,7 +83,7 @@ const ActionDropdown: React.FC<{ email: string }> = ({ email }) => {
     }
   };
 
-  const deleteUser : () => Promise<void> = async () => {
+  const deleteUser: () => Promise<void> = async () => {
     try {
       const response = await fetch("/api/user-management/delete-row", {
         method: "DELETE",

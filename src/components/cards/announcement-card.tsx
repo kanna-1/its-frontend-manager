@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Announcement } from "@prisma/client";
 import {
   Card,
@@ -11,9 +10,9 @@ import {
 
 export default function AnnouncementCard({
   announcement,
-} : {
+}: {
   announcement: Announcement;
-}) : React.JSX.Element {
+}): React.JSX.Element {
   return (
     <Card className="flex flex-col">
       <CardHeader>

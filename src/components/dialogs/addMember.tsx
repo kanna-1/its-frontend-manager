@@ -1,5 +1,11 @@
 "use client";
 
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { Course, User } from "@prisma/client";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,12 +25,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Course, User } from "@prisma/client";
 
 const formSchema = z.object({
   emails: z.string(),
@@ -36,7 +36,7 @@ export default function AddMemberDialog({
 }: {
   user: User;
   course: Course;
-}) : React.JSX.Element {
+}): React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -48,7 +48,7 @@ export default function AddMemberDialog({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       if (!values.emails.trim()) {
         throw new Error("Email field cannot be empty!");

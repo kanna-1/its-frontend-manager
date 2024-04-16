@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { Lock } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -26,7 +25,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-export function ResetPasswordForm() :React.JSX.Element {
+export function ResetPasswordForm(): React.JSX.Element {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -38,7 +37,7 @@ export function ResetPasswordForm() :React.JSX.Element {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       const res = await fetch("/api/reset-password", {
         method: "POST",

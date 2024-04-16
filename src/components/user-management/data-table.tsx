@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState } from "react";
+import { Role } from "@prisma/client";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -20,8 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Role } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   institution: string;
@@ -41,13 +41,13 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   filterValue,
-} : DataTableProps<TData, TValue>) : React.ReactNode {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+}: DataTableProps<TData, TValue>): React.ReactNode {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
-  );
+  ); 
   const filteredData = filterValue ? filterData(data, filterValue) : data;
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Filter out data where role is ADMIN
   const filteredDataWithoutAdmin = filteredData.filter(

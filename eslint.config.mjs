@@ -8,6 +8,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReactConfig,
+  
   {
     rules: {
         // Turn off rule that enforces react must be imported
@@ -22,22 +23,6 @@ export default [
         "@typescript-eslint/explicit-module-boundary-types": "warn", // Requires explicit return types on exported functions and classes
         "@typescript-eslint/no-explicit-any": "warn", // Disallows `any` as a type
         "no-multiple-empty-lines": ["error", { "max": 1 }], // Rule to disallow double newlines
-        
-        // "@typescript-eslint/naming-convention": [
-        //   "warn",
-        //   {
-        //     "selector": "variable",
-        //     "format": ["snake_case"] // Variables should be in snake_case format
-        //   },
-        //   {
-        //     "selector": "function",
-        //     "format": ["camelCase"] // Functions should be in camelCase format
-        //   },
-        //   {
-        //     "selector": "typeLike",
-        //     "format": ["PascalCase"] // Types/interfaces should be in PascalCase format
-        //   }
-        // ],
     }
   }
 ];

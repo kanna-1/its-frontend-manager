@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { Landmark, Lock, Mail } from "lucide-react";
 import { School } from "@prisma/client";
 import { LoadingButton } from "@/components/ui/button";
@@ -22,7 +21,7 @@ const formSchema = z.object({
   institution: z.string().min(1, { message: "Select a valid institution" }),
 });
 
-export function RegisterForm({ schools } : { schools: School[] }) : React.JSX.Element {
+export function RegisterForm({ schools }: { schools: School[] }): React.JSX.Element {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,7 +33,7 @@ export function RegisterForm({ schools } : { schools: School[] }) : React.JSX.El
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       const res = await fetch("/api/register", {
         method: "POST",

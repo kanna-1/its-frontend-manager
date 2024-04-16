@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { columns } from "../course-member-list/columns";
 import { DataTable } from "@/components/course-member-list/data-table";
 import { User } from "@prisma/client";
@@ -17,11 +16,11 @@ export default function DataTableContainer ({
   members,
   courseId,
   requestorEmail
-} : {
+}: {
   members: User[];
   courseId: string;
   requestorEmail: string;
-  }) : React.JSX.Element {
+  }): React.JSX.Element {
   const data: Users[] = members.map(user => ({
     email: user.email,
     role: user.role,

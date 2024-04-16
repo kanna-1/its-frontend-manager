@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import { ArrowUpDown, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ type Users = {
 export const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "email",
-    header: ({ column }) : React.ReactNode => {
+    header: ({ column }): React.ReactNode => {
       return (
         <div className="flex items-center">
           <span>Email</span>
@@ -36,7 +35,7 @@ export const columns: ColumnDef<Users>[] = [
   },
   {
     accessorKey: "role",
-    header: ({ column }) : React.ReactNode => {
+    header: ({ column }): React.ReactNode => {
       return (
         <div className="flex items-center">
           <span>Role</span>
