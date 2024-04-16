@@ -10,15 +10,15 @@ export default async function QuestionView({
   params: { questionId: string; courseId: string };
 }) {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: false,
-    includeSubmissions: true,
+    include_school: false,
+    include_courses: false,
+    include_submissions: true,
   });
 
   const question = await getQuestionInfo({
-    questionId: params.questionId,
-    courseId: params.courseId.toUpperCase(),
-    schoolId: user.school_id,
+    question_id: params.questionId,
+    course_id: params.courseId.toUpperCase(),
+    school_id: user.school_id,
   });
 
   if (!question || user.role === Role.TEACHER) {

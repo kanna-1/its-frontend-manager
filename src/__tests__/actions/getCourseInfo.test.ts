@@ -18,13 +18,13 @@ describe('/actions/getCourseInfo', () => {
         }
         prismaMock.course.findUnique.mockResolvedValue(test_course)
 
-        const courseId = {
+        const course_id = {
             json: async () => ({
-                courseId: 'inst001_CS3213'
+                course_id: 'inst001_CS3213'
             }), } as any
 
         // Call the function
-        const course = await getCourseInfo(courseId);
+        const course = await getCourseInfo(course_id);
         expect(course).toEqual(test_course);
 
     })
@@ -32,13 +32,13 @@ describe('/actions/getCourseInfo', () => {
     test('should not return course info as course is null', async () => {
         prismaMock.course.findUnique.mockResolvedValue(null)
 
-        const courseId = {
+        const course_id = {
             json: async () => ({
-                courseId: ''
+                course_id: ''
             }), } as any
 
         // Call the function
-        const course = await getCourseInfo(courseId);
+        const course = await getCourseInfo(course_id);
         expect(course).toEqual(null);
 
     })
@@ -46,13 +46,13 @@ describe('/actions/getCourseInfo', () => {
     test('should return error', async () => {
         prismaMock.course.findUnique.mockRejectedValue(new Error())
 
-        const courseId = {
+        const course_id = {
             json: async () => ({
-                courseId: 'inst001_CS3213'
+                course_id: 'inst001_CS3213'
             }), } as any
 
         // Call the function
-        const course = await getCourseInfo(courseId);
+        const course = await getCourseInfo(course_id);
         expect(course).toEqual(null);
     })
 })

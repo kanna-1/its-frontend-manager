@@ -33,7 +33,7 @@ describe('/actions/getQuestionInfo', () => {
         prismaMock.question.findUnique.mockResolvedValue(question)
 
         // Call the function
-        const questionInfo = await getQuestionInfo({questionId: "question_1", courseId: "CS3213", schoolId: "inst001"});
+        const questionInfo = await getQuestionInfo({question_id: "question_1", course_id: "CS3213", school_id: "inst001"});
         expect(questionInfo).toEqual(question);
     })
 
@@ -41,7 +41,7 @@ describe('/actions/getQuestionInfo', () => {
         prismaMock.question.findUnique.mockResolvedValue(null)
 
         // Call the function
-        const questionInfo = await getQuestionInfo({questionId: "question_1", courseId: "CS3213", schoolId: "inst001"});
+        const questionInfo = await getQuestionInfo({question_id: "question_1", course_id: "CS3213", school_id: "inst001"});
         expect(questionInfo).toEqual(null);
     })
 

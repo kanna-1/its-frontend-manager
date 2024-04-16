@@ -6,9 +6,9 @@ import Link from "next/link";
 
 export default async function MyCourseView() {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: true,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: true,
+    include_submissions: false,
   });
   const isTeacher = user.role === Role.TEACHER;
 

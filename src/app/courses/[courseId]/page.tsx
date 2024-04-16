@@ -17,13 +17,13 @@ export default async function CourseView({
   params: { courseId: string };
 }) {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: false,
+    include_submissions: false,
   });
 
   const course = await getCourseInfo({
-    courseId: `${user.school_id}_${params.courseId}`,
+    course_id: `${user.school_id}_${params.courseId}`,
   });
   if (!course) {
     redirect("/courses");

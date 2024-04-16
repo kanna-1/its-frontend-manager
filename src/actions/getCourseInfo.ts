@@ -1,12 +1,24 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { Announcement, Course, Question, User } from "@prisma/client";
 
-export async function getCourseInfo({ courseId }: { courseId: string }) {
+export async function getCourseInfo({
+  course_id,
+}: {
+  course_id: string;
+}): Promise<
+  | (Course & {
+      questions: Question[];
+      members: User[];
+      announcements: Announcement[];
+    })
+  | null
+> {
   try {
     const course = await prisma.course.findUnique({
       where: {
-        id: courseId,
+        id: course_id,
       },
       include: {
         questions: true,

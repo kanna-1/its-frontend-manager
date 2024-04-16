@@ -13,7 +13,7 @@ export async function getQuestionSubmissions({
   question_id,
 }: {
   question_id: string;
-}) {
+}): Promise<UserSubmission[] | null> {
   try {
     const question = await prisma.question.findUnique({
       where: {

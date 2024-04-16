@@ -12,9 +12,9 @@ export default async function GradingDashboardView({
   params: { questionId: string; courseId: string };
 }) {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: false,
+    include_submissions: false,
   });
 
   if (user.role != Role.TEACHER) {

@@ -39,7 +39,7 @@ describe('/actions/getUsers', () => {
         expect(users).toEqual(expected_users);
     })
 
-    test('should return error when getting users if requestor is not admin', async () => {
+    test('should return null when getting users if requestor is not admin', async () => {
 
         const student = {
             id: "1",
@@ -50,7 +50,7 @@ describe('/actions/getUsers', () => {
         };
 
         // Call the function
-        expect.assertions(1);
-        await expect(getUsers(student)).rejects.toThrow("User is not admin");
+        const users = await getUsers(student);
+        expect(users).toBeNull();
     })
 })

@@ -1,13 +1,14 @@
-"use server"
+"use server";
 
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { School } from "@prisma/client";
 
-export async function getSchools() {
+export async function getSchools(): Promise<School[] | null> {
   try {
-    const school = await prisma.school.findMany()
-    return school
+    const schools = await prisma.school.findMany();
+    return schools;
   } catch (error) {
-    console.error(error)
-    return null
+    console.error(error);
+    return null;
   }
 }
