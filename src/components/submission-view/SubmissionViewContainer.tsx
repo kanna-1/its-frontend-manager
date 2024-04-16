@@ -1,32 +1,22 @@
 "use client";
 
-import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
-import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
-import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
-import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
 import { Button, LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
+import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
+import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
+import { setSubmissionFeedback } from "@/actions/setSubmissionFeedback";
+import { setSubmissionGrade } from "@/actions/setSubmissionGrade";
 import { Course, Question, Role, Submission, User } from "@prisma/client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   feedback: z.string(),
@@ -43,7 +33,7 @@ export default function SubmissionViewContainer({
   question: Question & { course: Course };
   user: User;
   code: string;
-}) {
+}) : React.JSX.Element {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +43,7 @@ export default function SubmissionViewContainer({
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     try {
       await setSubmissionFeedback({
         submission_id: submission.id,
@@ -101,7 +91,7 @@ export default function SubmissionViewContainer({
       <ResizablePanel defaultSize={70}>
         <div className="h-full">
           <div className="h-4/6">
-            <SubmissionViewEditor code={code} language={question.language} />
+            <SubmissionViewEditor code={code} />
           </div>
           <Separator />
           {user.role === Role.TEACHER ? (

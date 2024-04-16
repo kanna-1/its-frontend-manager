@@ -10,6 +10,6 @@ export default function DataTableContainer({
 }: {
   name: string;
   users: User[];
-}) {
+}) : React.JSX.Element {
   return <DataTable institution={name} columns={columns} data={users} />;
 }

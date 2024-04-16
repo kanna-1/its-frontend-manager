@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+
 import { Course } from "@prisma/client";
 import { ClipboardCheck } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CourseCard({
   course,
@@ -8,7 +10,7 @@ export default function CourseCard({
 }: {
   course: Course;
   isCreator: boolean;
-}) {
+}) : React.JSX.Element {
   return (
     <Card className="h-40">
       <CardHeader>

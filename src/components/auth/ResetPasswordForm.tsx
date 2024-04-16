@@ -1,5 +1,10 @@
 "use client";
 
+import React from "react";
+
+import { Lock } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { LoadingButton } from "@/components/ui/button";
 import {
   Form,
@@ -11,12 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock } from "lucide-react";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   password: z
@@ -24,7 +26,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
 });
 
-export function ResetPasswordForm() {
+export function ResetPasswordForm() :React.JSX.Element {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -36,7 +38,7 @@ export function ResetPasswordForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     try {
       const res = await fetch("/api/reset-password", {
         method: "POST",

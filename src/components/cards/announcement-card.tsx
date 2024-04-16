@@ -1,3 +1,6 @@
+import React from "react";
+
+import { Announcement } from "@prisma/client";
 import {
   Card,
   CardContent,
@@ -5,13 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Announcement } from "@prisma/client";
 
 export default function AnnouncementCard({
   announcement,
-}: {
+} : {
   announcement: Announcement;
-}) {
+}) : React.JSX.Element {
   return (
     <Card className="flex flex-col">
       <CardHeader>

@@ -1,12 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { ColumnDef } from "@tanstack/react-table";
+import React from "react";
+
 import { ArrowUpDown, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
 import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 type Users = {
   email: string;
@@ -18,7 +19,7 @@ type Users = {
 export const columns: ColumnDef<Users>[] = [
   {
     accessorKey: "email",
-    header: ({ column }) => {
+    header: ({ column }) : React.ReactNode => {
       return (
         <div className="flex items-center">
           <span>Email</span>
@@ -35,7 +36,7 @@ export const columns: ColumnDef<Users>[] = [
   },
   {
     accessorKey: "role",
-    header: ({ column }) => {
+    header: ({ column }) : React.ReactNode => {
       return (
         <div className="flex items-center">
           <span>Role</span>
@@ -71,7 +72,7 @@ const RemoveButton: React.FC<{
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleRemoveMember = async () => {
+  const handleRemoveMember : () => Promise<void> = async () => {
     try {
       const res = await fetch("/api/course-management/remove-from-course", {
         method: "POST",

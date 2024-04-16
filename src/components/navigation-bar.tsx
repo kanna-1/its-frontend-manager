@@ -18,6 +18,7 @@ import {
 import { School } from "@prisma/client";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
+import React from "react";
 
 const PAGE_ROUTES = {
   STUDENT: [{ label: "My Courses", url: "/courses/" }],
@@ -29,7 +30,7 @@ export default function NavigationBar({
   user,
 }: {
   user: User & { school: School };
-}) {
+}) : React.JSX.Element {
   return (
     <NavigationMenu>
       <span className="font-semibold text-xl">ITS Management System</span>

@@ -1,5 +1,9 @@
 "use client";
 
+import React from "react";
+import Link from "next/link";
+
+import { useRouter } from "next/navigation";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Form,
@@ -11,13 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email format" }),
@@ -26,7 +28,7 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-export default function LoginForm() {
+export default function LoginForm() : React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -38,7 +40,7 @@ export default function LoginForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     try {
       const res = await signIn("credentials", {
         redirect: false,

@@ -13,19 +13,19 @@ export default function QuestionViewEditor({
   language,
   feedback,
   shouldApplyDecorations,
-}: {
+} : {
   handleEditorChange: (value: string | undefined) => void;
   language: string;
   feedback: FeedbackType[];
   shouldApplyDecorations: boolean;
-}) {
+}) : React.JSX.Element {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<Monaco | null>(null);
 
   function applyDecorations(
     editor: monaco.editor.IStandaloneCodeEditor | null,
     feedback: FeedbackType[]
-  ) {
+  ) : monaco.editor.IEditorDecorationsCollection | undefined {
     if (!editor || !editor.getModel()) return;
 
     const decorations = feedback.map((fb) => ({
@@ -58,7 +58,7 @@ export default function QuestionViewEditor({
   return (
     <Editor
       language={language_map[language]}
-      defaultValue={`\n\n\n\n\n\n\n\n\n\n`}
+      defaultValue={"\n\n\n\n\n\n\n\n\n\n"}
       onChange={handleEditorChange}
       height="100%"
       width="100%"

@@ -1,27 +1,22 @@
 "use client";
 
-import { LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import React from "react";
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email format" }),
 });
 
-export function ForgotPasswordForm() {
+export function ForgotPasswordForm() : React.JSX.Element {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,7 +26,7 @@ export function ForgotPasswordForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     console.log("SUBMITTED")
     try {
       const res = await fetch("/api/forgot-password", {

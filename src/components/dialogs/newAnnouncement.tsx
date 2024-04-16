@@ -19,12 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Course, User } from "@prisma/client";
 
 interface NewAnnouncementDialogProps {
   user: User;
@@ -36,7 +36,7 @@ const formSchema = z.object({
   body: z.string(),
 });
 
-export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncementDialogProps) {
+export default function NewAnnouncementDialog({ user, courseId } : NewAnnouncementDialogProps) : React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncemen
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     try {
       if (!values.title.trim()) {
         throw new Error("Announcement title cannot be empty.");

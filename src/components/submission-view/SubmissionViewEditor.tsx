@@ -1,23 +1,20 @@
 import React, { useRef } from "react";
 import Editor from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 
 export default function SubmissionViewEditor({
   code,
-  language,
-}: {
+} : {
   code: string;
-  language: string;
-}) {
-  const editorRef = useRef(null);
+}) : React.JSX.Element {
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
-  function handleEditorDidMount(editor, monaco) {
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) : void  {
     editorRef.current = editor;
   }
-
   return (
     <Editor
       value={code}
-      //onChange={handleEditorChange}
       height="100%"
       width="100%"
       onMount={handleEditorDidMount}

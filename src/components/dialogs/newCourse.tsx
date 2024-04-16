@@ -12,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,19 +19,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 
 const formSchema = z.object({
   code: z.string(),
   name: z.string(),
 });
 
-export default function NewCourseDialog({ user }: { user: User }) {
+export default function NewCourseDialog({ user } : { user: User }) : React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -45,7 +44,7 @@ export default function NewCourseDialog({ user }: { user: User }) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) : Promise<void> {
     try {
       if (!values.code.trim()) {
         throw new Error("Course code cannot be empty.");
@@ -77,10 +76,10 @@ export default function NewCourseDialog({ user }: { user: User }) {
       else {
         const errorResponse = await res.json();
         toast({
-            title: "Error Creating New Course",
-            description: errorResponse.error,
-            variant: "destructive",
-          });
+          title: "Error Creating New Course",
+          description: errorResponse.error,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({

@@ -4,10 +4,9 @@ const hostEmail = process.env.HOST_EMAIL;
 const smtpHost = process.env.SMTP_HOST;
 
 export const sendPasswordResetEmail = async (
-    email: string,
-    token: string,
-  ) => {
-
+  email: string,
+  token: string,
+) => {
   let resetLink = ""
   if (process.env.NODE_ENV === "production"){
     resetLink = `${publicURL}/new-password?token=${token}`
@@ -36,7 +35,6 @@ export const sendPasswordResetEmail = async (
     subject: "Password reset link",
     html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
   };
-
 
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {

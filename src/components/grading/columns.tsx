@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChevronRightCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import React from "react";
 
 type Users = {
   email: string;
@@ -32,7 +33,7 @@ export const columns: ColumnDef<Users>[] = [
     accessorKey: "grade",
     header: "Grades",
     cell: ({getValue}) => {
-      const grade = getValue() as Number;
+      const grade = getValue() as number;
       return grade === -1 ? "Ungraded" : grade
     }
   },
@@ -40,7 +41,7 @@ export const columns: ColumnDef<Users>[] = [
     accessorKey: "feedback",
     header: "Feedback",
     cell: ({getValue}) => {
-      const feedback = getValue() as String;
+      const feedback = getValue() as string;
       return feedback ? feedback.slice(0, 10) + "..." : "Pending Feedback"
     }
   },
@@ -53,7 +54,7 @@ export const columns: ColumnDef<Users>[] = [
   },
 ];
 
-function MoreDetails({ submissionid }: { submissionid: string }) {
+function MoreDetails({ submissionid }: { submissionid: string }) : React.JSX.Element {
   const pathname = usePathname();
   return (
     <Link href={pathname.replace("grading", submissionid)}>
