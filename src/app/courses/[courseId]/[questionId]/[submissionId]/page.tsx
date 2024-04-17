@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getQuestionInfo } from "@/actions/getQuestionInfo";
 import { getSubmission } from "@/actions/getSubmission";
 import { getUserProps } from "@/actions/getUserProps";
-import SubmissionViewContainer from "@/components/submission-view/SubmissionViewContainer";
+import SubmissionViewContainer from "@/components/submission-view/submissionViewContainer";
 
 export default async function SubmissionView({
   params,

@@ -5,7 +5,7 @@ import { Role } from "@prisma/client";
 import { getQuestionSubmissions } from "@/actions/getQuestionSubmissions";
 import { getUserProps } from "@/actions/getUserProps";
 import { Button } from "@/components/ui/button";
-import DataTableContainer from "@/components/grading/DataTableContainer";
+import DataTableContainer from "@/components/grading/dataTableContainer";
 
 export default async function GradingDashboardView({
   params,
