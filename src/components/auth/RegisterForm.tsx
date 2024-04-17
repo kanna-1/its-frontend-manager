@@ -1,31 +1,17 @@
 "use client";
 
-import { LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { School } from "@prisma/client";
+import React from "react";
 import { Landmark, Lock, Mail } from "lucide-react";
+import { School } from "@prisma/client";
+import { LoadingButton } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email format" }),
@@ -35,7 +21,7 @@ const formSchema = z.object({
   institution: z.string().min(1, { message: "Select a valid institution" }),
 });
 
-export function RegisterForm({ schools }: { schools: School[] }) {
+export function RegisterForm({ schools }: { schools: School[] }): React.JSX.Element {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +33,7 @@ export function RegisterForm({ schools }: { schools: School[] }) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -61,7 +47,6 @@ export function RegisterForm({ schools }: { schools: School[] }) {
         const message = (await res.json()).error;
         throw new Error(message);
       }
-
       toast({
         title: "Signup Success",
         description: "Redirecting to sign-in",
@@ -119,7 +104,6 @@ export function RegisterForm({ schools }: { schools: School[] }) {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="institution"

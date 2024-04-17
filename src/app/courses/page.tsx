@@ -1,10 +1,11 @@
+import React from "react";
+import Link from "next/link";
+import { Role } from "@prisma/client";
 import { getUserProps } from "@/actions/getUserProps";
 import CourseCard from "@/components/cards/course-card";
 import NewCourseDialog from "@/components/dialogs/newCourse";
-import { Role } from "@prisma/client";
-import Link from "next/link";
 
-export default async function MyCourseView() {
+export default async function MyCourseView(): Promise<React.JSX.Element> {
   const user = await getUserProps({
     include_school: false,
     include_courses: true,

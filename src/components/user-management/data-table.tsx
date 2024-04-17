@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState } from "react";
+import { Role } from "@prisma/client";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,8 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
-
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -21,10 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Role } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   institution: string;
@@ -44,13 +41,13 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   filterValue,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+}: DataTableProps<TData, TValue>): React.ReactNode {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
-  );
+  ); 
   const filteredData = filterValue ? filterData(data, filterValue) : data;
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [rowSelection, setRowSelection] = useState({});
 
   // Filter out data where role is ADMIN
   const filteredDataWithoutAdmin = filteredData.filter(
@@ -78,14 +75,13 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex items-center justify-between mb-4">
         <p>Institution: {institution}</p>
-          <Input
-            placeholder="Search by email"
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+        <Input
+          placeholder="Search by email"
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"          />
       </div>
       <div className="rounded-md border">
         <Table>
@@ -98,9 +94,9 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}

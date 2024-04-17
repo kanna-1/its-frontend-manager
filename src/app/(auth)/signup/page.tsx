@@ -1,3 +1,5 @@
+import React from "react";
+import Link from "next/link";
 import { getSchools } from "@/actions/getSchools";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Button } from "@/components/ui/button";
@@ -8,9 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
-export default async function SignUpView() {
+export default async function SignUpView(): Promise<React.JSX.Element> {
   const schools = await getSchools().then((schools) =>
     schools ? schools : []
   );

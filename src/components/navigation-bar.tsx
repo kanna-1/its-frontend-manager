@@ -1,5 +1,9 @@
 "use client";
 
+import React from "react";
+import { signOut } from "next-auth/react";
+import { User } from "next-auth";
+import { School } from "@prisma/client";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,9 +19,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { School } from "@prisma/client";
-import { User } from "next-auth";
-import { signOut } from "next-auth/react";
 
 const PAGE_ROUTES = {
   STUDENT: [{ label: "My Courses", url: "/courses/" }],
@@ -29,7 +30,7 @@ export default function NavigationBar({
   user,
 }: {
   user: User & { school: School };
-}) {
+}): React.JSX.Element {
   return (
     <NavigationMenu>
       <span className="font-semibold text-xl">ITS Management System</span>

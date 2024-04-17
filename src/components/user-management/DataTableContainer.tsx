@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
+import { User } from "@prisma/client";
 import { columns } from "@/components/user-management/columns";
 import { DataTable } from "@/components/user-management/data-table";
-import { User } from "@prisma/client";
 
 export default function DataTableContainer({
   name,
@@ -10,6 +11,6 @@ export default function DataTableContainer({
 }: {
   name: string;
   users: User[];
-}) {
+}): React.JSX.Element {
   return <DataTable institution={name} columns={columns} data={users} />;
 }

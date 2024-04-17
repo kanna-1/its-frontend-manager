@@ -1,3 +1,5 @@
+import React from "react";
+import Link from "next/link";
 import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,9 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
-export default async function SignInView() {
+export default async function SignInView(): Promise<React.JSX.Element> {
   return (
     <div
       className="flex flex-col space-y-8 justify-center items-center min-h-screen"

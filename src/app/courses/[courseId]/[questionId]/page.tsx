@@ -1,14 +1,15 @@
+import React from "react";
+import { redirect } from "next/navigation";
+import { Role } from "@prisma/client";
 import { getQuestionInfo } from "@/actions/getQuestionInfo";
 import { getUserProps } from "@/actions/getUserProps";
 import QuestionViewContainer from "@/components/question-view/QuestionViewContainer";
-import { Role } from "@prisma/client";
-import { redirect } from "next/navigation";
 
 export default async function QuestionView({
   params,
 }: {
   params: { questionId: string; courseId: string };
-}) {
+}): Promise<React.JSX.Element> {
   const user = await getUserProps({
     include_school: false,
     include_courses: false,
