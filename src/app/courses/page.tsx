@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Role } from "@prisma/client";
 import { getUserProps } from "@/actions/getUserProps";
-import CourseCard from "@/components/cards/course-card";
+import CourseCard from "@/components/cards/courseCard";
 import NewCourseDialog from "@/components/dialogs/newCourse";
 
 export default async function MyCourseView(): Promise<React.JSX.Element> {

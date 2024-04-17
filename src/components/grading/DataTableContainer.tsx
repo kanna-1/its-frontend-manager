@@ -2,7 +2,7 @@
 
 import React from "react";
 import { columns } from "@/components/grading/columns";
-import { DataTable } from "@/components/grading/data-table";
+import { DataTable } from "@/components/grading/dataTable";
 import { UserSubmission } from "@/actions/getQuestionSubmissions";
 
 export default function DataTableContainer({
