@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -10,9 +10,9 @@ import prisma from '@/lib/prisma';
  *       Associates users, defined by input list of emails, to a specified course.
  *       
  *       **Request format**  
- *       requestorEmail: string  
- *       courseId: string  
- *       emailsToAdd: string[]
+ *       requestor_email: string  
+ *       course_id: string  
+ *       emails_to_add: string[]
  *     requestBody:
  *       required: true
  *       content:
@@ -20,13 +20,13 @@ import prisma from '@/lib/prisma';
  *           schema:
  *             type: object
  *             properties:
- *               requestorEmail:
+ *               requestor_email:
  *                 type: string
  *                 example: "teacheremail@inst001.com"
- *               courseId:
+ *               course_id:
  *                 type: string
  *                 example: "inst001_CS3213"
- *               emailsToAdd:
+ *               emails_to_add:
  *                 type: string[]
  *                 example: ["studentemail1@inst001.com", "studentemail2@inst001.com"]
  *     responses:
@@ -58,27 +58,27 @@ import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
-    const { requestorEmail, courseId, emailsToAdd } = (await req.json()) as {
-      requestorEmail: string,
-      courseId: string,
-      emailsToAdd: string[],
+    const { requestor_email, course_id, emails_to_add } = (await req.json()) as {
+      requestor_email: string,
+      course_id: string,
+      emails_to_add: string[],
     };
 
     const requestor = await prisma.user.findUnique({
         where: {
-            email: requestorEmail,
+            email: requestor_email,
         },
     })
 
     if (requestor == undefined || requestor == null) {
       return NextResponse.json({
-        error: 'Not a valid user.'
+        error: "Not a valid user."
       }, {
         status: 404
       });
     } else if (requestor.role !== 'TEACHER') {
       return NextResponse.json({
-        error: 'You do not have the permission to make this request.'
+        error: "You do not have the permission to make this request."
       }, {
         status: 403
       });
@@ -86,21 +86,21 @@ export async function POST(req: Request) {
 
     const course = await prisma.course.findUnique({
         where: {
-            id: courseId,
+            id: course_id,
         },
     })
 
     if (course == undefined || course == null) {
       return NextResponse.json({
-        error: 'Invalid course ID.'
+        error: "Invalid course ID."
       }, {
         status: 404
       });
     }
 
-    var addedUsers: string[] = [];
+    var added_users: string[] = [];
 
-    for (const email of emailsToAdd) {
+    for (const email of emails_to_add) {
         const user = await prisma.user.findUnique({
             where: {
                 email: email,
@@ -122,19 +122,19 @@ export async function POST(req: Request) {
             data: {
               joined_courses: {
                 connect: {
-                  id: courseId,
+                  id: course_id,
                 },
               },
             },
           });
 
         if (added !== null && added.email !== null) {
-            addedUsers.push(added.email);
+            added_users.push(added.email);
         }
     }
 
     return NextResponse.json({
-      addedUsers: addedUsers,
+      addedUsers: added_users,
     },
     { status: 200 }
   );

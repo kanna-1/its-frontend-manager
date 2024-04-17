@@ -1,6 +1,6 @@
-import { hash } from 'bcryptjs';
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { hash } from "bcryptjs";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -63,15 +63,15 @@ export async function POST(req: NextRequest) {
     };
     const hashed_password = await hash(password, 12);
     console.log(institution)
-    const duplicateUser = await prisma.user.findUnique({
+    const duplicate_user = await prisma.user.findUnique({
       where: {
           email: email,
       }
     })
 
-    if (duplicateUser !== null) {
+    if (duplicate_user !== null) {
       return NextResponse.json({
-        error: 'This email address is already registered.'
+        error: "This email address is already registered."
       }, {
         status: 409
       });
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         email: email.toLowerCase(),
         password: hashed_password,
         school_id: institution,
-        role: 'STUDENT'
+        role: "STUDENT"
       },
     });
 

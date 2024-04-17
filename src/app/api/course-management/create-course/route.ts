@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
-import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 
 /**
@@ -45,7 +44,7 @@ import { Role } from "@prisma/client";
  *         content:
  *           application/json:
  *             example:
- *               courseToCreate:
+ *               course_to_create:
  *                 id: "inst001_CS3213"
  *                 code: "CS3213"
  *                 name: "Foundations of Software Engineering"
@@ -84,29 +83,29 @@ export async function POST(req: Request) {
 
     if (user_role !== Role.TEACHER) {
       return NextResponse.json({
-        error: 'You do not have the permission to make this request.'
+        error: "You do not have the permission to make this request."
       }, {
         status: 403
       });
     }
 
-    const courseId = school_id + "_" + code;
+    const course_id = school_id + "_" + code;
 
-    const duplicateCourse = await prisma.course.findUnique({
+    const duplicate_course = await prisma.course.findUnique({
         where: {
-            id: courseId,
+            id: course_id,
         }
     })
 
-    if (duplicateCourse !== null) {
+    if (duplicate_course !== null) {
       return NextResponse.json({
-        error: 'Course already exists.'
+        error: "Course already exists."
       }, {
         status: 409
       });
     }
 
-    const courseToCreate = await prisma.course.create({
+    const course_to_create = await prisma.course.create({
       data: {
         id: school_id + "_" + code,
         code: code,
@@ -117,7 +116,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({
-      courseToCreate
+      course_to_create
     }, {
       status: 200
     });

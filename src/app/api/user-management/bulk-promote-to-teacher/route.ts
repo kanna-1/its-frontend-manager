@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
         },
       },
       data: {
-        role: 'TEACHER',
+        role: "TEACHER",
       }
     });
 

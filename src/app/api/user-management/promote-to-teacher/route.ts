@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -58,25 +58,25 @@ export async function POST(req: Request) {
 
     if (requestor == undefined || requestor == null) {
       return NextResponse.json({
-        error: 'Not a valid user.'
+        error: "Not a valid user."
       }, {
         status: 404
       });
     }
 
-    const promoteToTeacher = await prisma.user.update({
+    const promote_to_teacher = await prisma.user.update({
       where: {
         email: email,
       },
       data: {
-        role: 'TEACHER',
+        role: "TEACHER",
       }
     });
 
     return NextResponse.json({
       promoted: {
-        email: promoteToTeacher.email,
-        updatedrole: promoteToTeacher.role,
+        email: promote_to_teacher.email,
+        updatedrole: promote_to_teacher.role,
       },
     }, {
       status: 200
