@@ -1,21 +1,22 @@
-import { getCourseInfo } from "@/actions/getCourseInfo";
-import { getUserProps } from "@/actions/getUserProps";
-import AnnouncementCard from "@/components/cards/announcement-card";
-import QuestionCard from "@/components/cards/question-card";
-import DataTableContainer from "@/components/course-member-list/DataTableContainer";
-import AddMemberDialog from "@/components/dialogs/addMember";
-import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
-import NewQuestionDialog from "@/components/dialogs/newQuestion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Announcement, Question, Role } from "@prisma/client";
+import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Announcement, Question, Role } from "@prisma/client";
+import { getCourseInfo } from "@/actions/getCourseInfo";
+import { getUserProps } from "@/actions/getUserProps";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AddMemberDialog from "@/components/dialogs/addMember";
+import AnnouncementCard from "@/components/cards/announcement-card";
+import DataTableContainer from "@/components/course-member-list/DataTableContainer";
+import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
+import NewQuestionDialog from "@/components/dialogs/newQuestion";
+import QuestionCard from "@/components/cards/question-card";
 
 export default async function CourseView({
   params,
 }: {
   params: { courseId: string };
-}) {
+}): Promise<React.JSX.Element> {
   const user = await getUserProps({
     includeSchool: false,
     includeCourses: false,

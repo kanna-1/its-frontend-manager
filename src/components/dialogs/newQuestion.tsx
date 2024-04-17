@@ -1,5 +1,9 @@
 "use client";
-
+import React, { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,12 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { PutBlobResult } from "@vercel/blob";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const formSchema = z.object({
   title: z.string(),
@@ -44,7 +43,7 @@ const formSchema = z.object({
   func_args: z.string(),
 });
 
-export default function NewQuestionForm({ courseId }: { courseId: string }) {
+export default function NewQuestionForm({ courseId }: { courseId: string }): React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const inputRefFileRef = useRef<HTMLInputElement>(null);
@@ -62,7 +61,7 @@ export default function NewQuestionForm({ courseId }: { courseId: string }) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       if (!inputRefFileRef.current?.files) {
         throw new Error("No file selected");

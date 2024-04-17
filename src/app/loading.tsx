@@ -1,4 +1,6 @@
-export default function Loading() {
+import React from "react";
+
+export default function Loading(): React.JSX.Element {
   return (
     <div className="text-center mt-64">
       <svg
