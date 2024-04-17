@@ -10,18 +10,18 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-FROM base AS dev
+# FROM base AS dev
 
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+# WORKDIR /app
+# COPY --from=deps /app/node_modules ./node_modules
+# COPY . .
 
-# Uncomment this if you're using prisma, generates prisma files for linting
-RUN npx prisma generate
+# # Uncomment this if you're using prisma, generates prisma files for linting
+# RUN npx prisma generate
 
-#Enables Hot Reloading Check https://github.com/vercel/next.js/issues/36774 for more information
-ENV CHOKIDAR_USEPOLLING=true
-ENV WATCHPACK_POLLING=true
+# #Enables Hot Reloading Check
+# ENV CHOKIDAR_USEPOLLING=true
+# ENV WATCHPACK_POLLING=true
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -30,7 +30,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /root/.npm /root/.npm
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED 1
+# ENV NEXT_TELEMETRY_DISABLED 1
 
 # Uncomment this if you're using prisma, generates prisma files for linting
 RUN npx prisma generate
@@ -41,12 +41,12 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV NEXT_TELEMETRY_DISABLED 1
+# ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
+# COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
