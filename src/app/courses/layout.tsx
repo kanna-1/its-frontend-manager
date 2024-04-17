@@ -8,9 +8,9 @@ export default async function UserLayout({
   children: React.ReactNode;
 }): Promise<React.JSX.Element> {
   const user = await getUserProps({
-    includeSchool: true,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: true,
+    include_courses: false,
+    include_submissions: false,
   });
   return (
     <main>

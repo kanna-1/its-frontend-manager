@@ -7,9 +7,9 @@ import NewCourseDialog from "@/components/dialogs/newCourse";
 
 export default async function MyCourseView(): Promise<React.JSX.Element> {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: true,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: true,
+    include_submissions: false,
   });
   const isTeacher = user.role === Role.TEACHER;
 

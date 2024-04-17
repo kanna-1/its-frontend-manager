@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { User, Question, Course, Submission } from "@prisma/client";
+import { Course, Question, Submission, User } from "@prisma/client";
 
 export async function createSubmission({
   user,
@@ -11,9 +11,9 @@ export async function createSubmission({
   user: User;
   question: Question & { course: Course; submissions: Submission[] };
   student_solution_url: string;
-}) {
+}): Promise<Submission | null> {
   try {
-    const newSubmission = await prisma.submission.create({
+    const new_submission = await prisma.submission.create({
       data: {
         user_id: user.id,
         question_id: question.id,
@@ -27,12 +27,12 @@ export async function createSubmission({
       },
       data: {
         submissions: {
-          set: [...question.submissions, newSubmission],
+          set: [...question.submissions, new_submission],
         },
       },
     });
 
-    return newSubmission;
+    return new_submission;
   } catch (error) {
     console.error(error);
     return null;
