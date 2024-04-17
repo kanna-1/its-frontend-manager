@@ -1,24 +1,25 @@
+import React from "react";
+import { redirect } from "next/navigation";
 import { getQuestionInfo } from "@/actions/getQuestionInfo";
 import { getSubmission } from "@/actions/getSubmission";
 import { getUserProps } from "@/actions/getUserProps";
 import SubmissionViewContainer from "@/components/submission-view/SubmissionViewContainer";
-import { redirect } from "next/navigation";
 
 export default async function SubmissionView({
   params,
 }: {
   params: { questionId: string; courseId: string; submissionId: string };
-}) {
+}): Promise<React.JSX.Element> {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: false,
+    include_submissions: false,
   });
 
   const question = await getQuestionInfo({
-    questionId: params.questionId,
-    courseId: params.courseId.toUpperCase(),
-    schoolId: user.school_id,
+    question_id: params.questionId,
+    course_id: params.courseId.toUpperCase(),
+    school_id: user.school_id,
   });
 
   if (!question) {

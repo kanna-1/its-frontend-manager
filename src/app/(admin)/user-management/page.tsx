@@ -1,12 +1,13 @@
-import { getUserProps } from "@/actions/getUserProps";
+import React from "react";
 import { getUsers } from "@/actions/getUsers";
+import { getUserProps } from "@/actions/getUserProps";
 import DataTableContainer from "@/components/user-management/DataTableContainer";
 
-export default async function UserManagementView() {
+export default async function UserManagementView(): Promise<React.JSX.Element> {
   const user = await getUserProps({
-    includeSchool: true,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: true,
+    include_courses: false,
+    include_submissions: false,
   });
   const users = await getUsers(user).then((users) => (users ? users : []));
   return (

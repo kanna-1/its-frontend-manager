@@ -1,9 +1,9 @@
-"use server"
+"use server";
 
 import prisma from "@/lib/prisma";
 import { Role, User } from "@prisma/client";
 
-export async function getUsers(user: User) {
+export async function getUsers(user: User): Promise<User[] | null> {
   try {
     if (user.role == Role.ADMIN) {
       const users = await prisma.user.findMany({
@@ -18,7 +18,6 @@ export async function getUsers(user: User) {
     }
   } catch (error) {
     console.error(error);
-    throw error;
-
+    return null;
   }
 }

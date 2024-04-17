@@ -1,20 +1,21 @@
-import { getQuestionSubmissions } from "@/actions/getQuestionSubmissions";
-import { getUserProps } from "@/actions/getUserProps";
-import DataTableContainer from "@/components/grading/DataTableContainer";
-import { Button } from "@/components/ui/button";
-import { Role } from "@prisma/client";
+import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Role } from "@prisma/client";
+import { getQuestionSubmissions } from "@/actions/getQuestionSubmissions";
+import { getUserProps } from "@/actions/getUserProps";
+import { Button } from "@/components/ui/button";
+import DataTableContainer from "@/components/grading/DataTableContainer";
 
 export default async function GradingDashboardView({
   params,
 }: {
   params: { questionId: string; courseId: string };
-}) {
+}): Promise<React.JSX.Element> {
   const user = await getUserProps({
-    includeSchool: false,
-    includeCourses: false,
-    includeSubmissions: false,
+    include_school: false,
+    include_courses: false,
+    include_submissions: false,
   });
 
   if (user.role != Role.TEACHER) {
