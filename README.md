@@ -104,9 +104,39 @@ npm run dev
 
 Before proceeding, ensure that you have Docker installed on your machine. More details can be found [here](https://docs.docker.com/get-docker/).
 
-1. Build your container with `docker build -t frontend-manager .`
+1. Ensure that you have already renamed the environment variable file `.env.local` to `.env`.
+2. The `.env` file should contain:
+```bash
+# NextAuth
+AUTH_SECRET=""
 
-2. Run your container with `docker run -p 3000:3000 frontend-manager`
+# Vercel Blob
+BLOB_READ_WRITE_TOKEN=""
+
+# Node Mailer
+APP_PASSWORD=""
+HOST_EMAIL=""
+SMTP_HOST=""
+
+# Docker
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="postgres"
+POSTGRES_DB="postgres"
+DATABASE_URL="postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
+```
+3. In the `schema.prisma`, you should replace `datasource db` with the following changes:
+```
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL") // uses connection pooling
+  relationMode      = "foreignKeys"
+}
+```
+4. Build your container with `npm run docker:compose:dev`.
+5. Run `docker ps` to retrieve the CONTAINER ID for `its-frontend-manager-frontend` image.
+6. Run `docker exec {CONTAINER ID} npx prisma db push`
+7. Run `docker exec {CONTAINER ID} npx prisma db seed`
+8. Open `http://localhost:3000` with your browser
 
 You may read more about Next.js and Docker [here](https://nextjs.org/docs/app/building-your-application/deploying#docker-image).
 

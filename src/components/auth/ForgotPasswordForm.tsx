@@ -38,12 +38,12 @@ export function ForgotPasswordForm(): React.JSX.Element {
 
       if (res.ok) {
         toast({
-          title: "Login Success",
-          description: "Welcome back!",
+          title: "Reset password email sent",
+          description: "Redirecting to sign-in",
           variant: "success",
         });
         console.log("OK")
-        signIn(undefined, { callbackUrl: "/" }); 
+        signIn(undefined, { callbackUrl: "/" });
       } else {
         const message = (await res.json()).error;
         throw new Error(message);
