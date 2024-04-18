@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import LoginForm from "@/components/auth/LoginForm";
+import LoginForm from "@/components/auth/loginForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,

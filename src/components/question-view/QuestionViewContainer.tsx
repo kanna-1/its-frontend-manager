@@ -14,8 +14,8 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
-import QuestionViewFeedback, { FeedbackType } from "@/components/question-view//QuestionViewFeedback";
-import QuestionViewEditor from "@/components/question-view/QuestionViewEditor";
+import QuestionViewFeedback, { FeedbackType } from "@/components/question-view/questionViewFeedback";
+import QuestionViewEditor from "@/components/question-view/questionViewEditor";
 import { PutBlobResult } from "@vercel/blob";
 
 export default function QuestionViewContainer({

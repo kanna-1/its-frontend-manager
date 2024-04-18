@@ -1,7 +1,7 @@
 import React from "react";
 import { getUsers } from "@/actions/getUsers";
 import { getUserProps } from "@/actions/getUserProps";
-import DataTableContainer from "@/components/user-management/DataTableContainer";
+import DataTableContainer from "@/components/user-management/dataTableContainer";
 
 export default async function UserManagementView(): Promise<React.JSX.Element> {
   const user = await getUserProps({

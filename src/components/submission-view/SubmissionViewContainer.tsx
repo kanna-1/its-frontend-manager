@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import SubmissionViewEditor from "@/components/submission-view/SubmissionViewEditor";
-import SubmissionViewFeedback from "@/components/submission-view/SubmissionViewFeedback";
+import SubmissionViewEditor from "@/components/submission-view/submissionViewEditor";
+import SubmissionViewFeedback from "@/components/submission-view/submissionViewFeedback";
 
 const formSchema = z.object({
   feedback: z.string(),

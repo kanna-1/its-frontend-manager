@@ -6,11 +6,11 @@ import { getCourseInfo } from "@/actions/getCourseInfo";
 import { getUserProps } from "@/actions/getUserProps";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddMemberDialog from "@/components/dialogs/addMember";
-import AnnouncementCard from "@/components/cards/announcement-card";
-import DataTableContainer from "@/components/course-member-list/DataTableContainer";
+import AnnouncementCard from "@/components/cards/announcementCard";
+import DataTableContainer from "@/components/course-member-list/dataTableContainer";
 import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
 import NewQuestionDialog from "@/components/dialogs/newQuestion";
-import QuestionCard from "@/components/cards/question-card";
+import QuestionCard from "@/components/cards/questionCard";
 
 export default async function CourseView({
   params,

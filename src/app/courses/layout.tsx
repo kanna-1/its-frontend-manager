@@ -1,6 +1,6 @@
 import React from "react";
 import { getUserProps } from "@/actions/getUserProps";
-import NavigationBar from "@/components/navigation-bar";
+import NavigationBar from "@/components/navigationBar";
 
 export default async function UserLayout({
   children,
