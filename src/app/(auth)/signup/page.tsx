@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { getSchools } from "@/actions/getSchools";
-import { RegisterForm } from "@/components/auth/registerForm";
+import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,

@@ -8,9 +8,9 @@ import { NextResponse } from "next/server";
  *     description: |
  *       # Removes user from course
  *       Removes the association of a user with input email from input course.
- *       
- *       **Request format**  
- *       course_id: string  
+ *
+ *       **Request format**
+ *       course_id: string
  *       user_email_to_remove: string
  *     requestBody:
  *       required: true
@@ -46,11 +46,18 @@ import { NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<
+  | NextResponse<{
+      message: string;
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { course_id, user_email_to_remove } = (await req.json()) as {
-      course_id: string,
-      user_email_to_remove: string,
+      course_id: string;
+      user_email_to_remove: string;
     };
 
     const course = await prisma.course.findUnique({
@@ -60,11 +67,14 @@ export async function POST(req: Request) {
     });
 
     if (!course) {
-      return NextResponse.json({
-        error: "Invalid course ID."
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: "Invalid course ID.",
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
     const user_to_remove = await prisma.user.findUnique({
@@ -74,11 +84,14 @@ export async function POST(req: Request) {
     });
 
     if (!user_to_remove) {
-      return NextResponse.json({
-        error: `User with email: ${user_email_to_remove} does not exist.`
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: `User with email: ${user_email_to_remove} does not exist.`,
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
     await prisma.user.update({
@@ -94,16 +107,22 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
-      message: `User ${user_email_to_remove} removed from the course.`,
-    }, {
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+    return NextResponse.json(
+      {
+        message: `User ${user_email_to_remove} removed from the course.`,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

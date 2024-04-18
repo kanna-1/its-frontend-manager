@@ -43,7 +43,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "action",
     header: "Action",
-    cell: ({ row }) => {
+    cell: ({ row }): React.JSX.Element => {
       const email = row.original.email; // Extracting email from the row data
       return <ActionDropdown email={email || ""} />;
     },

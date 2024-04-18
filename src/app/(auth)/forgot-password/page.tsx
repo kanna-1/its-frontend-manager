@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ForgotPasswordForm } from "@/components/auth/forgotPasswordForm";
+import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
 import { Button } from "@/components/ui/button";
 import {
   Card,

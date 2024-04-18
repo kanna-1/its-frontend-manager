@@ -8,9 +8,9 @@ import { NextResponse } from "next/server";
  *     description: |
  *       # Delete a user
  *       Permanently removes a user, specified by input email, from the system
- *       
- *       **Request format**  
- *       email: string  
+ *
+ *       **Request format**
+ *       email: string
  *     requestBody:
  *       required: true
  *       content:
@@ -27,7 +27,7 @@ import { NextResponse } from "next/server";
  *         content:
  *           application/json:
  *             example:
- *               deleted: 
+ *               deleted:
  *                 email: "usertobedeleted@test.com"
  *       404:
  *         description: Target user not found
@@ -43,7 +43,16 @@ import { NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: Request): Promise<
+  | NextResponse<{
+      deleted: {
+        email: string;
+      };
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { email } = (await req.json()) as {
       email: string;
@@ -51,16 +60,19 @@ export async function DELETE(req: Request) {
 
     const requestor = await prisma.user.findUnique({
       where: {
-          email: email,
+        email: email,
       },
-    })
+    });
 
     if (requestor == undefined || requestor == null) {
-      return NextResponse.json({
-        error: "Not a valid user."
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: "Not a valid user.",
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
     // Delete the user based on the email
@@ -70,18 +82,24 @@ export async function DELETE(req: Request) {
       },
     });
 
-    return NextResponse.json({
-      deleted: {
-        email: deleted_user.email,
+    return NextResponse.json(
+      {
+        deleted: {
+          email: deleted_user.email,
+        },
       },
-    }, {
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 /**
@@ -9,9 +10,9 @@ import { NextResponse } from "next/server";
  *     description: |
  *       # (UNUSED) Promotes multiple users to teacher role
  *       Changes role of all specified users in the input list of emails, to "teacher"
- *       
- *       **Request format**  
- *       emails: string[]  
+ *
+ *       **Request format**
+ *       emails: string[]
  *     requestBody:
  *       required: true
  *       content:
@@ -28,7 +29,7 @@ import { NextResponse } from "next/server";
  *         content:
  *           application/json:
  *             example:
- *               promoteToTeachers: 
+ *               promoteToTeachers:
  *                 count: 2
  *       500:
  *         description: Unexpected error
@@ -38,34 +39,46 @@ import { NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<
+  | NextResponse<{
+      promoteToTeachers: Prisma.BatchPayload;
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { emails } = (await req.json()) as {
       emails: string[];
     };
 
     const promoteToTeachers = await prisma.user.updateMany({
-
       where: {
         email: {
-            in: emails,
+          in: emails,
         },
       },
       data: {
         role: "TEACHER",
-      }
+      },
     });
 
-    return NextResponse.json({
-      promoteToTeachers
-    }, {
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+    return NextResponse.json(
+      {
+        promoteToTeachers,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

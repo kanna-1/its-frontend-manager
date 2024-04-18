@@ -55,7 +55,6 @@ export const columns: ColumnDef<Users>[] = [
     header: "Action",
     cell: ({ row }) => (
       <RemoveButton
-        requestorEmail={row.original.requestorEmail}
         courseId={row.original.courseId}
         userEmail={row.original.email}
       />
@@ -64,10 +63,9 @@ export const columns: ColumnDef<Users>[] = [
 ];
 
 const RemoveButton: React.FC<{
-  requestorEmail: string;
   courseId: string;
   userEmail: string;
-}> = ({ requestorEmail, courseId, userEmail }) => {
+}> = ({ courseId, userEmail }) => {
   const router = useRouter();
   const { toast } = useToast();
 

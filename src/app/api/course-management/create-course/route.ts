@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
+import { Course, Role } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { Role } from "@prisma/client";
 
 /**
  * @swagger
@@ -9,13 +9,13 @@ import { Role } from "@prisma/client";
  *     description: |
  *       # Course creation
  *       Creates a course with input details. The course is created as part of the creator's school.
- *       
- *       **Request format**  
- *       user_id: string  
- *       user_role: Role  
- *       school_id: string  
- *       code: string  
- *       name: string  
+ *
+ *       **Request format**
+ *       user_id: string
+ *       user_role: Role
+ *       school_id: string
+ *       code: string
+ *       name: string
  *     requestBody:
  *       required: true
  *       content:
@@ -70,7 +70,14 @@ import { Role } from "@prisma/client";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<
+  | NextResponse<{
+      course_to_create: Course;
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { user_id, user_role, school_id, code, name } =
       (await req.json()) as {
@@ -82,27 +89,33 @@ export async function POST(req: Request) {
       };
 
     if (user_role !== Role.TEACHER) {
-      return NextResponse.json({
-        error: "You do not have the permission to make this request."
-      }, {
-        status: 403
-      });
+      return NextResponse.json(
+        {
+          error: "You do not have the permission to make this request.",
+        },
+        {
+          status: 403,
+        }
+      );
     }
 
     const course_id = school_id + "_" + code;
 
     const duplicate_course = await prisma.course.findUnique({
-        where: {
-            id: course_id,
-        }
-    })
+      where: {
+        id: course_id,
+      },
+    });
 
     if (duplicate_course !== null) {
-      return NextResponse.json({
-        error: "Course already exists."
-      }, {
-        status: 409
-      });
+      return NextResponse.json(
+        {
+          error: "Course already exists.",
+        },
+        {
+          status: 409,
+        }
+      );
     }
 
     const course_to_create = await prisma.course.create({
@@ -115,16 +128,22 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
-      course_to_create
-    }, {
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+    return NextResponse.json(
+      {
+        course_to_create,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

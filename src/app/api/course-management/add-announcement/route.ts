@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Announcement } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 /**
@@ -8,11 +9,11 @@ import { NextResponse } from "next/server";
  *     description: |
  *       # Adds announcement to course
  *       Adds an announcement to a course, consisting of a title and body taken from input, visible to all members
- *       
- *       **Request format**  
- *       requestor_email: string  
- *       course_id: string  
- *       title: string  
+ *
+ *       **Request format**
+ *       requestor_email: string
+ *       course_id: string
+ *       title: string
  *       body: string
  *     requestBody:
  *       required: true
@@ -64,7 +65,14 @@ import { NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<
+  | NextResponse<{
+      announcement: Announcement;
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { requestor_email, course_id, title, body } = (await req.json()) as {
       requestor_email: string;
@@ -84,11 +92,14 @@ export async function POST(req: Request) {
     });
 
     if (requestor == undefined || requestor == null) {
-      return NextResponse.json({
-        error: "Not a valid user."
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: "Not a valid user.",
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
     const in_courses = requestor.created_courses
@@ -96,11 +107,14 @@ export async function POST(req: Request) {
       .map((course) => course["id"]);
 
     if (requestor.role !== "TEACHER" || !in_courses.includes(course_id)) {
-      return NextResponse.json({
-        error: "You do not have the permission to make this request."
-      }, {
-        status: 403
-      });
+      return NextResponse.json(
+        {
+          error: "You do not have the permission to make this request.",
+        },
+        {
+          status: 403,
+        }
+      );
     }
 
     const course = await prisma.course.findUnique({
@@ -110,11 +124,14 @@ export async function POST(req: Request) {
     });
 
     if (course == undefined || course == null) {
-      return NextResponse.json({
-        error: "Invalid course ID."
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: "Invalid course ID.",
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
     const announcement = await prisma.announcement.create({
@@ -129,16 +146,20 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
+    return NextResponse.json(
+      {
         announcement,
       },
       { status: 200 }
     );
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

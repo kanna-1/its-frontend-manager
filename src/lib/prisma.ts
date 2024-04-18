@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
-const prismaClientSingleton = () => {
+const prismaClientSingleton = (): PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs> => {
   return new PrismaClient();
 };
 
