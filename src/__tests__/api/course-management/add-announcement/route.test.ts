@@ -2,39 +2,39 @@
 /**
  * @jest-environment node
  */
-import { POST } from '@/app/api/course-management/add-announcement/route'
-import { prismaMock } from '@/prisma-mock';
+import { POST } from "@/app/api/course-management/add-announcement/route"
+import { prismaMock } from "@/prisma-mock";
 import { Role } from "@prisma/client";
 
-describe('/api/course-management/add-announcement/route', () => {
-    test('should return status 404 as requestor is null', async () => {
+describe("/api/course-management/add-announcement/route", () => {
+    test("should return status 404 as requestor is null", async () => {
       prismaMock.user.findUnique.mockResolvedValue(null)
 
-      const requestObj = {
+      const request_obj = {
         json: async () => ({
-            requestorEmail: "student@test.com",
-            courseId: "inst001_CS3213",
+            requestor_email: "student@test.com",
+            course_id: "inst001_CS3213",
             title: "Announcement",
             body: "This is an announcement"
         }), } as any
 
       // Call the POST function
-      const response = await POST(requestObj);
+      const response = await POST(request_obj);
       const body = await response.json();
 
       // Check the response
       expect(response.status).toBe(404);
-      expect(body.error).toEqual('Not a valid user.');
+      expect(body.error).toEqual("Not a valid user.");
 
     })
 
-    test('should return status 403 as requestor is student', async () => {
+    test("should return status 403 as requestor is student", async () => {
 
         const student = {
             id: "1",
-            email: 'student@test.com',
-            password: 'password1',
-            school_id: 'inst001',
+            email: "student@test.com",
+            password: "password1",
+            school_id: "inst001",
             role: Role.STUDENT,
             created_courses: [],
             joined_courses: [],
@@ -42,38 +42,38 @@ describe('/api/course-management/add-announcement/route', () => {
 
         prismaMock.user.findUnique.mockResolvedValue(student)
 
-        const requestObj = {
+        const request_obj = {
             json: async () => ({
-                requestorEmail: "student@test.com",
-                courseId: "inst001_CS3213",
+                requestor_email: "student@test.com",
+                course_id: "inst001_CS3213",
                 title: "Announcement",
                 body: "This is an announcement"
             }), } as any
 
         // Call the POST function
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
         const body = await response.json();
 
         // Check the response
         expect(response.status).toBe(403);
-        expect(body.error).toEqual('You do not have the permission to make this request.');
+        expect(body.error).toEqual("You do not have the permission to make this request.");
 
     })
 
-    test('should return status 404 as course is not found', async () => {
+    test("should return status 404 as course is not found", async () => {
         const course = {
             id: "inst001_CS3213",
             code: "CS3213",
             name: "Foundations of Software Engineering",
-            creator_id: 'teacher@test.com',
-            school_id: 'inst001',
+            creator_id: "teacher@test.com",
+            school_id: "inst001",
         }
 
         const student = {
             id: "1",
-            email: 'teacher@test.com',
-            password: 'password1',
-            school_id: 'inst001',
+            email: "teacher@test.com",
+            password: "password1",
+            school_id: "inst001",
             role: Role.TEACHER,
             created_courses: [course],
             joined_courses: [],
@@ -82,39 +82,39 @@ describe('/api/course-management/add-announcement/route', () => {
         prismaMock.user.findUnique.mockResolvedValue(student)
         prismaMock.course.findUnique.mockResolvedValue(null)
 
-        const requestObj = {
+        const request_obj = {
             json: async () => ({
-                requestorEmail: "teacher@test.com",
-                courseId: "inst001_CS3213",
+                requestor_email: "teacher@test.com",
+                course_id: "inst001_CS3213",
                 title: "Announcement",
                 body: "This is an announcement"
             }), } as any
 
         // Call the POST function
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
         const body = await response.json();
 
         // Check the response
         expect(response.status).toBe(404);
-        expect(body.error).toEqual('Invalid course ID.');
+        expect(body.error).toEqual("Invalid course ID.");
 
     })
 
-    test('should return status 200 when announcement is successfully created', async () => {
+    test("should return status 200 when announcement is successfully created", async () => {
 
         const course = {
             id: "inst001_CS3213",
             code: "CS3213",
             name: "Foundations of Software Engineering",
-            creator_id: 'teacher@test.com',
-            school_id: 'inst001',
+            creator_id: "teacher@test.com",
+            school_id: "inst001",
         }
 
         const student = {
             id: "1",
-            email: 'teacher@test.com',
-            password: 'password1',
-            school_id: 'inst001',
+            email: "teacher@test.com",
+            password: "password1",
+            school_id: "inst001",
             role: Role.TEACHER,
             created_courses: [course],
             joined_courses: [],
@@ -132,34 +132,34 @@ describe('/api/course-management/add-announcement/route', () => {
         prismaMock.course.findUnique.mockResolvedValue(course)
         prismaMock.announcement.create.mockResolvedValue(announcement)
 
-        const requestObj = {
+        const request_obj = {
             json: async () => ({
-                requestorEmail: "teacher@test.com",
-                courseId: "inst001_CS3213",
+                requestor_email: "teacher@test.com",
+                course_id: "inst001_CS3213",
                 title: "Announcement",
                 body: "This is an announcement"
             }), } as any
 
         // Call the POST function
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
 
         // Check the response
         expect(response.status).toBe(200);
     })
 
-    test('should return status 500 when error is encountered', async () => {
+    test("should return status 500 when error is encountered", async () => {
         prismaMock.user.findUnique.mockRejectedValue(new Error())
 
-        const requestObj = {
+        const request_obj = {
             json: async () => ({
-                requestorEmail: "teacher@test.com",
-                courseId: "inst001_CS3213",
+                requestor_email: "teacher@test.com",
+                course_id: "inst001_CS3213",
                 title: "Announcement",
                 body: "This is an announcement"
             }), } as any
 
         // Call the POST function
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
 
         // Check the response
         expect(response.status).toBe(500);

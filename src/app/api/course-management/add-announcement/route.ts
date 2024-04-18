@@ -10,8 +10,8 @@ import { NextResponse } from "next/server";
  *       Adds an announcement to a course, consisting of a title and body taken from input, visible to all members
  *       
  *       **Request format**  
- *       requestorEmail: string  
- *       courseId: string  
+ *       requestor_email: string  
+ *       course_id: string  
  *       title: string  
  *       body: string
  *     requestBody:
@@ -21,10 +21,10 @@ import { NextResponse } from "next/server";
  *           schema:
  *             type: object
  *             properties:
- *               requestorEmail:
+ *               requestor_email:
  *                 type: string
  *                 example: "teacheremail@inst001.com"
- *               courseId:
+ *               course_id:
  *                 type: string
  *                 example: "inst001_CS3213"
  *               title:
@@ -66,16 +66,16 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { requestorEmail, courseId, title, body } = (await req.json()) as {
-      requestorEmail: string;
-      courseId: string;
+    const { requestor_email, course_id, title, body } = (await req.json()) as {
+      requestor_email: string;
+      course_id: string;
       title: string;
       body: string;
     };
 
     const requestor = await prisma.user.findUnique({
       where: {
-        email: requestorEmail,
+        email: requestor_email,
       },
       include: {
         created_courses: true,
@@ -85,19 +85,19 @@ export async function POST(req: Request) {
 
     if (requestor == undefined || requestor == null) {
       return NextResponse.json({
-        error: 'Not a valid user.'
+        error: "Not a valid user."
       }, {
         status: 404
       });
     }
 
-    const inCourses = requestor.created_courses
+    const in_courses = requestor.created_courses
       .concat(requestor.joined_courses)
       .map((course) => course["id"]);
 
-    if (requestor.role !== "TEACHER" || !inCourses.includes(courseId)) {
+    if (requestor.role !== "TEACHER" || !in_courses.includes(course_id)) {
       return NextResponse.json({
-        error: 'You do not have the permission to make this request.'
+        error: "You do not have the permission to make this request."
       }, {
         status: 403
       });
@@ -105,13 +105,13 @@ export async function POST(req: Request) {
 
     const course = await prisma.course.findUnique({
       where: {
-        id: courseId,
+        id: course_id,
       },
     });
 
     if (course == undefined || course == null) {
       return NextResponse.json({
-        error: 'Invalid course ID.'
+        error: "Invalid course ID."
       }, {
         status: 404
       });
@@ -123,7 +123,7 @@ export async function POST(req: Request) {
         body: body,
         course: {
           connect: {
-            id: courseId,
+            id: course_id,
           },
         },
       },

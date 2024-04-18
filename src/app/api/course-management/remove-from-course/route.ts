@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -10,8 +10,8 @@ import prisma from '@/lib/prisma';
  *       Removes the association of a user with input email from input course.
  *       
  *       **Request format**  
- *       courseId: string  
- *       userEmailToRemove: string
+ *       course_id: string  
+ *       user_email_to_remove: string
  *     requestBody:
  *       required: true
  *       content:
@@ -19,10 +19,10 @@ import prisma from '@/lib/prisma';
  *           schema:
  *             type: object
  *             properties:
- *               courseId:
+ *               course_id:
  *                 type: string
  *                 example: "inst001_CS3213"
- *               userEmailToRemove:
+ *               user_email_to_remove:
  *                 type: string
  *                 example: "student2@test.com"
  *     responses:
@@ -48,34 +48,34 @@ import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
-    const { courseId, userEmailToRemove } = (await req.json()) as {
-      courseId: string,
-      userEmailToRemove: string,
+    const { course_id, user_email_to_remove } = (await req.json()) as {
+      course_id: string,
+      user_email_to_remove: string,
     };
 
     const course = await prisma.course.findUnique({
       where: {
-        id: courseId,
+        id: course_id,
       },
     });
 
     if (!course) {
       return NextResponse.json({
-        error: 'Invalid course ID.'
+        error: "Invalid course ID."
       }, {
         status: 404
       });
     }
 
-    const userToRemove = await prisma.user.findUnique({
+    const user_to_remove = await prisma.user.findUnique({
       where: {
-        email: userEmailToRemove,
+        email: user_email_to_remove,
       },
     });
 
-    if (!userToRemove) {
+    if (!user_to_remove) {
       return NextResponse.json({
-        error: `User with email: ${userEmailToRemove} does not exist.`
+        error: `User with email: ${user_email_to_remove} does not exist.`
       }, {
         status: 404
       });
@@ -83,19 +83,19 @@ export async function POST(req: Request) {
 
     await prisma.user.update({
       where: {
-        email: userEmailToRemove,
+        email: user_email_to_remove,
       },
       data: {
         joined_courses: {
           disconnect: {
-            id: courseId,
+            id: course_id,
           },
         },
       },
     });
 
     return NextResponse.json({
-      message: `User ${userEmailToRemove} removed from the course.`,
+      message: `User ${user_email_to_remove} removed from the course.`,
     }, {
       status: 200
     });

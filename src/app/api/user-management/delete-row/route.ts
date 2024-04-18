@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -57,14 +57,14 @@ export async function DELETE(req: Request) {
 
     if (requestor == undefined || requestor == null) {
       return NextResponse.json({
-        error: 'Not a valid user.'
+        error: "Not a valid user."
       }, {
         status: 404
       });
     }
 
     // Delete the user based on the email
-    const deletedUser = await prisma.user.delete({
+    const deleted_user = await prisma.user.delete({
       where: {
         email: email,
       },
@@ -72,7 +72,7 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({
       deleted: {
-        email: deletedUser.email,
+        email: deleted_user.email,
       },
     }, {
       status: 200

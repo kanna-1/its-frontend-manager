@@ -79,9 +79,8 @@ const RemoveButton: React.FC<{
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          requestorEmail: requestorEmail,
-          courseId: courseId,
-          userEmailToRemove: userEmail,
+          course_id: courseId,
+          user_email_to_remove: userEmail,
         }),
       });
       if (!res.ok) {

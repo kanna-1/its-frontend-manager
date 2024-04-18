@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import {sendPasswordResetEmail} from '@/lib/send-reset-email';
-import { createPasswordResetToken } from '@/lib/tokens';
+import prisma from "@/lib/prisma";
+import { sendPasswordResetEmail } from "@/lib/send-reset-email";
+import { createPasswordResetToken } from "@/lib/tokens";
+import { NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -59,14 +59,14 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json({
-        error: `User not found.`
+        error: "User not found."
       }, {
         status: 404
       });
     } else {
       // user exists
-      const passwordResetToken = await createPasswordResetToken(user.email)
-      const result = await sendPasswordResetEmail(user.email, passwordResetToken.token)
+      const password_reset_token = await createPasswordResetToken(user.email)
+      const result = await sendPasswordResetEmail(user.email, password_reset_token.token)
       return NextResponse.json({
         reset: {
           email: user.email,

@@ -28,7 +28,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface NewAnnouncementDialogProps {
   user: User;
-  courseId: string;
+  course_id: string;
 }
 
 const formSchema = z.object({
@@ -36,7 +36,7 @@ const formSchema = z.object({
   body: z.string(),
 });
 
-export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncementDialogProps): React.JSX.Element {
+export default function NewAnnouncementDialog({ user, course_id }: NewAnnouncementDialogProps): React.JSX.Element {
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -60,8 +60,8 @@ export default function NewAnnouncementDialog({ user, courseId }: NewAnnouncemen
       const res = await fetch("/api/course-management/add-announcement", {
         method: "POST",
         body: JSON.stringify({
-          requestorEmail: user.email,
-          courseId: courseId, 
+          requestor_email: user.email,
+          course_id: course_id, 
           title: values.title,
           body: values.body,
         }),

@@ -74,10 +74,10 @@ export default function NewCourseDialog({ user }: { user: User }): React.JSX.Ele
         router.push("/courses/" + values.code);
       }
       else {
-        const errorResponse = await res.json();
+        const error_response = await res.json();
         toast({
           title: "Error Creating New Course",
-          description: errorResponse.error,
+          description: error_response.error,
           variant: "destructive",
         });
       }

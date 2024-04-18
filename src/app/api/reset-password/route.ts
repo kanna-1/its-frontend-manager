@@ -1,6 +1,6 @@
-import { hash } from 'bcryptjs';
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from "@/lib/prisma";
+import { hash } from "bcryptjs";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * @swagger
@@ -56,14 +56,14 @@ export async function POST(req: NextRequest) {
     };
 
     const hashed_password = await hash(password, 12);
-    const resetToken = await prisma.passwordResetToken.findUnique({
-        where : { token : token}
+    const reset_token = await prisma.passwordResetToken.findUnique({
+        where : { token : token }
     })
 
-    if (resetToken) {
-      const changePassword = await prisma.user.update({
+    if (reset_token) {
+      const change_password = await prisma.user.update({
         where: {
-          email: resetToken.email,
+          email: reset_token.email,
         },
         data: {
           password: hashed_password,
@@ -72,14 +72,14 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json({
         user: {
-          email: resetToken.email
+          email: reset_token.email
         },
       }, {
         status: 200
       });
     } else {
       return NextResponse.json({
-        error: 'Invalid password reset token.'
+        error: "Invalid password reset token."
       }, {
         status: 404
       });

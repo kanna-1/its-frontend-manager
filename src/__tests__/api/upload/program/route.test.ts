@@ -9,14 +9,13 @@ import { NextRequest } from 'next/server';
 
 describe('/api/upload/program/route', () => {
     test('should return status 400 when filename not in request object', async () => {
-        const requestObj = {
+        const request_obj: any = {
             url: "http://example.com",
             method: "POST",
-            headers: {
-            }
+            headers: {},
         }
 
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
         const body = await response.json();
 
         // Check the response
@@ -25,14 +24,14 @@ describe('/api/upload/program/route', () => {
     })
 
     test('should return status 400 when file content not in request body', async () => {
-        const requestObj = {
+        const request_obj: any = {
             url: "http://example.com/?filename=test.txt",
             method: "POST",
             headers: {
             }
         }
 
-        const response = await POST(requestObj);
+        const response = await POST(request_obj);
         const body = await response.json();
 
         // Check the response

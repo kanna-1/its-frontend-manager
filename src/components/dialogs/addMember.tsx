@@ -56,9 +56,9 @@ export default function AddMemberDialog({
       const res = await fetch("/api/course-management/add-to-course", {
         method: "POST",
         body: JSON.stringify({
-          requestorEmail: user.email,
-          courseId: course.id,
-          emailsToAdd: values.emails.split(","),
+          requestor_email: user.email,
+          course_id: course.id,
+          emails_to_add: values.emails.split(","),
         }),
         headers: {
           "Content-Type": "application/json",
@@ -72,10 +72,10 @@ export default function AddMemberDialog({
         setOpen(false);
         router.refresh();
       } else {
-        const errorResponse = await res.json();
+        const error_response = await res.json();
         toast({
           title: "Error Adding New Members",
-          description: errorResponse.error,
+          description: error_response.error,
           variant: "destructive",
         });
       }
