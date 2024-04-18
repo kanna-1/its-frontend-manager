@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import { getQuestionInfo } from "@/actions/getQuestionInfo";
 import { getUserProps } from "@/actions/getUserProps";
-import QuestionViewContainer from "@/components/question-view/questionViewContainer";
+import QuestionViewContainer from "@/components/question-view/QuestionViewContainer";
 
 export default async function QuestionView({
   params,

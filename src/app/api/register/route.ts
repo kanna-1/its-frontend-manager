@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { Role } from "@prisma/client";
 import { hash } from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,11 +10,11 @@ import { NextRequest, NextResponse } from "next/server";
  *     description: |
  *       # Register a user
  *       Registers a user within the system with the input details.
- *       
- *       **Request format**  
- *       email: string  
- *       password: string  
- *       institution: string  
+ *
+ *       **Request format**
+ *       email: string
+ *       password: string
+ *       institution: string
  *     requestBody:
  *       required: true
  *       content:
@@ -36,7 +37,7 @@ import { NextRequest, NextResponse } from "next/server";
  *         content:
  *           application/json:
  *             example:
- *               user: 
+ *               user:
  *                 email: "student1@test.com"
  *                 school_id: "inst001"
  *                 role: "STUDENT"
@@ -54,7 +55,18 @@ import { NextRequest, NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<
+  | NextResponse<{
+      user: {
+        email: string;
+        school_id: string;
+        role: Role;
+      };
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { email, password, institution } = (await req.json()) as {
       email: string;
@@ -62,19 +74,21 @@ export async function POST(req: NextRequest) {
       institution: string;
     };
     const hashed_password = await hash(password, 12);
-    console.log(institution)
     const duplicate_user = await prisma.user.findUnique({
       where: {
-          email: email,
-      }
-    })
+        email: email,
+      },
+    });
 
     if (duplicate_user !== null) {
-      return NextResponse.json({
-        error: "This email address is already registered."
-      }, {
-        status: 409
-      });
+      return NextResponse.json(
+        {
+          error: "This email address is already registered.",
+        },
+        {
+          status: 409,
+        }
+      );
     }
 
     const user = await prisma.user.create({
@@ -82,24 +96,30 @@ export async function POST(req: NextRequest) {
         email: email.toLowerCase(),
         password: hashed_password,
         school_id: institution,
-        role: "STUDENT"
+        role: "STUDENT",
       },
     });
 
-    return NextResponse.json({
-      user: {
-        email: user.email,
-        school_id: user.school_id,
-        role: user.role,
+    return NextResponse.json(
+      {
+        user: {
+          email: user.email,
+          school_id: user.school_id,
+          role: user.role,
+        },
       },
-    }, {
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

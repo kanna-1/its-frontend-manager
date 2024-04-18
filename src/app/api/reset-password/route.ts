@@ -9,10 +9,10 @@ import { NextRequest, NextResponse } from "next/server";
  *     description: |
  *       # Updates a user's password with input password
  *       Given a request token, resets a user's password by replacing it with input password
- *       
- *       **Request format**  
- *       password: string  
- *       token: string  
+ *
+ *       **Request format**
+ *       password: string
+ *       token: string
  *     requestBody:
  *       required: true
  *       content:
@@ -32,7 +32,7 @@ import { NextRequest, NextResponse } from "next/server";
  *         content:
  *           application/json:
  *             example:
- *               user: 
+ *               user:
  *                 email: "student1@test.com"
  *       404:
  *         description: Invalid token
@@ -48,7 +48,16 @@ import { NextRequest, NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<
+  | NextResponse<{
+      user: {
+        email: string;
+      };
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { password, token } = (await req.json()) as {
       password: string;
@@ -57,38 +66,47 @@ export async function POST(req: NextRequest) {
 
     const hashed_password = await hash(password, 12);
     const reset_token = await prisma.passwordResetToken.findUnique({
-        where : { token : token }
-    })
+      where: { token: token },
+    });
 
     if (reset_token) {
-      const change_password = await prisma.user.update({
+      await prisma.user.update({
         where: {
           email: reset_token.email,
         },
         data: {
           password: hashed_password,
-        }
+        },
       });
 
-      return NextResponse.json({
-        user: {
-          email: reset_token.email
+      return NextResponse.json(
+        {
+          user: {
+            email: reset_token.email,
+          },
         },
-      }, {
-        status: 200
-      });
+        {
+          status: 200,
+        }
+      );
     } else {
-      return NextResponse.json({
-        error: "Invalid password reset token."
-      }, {
-        status: 404
-      });
+      return NextResponse.json(
+        {
+          error: "Invalid password reset token.",
+        },
+        {
+          status: 404,
+        }
+      );
     }
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

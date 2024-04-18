@@ -32,12 +32,12 @@ export async function getQuestionSubmissions({
       return null;
     }
 
-    let output: UserSubmission[] = [];
+    const output: UserSubmission[] = [];
 
     question.submissions.forEach((submission) => {
       output.push({
         ...submission,
-        email: submission.user.email!,
+        email: submission.user.email,
         role: submission.user.role,
         school_id: submission.user.school_id,
       });

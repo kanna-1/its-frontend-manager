@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Editor, { Monaco, OnMount } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
-import { FeedbackType } from "./questionViewFeedback";
+import { FeedbackType } from "./QuestionViewFeedback";
 
 const language_map = {
   py: "python",

@@ -7,7 +7,7 @@ import { getUserProps } from "@/actions/getUserProps";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddMemberDialog from "@/components/dialogs/addMember";
 import AnnouncementCard from "@/components/cards/announcementCard";
-import DataTableContainer from "@/components/course-member-list/dataTableContainer";
+import DataTableContainer from "@/components/course-member-list/DataTableContainer";
 import NewAnnouncementDialog from "@/components/dialogs/newAnnouncement";
 import NewQuestionDialog from "@/components/dialogs/newQuestion";
 import QuestionCard from "@/components/cards/questionCard";
@@ -52,7 +52,7 @@ export default async function CourseView({
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-medium">Announcements</h3>
               {user.role == Role.TEACHER && (
-                <NewAnnouncementDialog user={user} courseId={course.id} />
+                <NewAnnouncementDialog user={user} course_id={course.id} />
               )}
             </div>
             <div className="mt-2 space-y-4">

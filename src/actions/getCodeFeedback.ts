@@ -59,7 +59,13 @@ export async function getCodeFeedback({
 }: {
   question: Question;
   student_solution: string;
-}) {
+}): Promise<{
+  status: string;
+  feedback: any;
+} | {
+  status: any;
+  feedback: never[];
+}> {
   try {
     const { reference_program, language } = question;
     const reference_program_text = await fetch(reference_program).then((res) =>

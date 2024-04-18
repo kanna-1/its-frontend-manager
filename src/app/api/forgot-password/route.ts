@@ -10,9 +10,9 @@ import { NextResponse } from "next/server";
  *     description: |
  *       # Request for a password reset
  *       Initiates a request to reset the password of the user associated with the input email.
- *       
- *       **Request format**  
- *       email: string  
+ *
+ *       **Request format**
+ *       email: string
  *     requestBody:
  *       required: true
  *       content:
@@ -29,7 +29,7 @@ import { NextResponse } from "next/server";
  *         content:
  *           application/json:
  *             example:
- *               reset: 
+ *               reset:
  *                 email: "student1@test.com"
  *       404:
  *         description: Target user not found
@@ -45,7 +45,16 @@ import { NextResponse } from "next/server";
  *               error: "Unexpected error occurred."
  */
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<
+  | NextResponse<{
+      reset: {
+        email: string;
+      };
+    }>
+  | NextResponse<{
+      error: any;
+    }>
+> {
   try {
     const { email } = (await req.json()) as {
       email: string;
@@ -53,34 +62,41 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: {
-          email: email.toLowerCase()
-      }
-    })
+        email: email.toLowerCase(),
+      },
+    });
 
     if (!user) {
-      return NextResponse.json({
-        error: "User not found."
-      }, {
-        status: 404
-      });
-    } else {
-      // user exists
-      const password_reset_token = await createPasswordResetToken(user.email)
-      const result = await sendPasswordResetEmail(user.email, password_reset_token.token)
-      return NextResponse.json({
-        reset: {
-          email: user.email,
+      return NextResponse.json(
+        {
+          error: "User not found.",
+        },
+        {
+          status: 404,
         }
-      }, {
-        status: 200
-      });
+      );
+    } else {
+      const password_reset_token = await createPasswordResetToken(user.email);
+      await sendPasswordResetEmail(user.email, password_reset_token.token);
+      return NextResponse.json(
+        {
+          reset: {
+            email: user.email,
+          },
+        },
+        {
+          status: 200,
+        }
+      );
     }
-
-  } catch (error: any) {
-    return NextResponse.json({
-      error: error.message
-    }, {
-      status: 500
-    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

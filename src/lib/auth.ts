@@ -50,7 +50,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (
           !user ||
-          !(await bcrypt.compare(String(credentials.password), user.password!))
+          !(await bcrypt.compare(
+            String(credentials.password),
+            user.password || ""
+          ))
         ) {
           return null;
         }

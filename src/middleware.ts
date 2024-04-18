@@ -19,25 +19,25 @@ export default auth(async function middleware(request) {
 
   if (token) {
     switch (token.role) {
-      case Role.ADMIN:
-        if (!request.nextUrl.pathname.startsWith("/user-management")) {
-          return NextResponse.redirect(
-            new URL("/user-management", request.url)
-          );
-        }
-        break;
-      case Role.TEACHER:
-        if (!request.nextUrl.pathname.startsWith("/courses")) {
-          return NextResponse.redirect(new URL("/courses", request.url));
-        }
-        break;
-      case Role.STUDENT:
-        if (!request.nextUrl.pathname.startsWith("/courses")) {
-          return NextResponse.redirect(new URL("/courses", request.url));
-        }
-        break;
-      default:
-        return NextResponse.redirect(new URL("/signin", request.url));
+    case Role.ADMIN:
+      if (!request.nextUrl.pathname.startsWith("/user-management")) {
+        return NextResponse.redirect(
+          new URL("/user-management", request.url)
+        );
+      }
+      break;
+    case Role.TEACHER:
+      if (!request.nextUrl.pathname.startsWith("/courses")) {
+        return NextResponse.redirect(new URL("/courses", request.url));
+      }
+      break;
+    case Role.STUDENT:
+      if (!request.nextUrl.pathname.startsWith("/courses")) {
+        return NextResponse.redirect(new URL("/courses", request.url));
+      }
+      break;
+    default:
+      return NextResponse.redirect(new URL("/signin", request.url));
     }
   }
 });
