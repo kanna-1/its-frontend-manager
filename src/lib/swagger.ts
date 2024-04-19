@@ -2,7 +2,7 @@ import { createSwaggerSpec } from "next-swagger-doc";
 
 export const getApiDocs = async (): Promise<object> => {
   const spec = createSwaggerSpec({
-    // apiFolder: process.env.PUBLIC_URL + "src/app/api", // define api folder under app folder
+    apiFolder: process.env.PUBLIC_URL + "src/app/api", // define api folder under app folder
     definition: {
       openapi: "3.0.0",
       info: {
@@ -11,7 +11,7 @@ export const getApiDocs = async (): Promise<object> => {
         that form the backend of the Management System for ITS.`,
         version: "1.0",
       },
-      apis: ["src/app/api/*"],
+      // apis: ["src/app/api/*"],
     },
   });
   return spec;
