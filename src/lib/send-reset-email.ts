@@ -1,16 +1,20 @@
+import nodemailer from "nodemailer";
+
 const publicURL = process.env.PUBLIC_URL;
 const appPassword = process.env.APP_PASSWORD;
 const hostEmail = process.env.HOST_EMAIL;
 const smtpHost = process.env.SMTP_HOST;
 
-export const sendPasswordResetEmail = async (email: string, token: string): Promise<unknown> => {
+export const sendPasswordResetEmail = async (
+  email: string,
+  token: string
+): Promise<unknown> => {
   let resetLink = "";
   if (process.env.NODE_ENV === "production") {
     resetLink = `${publicURL}/new-password?token=${token}`;
   } else {
     resetLink = `http://localhost:3000/new-password?token=${token}`;
   }
-  const nodemailer = require("nodemailer");
 
   const transporter = nodemailer.createTransport({
     host: smtpHost,

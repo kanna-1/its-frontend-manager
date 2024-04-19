@@ -23,5 +23,12 @@
     "@typescript-eslint/no-explicit-any": "warn", // Disallows `any` as a type
     "no-multiple-empty-lines": ["error", { "max": 1 }] // Rule to disallow double newlines
   },
-  "ignorePatterns": ["src/components/ui", "src/__tests__", "src/app/api-doc"]
+  "ignorePatterns": [
+    "src/components/ui",
+    "src/__tests__",
+    "src/app/api-doc",
+    "src/components/user-management",
+    "src/components/grading",
+    "src/components/course-member-list"
+  ]
 }

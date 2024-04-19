@@ -14,7 +14,7 @@ export default function QuestionViewEditor({
   feedback,
   shouldApplyDecorations,
 }: {
-  handleEditorChange:(value: string | undefined) => void;
+  handleEditorChange;
   language: string;
   feedback: FeedbackType[];
   shouldApplyDecorations: boolean;

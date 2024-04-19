@@ -60,13 +60,16 @@ export async function getCodeFeedback({
 }: {
   question: Question;
   student_solution: string;
-}): Promise<{
-  status: string;
-  feedback: FeedbackType[];
-} | {
-  status: string;
-  feedback: never[];
-}> {
+}): Promise<
+  | {
+      status: string;
+      feedback: FeedbackType[];
+    }
+  | {
+      status: string;
+      feedback: FeedbackType[];
+    }
+> {
   try {
     const { reference_program, language } = question;
     const reference_program_text = await fetch(reference_program).then((res) =>
@@ -108,7 +111,7 @@ export async function getCodeFeedback({
 }
 
 // Call ITS Parser API
-async function parseCode(language: string, code: string) {
+async function parseCode(language: string, code: string): Promise<object> {
   const response = await fetch(parserApiUrl, {
     method: "POST",
     body: JSON.stringify({
@@ -136,7 +139,7 @@ async function generateFeedback(req: {
   function: string;
   inputs: string;
   args: string;
-}) {
+}): Promise<FeedbackType[]> {
   const response = await fetch(feedbackFixApiUrl, {
     method: "POST",
     body: JSON.stringify(req),
