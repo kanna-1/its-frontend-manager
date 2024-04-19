@@ -52,7 +52,7 @@ export async function POST(req: Request): Promise<
       };
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

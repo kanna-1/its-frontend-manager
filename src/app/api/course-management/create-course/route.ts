@@ -75,7 +75,7 @@ export async function POST(req: Request): Promise<
       course_to_create: Course;
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

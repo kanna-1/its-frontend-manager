@@ -55,7 +55,7 @@ export async function POST(req: NextRequest): Promise<
       };
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

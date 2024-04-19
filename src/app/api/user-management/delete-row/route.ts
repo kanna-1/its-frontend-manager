@@ -50,7 +50,7 @@ export async function DELETE(req: Request): Promise<
       };
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

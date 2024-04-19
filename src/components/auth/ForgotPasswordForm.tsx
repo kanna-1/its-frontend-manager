@@ -26,7 +26,6 @@ export function ForgotPasswordForm(): React.JSX.Element {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
-    console.log("SUBMITTED")
     try {
       const res = await fetch("/api/forgot-password", {
         method: "POST",
@@ -42,7 +41,6 @@ export function ForgotPasswordForm(): React.JSX.Element {
           description: "Redirecting to sign-in",
           variant: "success",
         });
-        console.log("OK")
         signIn(undefined, { callbackUrl: "/" });
       } else {
         const message = (await res.json()).error;

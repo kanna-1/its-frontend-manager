@@ -61,7 +61,7 @@ export async function POST(req: Request): Promise<
       addedUsers: string[];
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

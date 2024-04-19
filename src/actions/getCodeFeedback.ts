@@ -1,5 +1,6 @@
 "use server";
 
+import { FeedbackType } from "@/components/question-view/QuestionViewFeedback";
 /*
 Request for this API should be of the following form. This is consistent with the request format of the Feedback Service ITS API
 - language: python | c | py
@@ -61,9 +62,9 @@ export async function getCodeFeedback({
   student_solution: string;
 }): Promise<{
   status: string;
-  feedback: any;
+  feedback: FeedbackType[];
 } | {
-  status: any;
+  status: string;
   feedback: never[];
 }> {
   try {
