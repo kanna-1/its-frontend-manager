@@ -44,7 +44,7 @@ export async function POST(req: Request): Promise<
       promoteToTeachers: Prisma.BatchPayload;
     }>
   | NextResponse<{
-      error: any;
+      error: string;
     }>
 > {
   try {

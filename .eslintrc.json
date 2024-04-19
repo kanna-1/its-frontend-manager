@@ -13,7 +13,6 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "no-unused-vars": "warn", // Warns about unused variables
-    "no-undef": "warn", // Warns about undeclared variables
     "quotes": ["warn", "double"], // Enforce double quotes
     "indent": ["warn", 2], // Enforces 2 space indentation
     "@typescript-eslint/explicit-function-return-type": [
@@ -24,5 +23,5 @@
     "@typescript-eslint/no-explicit-any": "warn", // Disallows `any` as a type
     "no-multiple-empty-lines": ["error", { "max": 1 }] // Rule to disallow double newlines
   },
-  "ignorePatterns": ["src/components/ui"]
+  "ignorePatterns": ["src/components/ui", "src/__tests__"]
 }
