@@ -1,8 +1,9 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
 export const getApiDocs = async (): Promise<object> => {
+  console.log(process.env.AUTH_SECRET)
   const spec = createSwaggerSpec({
-    apiFolder: "https://its-sw-branch.vercel.app/src/app/api", // define api folder under app folder
+    apiFolder: "src/app/api", // define api folder under app folder
     definition: {
       openapi: "3.0.0",
       info: {
