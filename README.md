@@ -35,7 +35,7 @@ openssl rand -base64 32
 7. Rename the environment variable file `.env.local` to `.env`
 8. For the environment variables under `# NextAuth`, `# Vercel Blob` and , `# Vercel Postgres` _(see below)_, you may retrieve them from _Vercel.com > Your project > Settings > Environment Variables._
 9. For the `PUBLIC_URL` environment variable, you can retrieve it from _Vercel.com > Your project > Settings > Domains._ For example, the `PUBLIC_URL` environment variable for this project is set to `"https://its-frontend-manager.vercel.app"`.
-10. For the sending of reset password email, you can either use third-party mail service providers or libraries as such [nodemailer](https://nodemailer.com/). You can refer to this [Vercel guide](https://vercel.com/guides/sending-emails-from-an-application-on-vercel) for more information.
+10. For the sending of reset password email, you can either use third-party mail service providers or libraries such as [nodemailer](https://nodemailer.com/). You can refer to this [Vercel guide](https://vercel.com/guides/sending-emails-from-an-application-on-vercel) for more information.
 11. If you use third-party service providers, you can remove the environment variables under `# Node Mailer` (_see below_) from your `.env` file. You will also have to reconfigure `send-reset-email.ts` based on your service provider's documentation.
 12. For this project, our team has decided to use the Nodemailer library with [Zoho](https://www.zoho.com/mail/) email hosting service.
 13. If you use `Nodemailer` with an email domain other than Zoho, you will have to reconfigure the environment variables under `# Node Mailer` (and possibly the _`send-reset-email.ts`_ file) based on the email domain used. You can read more about that at [nodemailer](https://nodemailer.com/).
@@ -102,10 +102,12 @@ npm run dev
 
 ## Deploying with Docker
 
-Before proceeding, ensure that you have Docker installed on your machine. More details can be found [here](https://docs.docker.com/get-docker/).
+Before proceeding, ensure that you have Docker installed and running on your machine. More details can be found [here](https://docs.docker.com/get-docker/).
 
 1. Ensure that you have already renamed the environment variable file `.env.local` to `.env`.
-2. The `.env` file should contain:
+2. Ensure that the unfilled variables under `# NextAuth`, `# Vercel Blob` and `# Node Mailer` below has been filled with the environment variable's values obtained from Part 1 and 2 above.
+3. Ensure that the environment variables under `# Docker` are filled with the values stated below.
+4. The `.env` file should contain:
 ```bash
 # NextAuth
 AUTH_SECRET=""
@@ -124,7 +126,7 @@ POSTGRES_PASSWORD="postgres"
 POSTGRES_DB="postgres"
 DATABASE_URL="postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
 ```
-3. In the `schema.prisma`, you should replace `datasource db` with the following changes:
+5. In `/prisma/schema.prisma`, you should replace `datasource db` with the following changes:
 ```
 datasource db {
   provider          = "postgresql"
