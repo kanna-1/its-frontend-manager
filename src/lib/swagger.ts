@@ -11,7 +11,6 @@ export const getApiDocs = async (): Promise<object> => {
         that form the backend of the Management System for ITS.`,
         version: "1.0",
       },
-      // apis: ["src/app/api/*"],
     },
   });
   return spec;
