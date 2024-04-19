@@ -5,7 +5,7 @@ import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 
 type Props = {
-  spec: Record<string, object>;
+  spec: Record<string, any>;
 };
 
 function ReactSwagger({ spec }: Props): React.JSX.Element {
