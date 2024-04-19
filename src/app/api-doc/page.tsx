@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic"
+// export const dynamic = "force-dynamic"
 
 import { getApiDocs } from "@/lib/swagger";
 import React from "react";
