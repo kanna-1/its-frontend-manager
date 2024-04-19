@@ -4,7 +4,6 @@ export const getApiDocs = async (): Promise<object> => {
   console.log(process.env.PUBLIC_URL)
   const spec = createSwaggerSpec({
     // apiFolder: process.env.PUBLIC_URL + "src/app/api", // define api folder under app folder
-    apiFolder: `${__dirname}/src/app/api`,
     definition: {
       openapi: "3.0.0",
       info: {
@@ -12,6 +11,7 @@ export const getApiDocs = async (): Promise<object> => {
         description: `This documentation specifies the details of the API routes 
         that form the backend of the Management System for ITS.`,
         version: "1.0",
+        servers: [{ url: 'src/app/api' }]
       },
     },
   });
